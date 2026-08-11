@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import { photos } from '../data/media';
+import { site, whatsappLink } from '../data/site';
+---
+
+<section class="relative isolate grain overflow-hidden py-28 lg:py-40">
+  <div class="absolute inset-0 -z-20">
+    <Image
+      src={photos.coachSprint.src}
+      alt=""
+      aria-hidden="true"
+      widths={[720, 960]}
+      sizes="100vw"
+      loading="lazy"
+      data-parallax="10"
+      class="size-full scale-110 object-cover object-center will-change-transform"
+    />
+  </div>
+  <div
+    class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(5,5,6,0.95),rgba(5,5,6,0.7)),radial-gradient(80%_60%_at_80%_50%,rgba(245,44,14,0.28),transparent)]"
+  >
+  </div>
+
+  <div class="shell max-w-4xl">
+    <h2 class="display text-[clamp(2.6rem,7vw,6.5rem)] text-bone" data-split>
+      Tu próxima<br />temporada<br />empieza hoy
+    </h2>
+
+    <p class="mt-8 max-w-lg text-lg leading-relaxed text-bone/80" data-reveal>
+      Escríbeme y agendamos la llamada de valoración. Veinte minutos, sin costo, para
+      saber en qué punto estás y qué plan tiene sentido para ti.
+    </p>
+
+    <div class="mt-10 flex flex-wrap gap-4" data-reveal data-reveal-delay="0.12">
+      <a
+        href={whatsappLink('Hola, quiero agendar la llamada de valoración gratuita.')}
+        target="_blank"
+        rel="noopener"
+        class="group relative overflow-hidden rounded-full bg-bone px-8 py-4 text-sm font-medium tracking-wide text-ink-950 uppercase"
+      >
+        <span
+          class="absolute inset-0 translate-y-full bg-brand-red transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0"
+        ></span>
+        <span class="relative transition-colors duration-300 group-hover:text-bone">
+          Escribir por WhatsApp
+        </span>
+      </a>
+
+      <a
+        href={`mailto:${site.email}`}
+        class="rounded-full border border-bone/25 px-8 py-4 text-sm tracking-wide text-bone uppercase transition-colors duration-300 hover:border-bone"
+      >
+        {site.email}
+      </a>
+    </div>
+  </div>
+</section>

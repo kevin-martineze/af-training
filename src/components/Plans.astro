@@ -1,0 +1,140 @@
+---
+import { Image } from 'astro:assets';
+import { plans, plansPdf, currencyFormat } from '../data/plans';
+import { photos } from '../data/media';
+import { whatsappLink } from '../data/site';
+---
+
+<section id="planes" class="relative py-24 lg:py-40">
+  <!-- Photo runs behind the cards, dimmed hard so it reads as texture. -->
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <Image
+      src={photos.huddle.src}
+      alt=""
+      aria-hidden="true"
+      widths={[720, 960]}
+      sizes="100vw"
+      loading="lazy"
+      class="size-full object-cover object-center opacity-[0.14] blur-[3px]"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-ink-950 via-ink-950/85 to-ink-950"></div>
+  </div>
+
+  <div class="shell">
+    <div class="mb-14 flex flex-wrap items-end justify-between gap-8">
+      <div>
+        <p class="eyebrow mb-5" data-reveal="fade">03 — Planes</p>
+        <h2 class="display text-[clamp(2.4rem,6vw,5.5rem)] text-bone" data-split>
+          Elige tu<br />nivel de exigencia
+        </h2>
+      </div>
+
+      {
+        plansPdf && (
+          <a
+            href={plansPdf}
+            download
+            class="group flex items-center gap-3 rounded-full border hairline px-6 py-3.5 text-sm text-bone transition-colors duration-300 hover:border-bone"
+            data-reveal
+          >
+            <svg width="14" height="16" viewBox="0 0 14 16" fill="none" aria-hidden="true">
+              <path
+                d="M7 1v9m0 0L3 6m4 4l4-4M1 14h12"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+            </svg>
+            Descargar planes en PDF
+          </a>
+        )
+      }
+    </div>
+
+    <div class="grid gap-5 lg:grid-cols-3">
+      {
+        plans.map((plan, index) => (
+          <article
+            data-reveal
+            data-reveal-delay={index * 0.1}
+            class:list={[
+              'group relative flex flex-col rounded-[1.5rem] border p-8 transition-colors duration-500 lg:p-9',
+              plan.featured
+                ? 'border-brand-blue-bright/45 bg-brand-blue/[0.14]'
+                : 'hairline bg-ink-900/50 hover:border-bone/25',
+            ]}
+          >
+            {plan.featured && (
+              <span class="absolute -top-3 left-8 rounded-full bg-brand-red px-4 py-1.5 text-[0.65rem] tracking-[0.18em] text-bone uppercase">
+                Más elegido
+              </span>
+            )}
+
+            <p class="display-tight text-xs tracking-[0.2em] text-muted">{plan.kicker}</p>
+            <h3 class="display-tight mt-3 text-3xl text-bone">{plan.name}</h3>
+            <p class="mt-4 text-sm leading-relaxed text-muted">{plan.summary}</p>
+
+            <p class="mt-8 flex items-baseline gap-2">
+              {plan.price === null ? (
+                <span class="display-tight text-3xl text-bone">A convenir</span>
+              ) : (
+                <>
+                  <span class="display-tight text-[2.75rem] leading-none text-bone">
+                    {currencyFormat(plan.price, plan.currency)}
+                  </span>
+                  <span class="text-sm text-muted">{plan.period}</span>
+                </>
+              )}
+            </p>
+
+            <ul class="mt-8 flex-1 space-y-3.5 border-t hairline pt-8">
+              {plan.includes.map((item) => (
+                <li class="flex gap-3 text-sm leading-relaxed text-bone/85">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    aria-hidden="true"
+                    class="mt-1 shrink-0 text-brand-red"
+                  >
+                    <path d="M1 7.5l4 4L13 2" stroke="currentColor" stroke-width="1.8" />
+                  </svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={whatsappLink(`Hola, me interesa el ${plan.name}. ¿Cómo empezamos?`)}
+              target="_blank"
+              rel="noopener"
+              class:list={[
+                'mt-9 flex items-center justify-between gap-4 rounded-full px-6 py-4 text-sm font-medium transition-colors duration-300',
+                plan.featured
+                  ? 'bg-bone text-ink-950 hover:bg-brand-red hover:text-bone'
+                  : 'border hairline text-bone hover:border-bone',
+              ]}
+            >
+              Empezar con {plan.name}
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                aria-hidden="true"
+                class="transition-transform duration-300 group-hover:translate-x-1"
+              >
+                <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" />
+              </svg>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 text-center text-xs text-muted">
+      Todos los planes incluyen una llamada inicial gratuita de 20 minutos para definir
+      objetivos.
+    </p>
+  </div>
+</section>

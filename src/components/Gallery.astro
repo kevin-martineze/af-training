@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import { photos } from '../data/media';
+
+/**
+ * Rows sum to 12 columns so the mosaic never leaves holes. Portrait sources get
+ * 3:4 tiles; the one landscape source (team-talk-locker) takes the wide slot,
+ * so no photo is cropped against its grain or upscaled past 1280px.
+ */
+const tiles = [
+  { photo: photos.p13Celebrate, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 10 },
+  { photo: photos.lockerDuo, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 18 },
+  { photo: photos.p29Up, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 8 },
+
+  { photo: photos.pFlex, span: 'lg:col-span-3', ratio: 'aspect-[3/4]', parallax: 14 },
+  { photo: photos.teamTalk, span: 'lg:col-span-6', ratio: 'aspect-[3/4] lg:aspect-[3/2]', parallax: 12 },
+  { photo: photos.p90Silence, span: 'lg:col-span-3', ratio: 'aspect-[3/4]', parallax: 16 },
+
+  { photo: photos.lockerBench, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 9 },
+  { photo: photos.p13Badge, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 13 },
+  { photo: photos.pKitAway, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 11 },
+];
+---
+
+<section id="galeria" class="py-24 lg:py-40">
+  <div class="shell">
+    <div class="mb-14 flex flex-wrap items-end justify-between gap-6">
+      <div>
+        <p class="eyebrow mb-5" data-reveal="fade">05 — Galería</p>
+        <h2 class="display text-[clamp(2.4rem,6vw,5.5rem)] text-bone" data-split>
+          La gente<br />detrás del plan
+        </h2>
+      </div>
+      <p class="max-w-xs text-sm leading-relaxed text-muted" data-reveal>
+        Jugadoras y jugadores que entrenan con este método, dentro y fuera de la cancha.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 lg:grid-cols-12 lg:gap-4">
+      {
+        tiles.map((tile, index) => (
+          <figure
+            class:list={['grain group relative overflow-hidden rounded-xl border hairline', tile.span]}
+            data-reveal="scale"
+            data-reveal-delay={(index % 3) * 0.06}
+          >
+            <div class:list={['overflow-hidden', tile.ratio]}>
+              <Image
+                src={tile.photo.src}
+                alt={tile.photo.alt}
+                widths={[360, 560, 900]}
+                sizes="(min-width: 1024px) 32vw, 46vw"
+                loading="lazy"
+                data-parallax={tile.parallax}
+                class="photo size-full scale-[1.18] object-cover transition-[filter] duration-700 will-change-transform group-hover:brightness-110"
+              />
+            </div>
+            <div class="pointer-events-none absolute inset-0 bg-ink-950/25 transition-opacity duration-700 group-hover:opacity-0" />
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

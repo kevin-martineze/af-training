@@ -1,0 +1,160 @@
+---
+import { Image } from 'astro:assets';
+import { photos } from '../data/media';
+import { site, whatsappLink } from '../data/site';
+
+const stats = [
+  { value: 8, suffix: '+', label: 'Años dirigiendo' },
+  { value: 120, suffix: '', label: 'Deportistas guiados' },
+  { value: 4, suffix: '', label: 'Títulos con el club' },
+];
+---
+
+<section data-hero class="relative isolate grain min-h-[100svh] overflow-hidden pt-28 lg:pt-32">
+  <!-- Ambient backdrop. The source photo is only 960px wide, so it is blurred
+       and pushed back — at this scale a sharp copy would show compression. -->
+  <div data-hero-media class="absolute inset-0 -z-20 will-change-transform">
+    <Image
+      src={photos.coachCircle.src}
+      alt=""
+      aria-hidden="true"
+      widths={[720, 960]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      class="size-full scale-110 object-cover object-center blur-[26px]"
+    />
+  </div>
+  <div
+    data-hero-veil
+    class="absolute inset-0 -z-10 bg-[radial-gradient(120%_90%_at_70%_10%,rgba(46,49,176,0.22),transparent_60%),linear-gradient(to_bottom,rgba(5,5,6,0.72),rgba(5,5,6,0.9)_55%,var(--color-ink-950))]"
+  >
+  </div>
+
+  <div class="shell grid items-end gap-12 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-24">
+    <div class="lg:col-span-7 xl:col-span-7">
+      <p class="eyebrow mb-6 flex items-center gap-3" data-reveal="fade">
+        <span class="inline-block h-px w-10 bg-brand-red"></span>
+        {site.tagline}
+      </p>
+
+      <h1 class="display text-[clamp(3.2rem,11vw,9.5rem)] text-bone" data-split>
+        Entrena<br />
+        como se<br />
+        <span class="text-brand-red">compite</span>
+      </h1>
+
+      <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted" data-reveal data-reveal-delay="0.15">
+        Planes de entrenamiento diseñados para futbolistas reales: fuerza, velocidad y
+        resistencia periodizadas alrededor de tu calendario de partidos. Sin plantillas
+        genéricas.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="0.25">
+        <a
+          href="#planes"
+          class="group relative overflow-hidden rounded-full bg-brand-red px-8 py-4 text-sm font-medium tracking-wide text-bone uppercase"
+        >
+          <span
+            class="absolute inset-0 translate-y-full bg-bone transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0"
+          ></span>
+          <span class="relative transition-colors duration-300 group-hover:text-ink-950">
+            Ver planes
+          </span>
+        </a>
+
+        <a
+          href={whatsappLink('Hola, quiero agendar una valoración inicial.')}
+          target="_blank"
+          rel="noopener"
+          class="group flex items-center gap-2 rounded-full border hairline px-8 py-4 text-sm tracking-wide text-bone uppercase transition-colors duration-300 hover:border-bone"
+        >
+          Agendar valoración
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            aria-hidden="true"
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          >
+            <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"></path>
+          </svg>
+        </a>
+      </div>
+
+      <dl class="mt-14 grid max-w-xl grid-cols-3 gap-6 border-t hairline pt-8">
+        {
+          stats.map((stat, index) => (
+            <div data-reveal data-reveal-delay={0.3 + index * 0.08}>
+              <dt class="sr-only">{stat.label}</dt>
+              <dd>
+                <span class="display-tight block text-4xl text-bone lg:text-5xl">
+                  <span data-count={stat.value}>0</span>{stat.suffix}
+                </span>
+                <span class="mt-2 block text-xs tracking-wide text-muted uppercase">
+                  {stat.label}
+                </span>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <!-- Portrait column. Capped at the photo's native width so it stays sharp. -->
+    <div class="relative lg:col-span-5 xl:col-start-9 xl:col-span-4" data-reveal="scale" data-reveal-delay="0.1">
+      <figure class="relative mx-auto w-full max-w-[26rem]">
+        <div class="grain relative overflow-hidden rounded-[1.75rem] border hairline">
+          <Image
+            src={photos.coachPortrait.src}
+            alt={photos.coachPortrait.alt}
+            widths={[520, 760, 1066]}
+            sizes="(min-width: 1280px) 26rem, (min-width: 1024px) 34vw, 88vw"
+            loading="eager"
+            class="photo aspect-[2/3] w-full object-cover"
+          />
+          <div
+            class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent"
+          >
+          </div>
+        </div>
+
+        <figcaption
+          class="absolute -bottom-5 left-1/2 w-[min(20rem,90%)] -translate-x-1/2 rounded-2xl border hairline bg-ink-900/85 px-5 py-4 backdrop-blur-md"
+        >
+          <p class="display-tight text-base text-bone">{site.coach.name}</p>
+          <p class="mt-1 text-xs text-muted">{site.coach.role}</p>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <div
+    class="pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 lg:flex"
+    aria-hidden="true"
+  >
+    <span class="eyebrow text-[0.6rem]">Scroll</span>
+    <span class="scroll-line block h-12 w-px bg-bone/25"></span>
+  </div>
+</section>
+
+<style>
+  .scroll-line {
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 40%;
+    background: var(--color-brand-red);
+    animation: scroll-cue 2.2s var(--ease-in-out-quart) infinite;
+  }
+  @keyframes scroll-cue {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(250%); }
+  }
+</style>

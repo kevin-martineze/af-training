@@ -1,0 +1,90 @@
+---
+import { Image } from 'astro:assets';
+import { photos } from '../data/media';
+---
+
+<section class="relative py-24 lg:py-40">
+  <div class="shell grid gap-14 lg:grid-cols-12 lg:gap-10">
+    <div class="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
+      <p class="eyebrow mb-6" data-reveal="fade">01 — Filosofía</p>
+      <h2 class="display text-[clamp(2.4rem,6vw,5rem)] text-bone" data-split>
+        El talento<br />no se<br />improvisa
+      </h2>
+      <p class="mt-8 max-w-md text-lg leading-relaxed text-muted" data-reveal>
+        Trabajo con jugadoras y jugadores que ya compiten y con quienes recién empiezan.
+        La diferencia nunca está en entrenar más: está en entrenar lo que toca, cuando
+        toca, y medirlo.
+      </p>
+
+      <ul class="mt-10 space-y-5">
+        {
+          [
+            ['Diagnóstico primero', 'Test de fuerza, velocidad y movilidad antes de tocar una sola carga.'],
+            ['Carga controlada', 'La semana se planifica según el partido, no al revés.'],
+            ['Evidencia, no intuición', 'Reevaluación cada cuatro semanas con datos comparables.'],
+          ].map(([title, body], index) => (
+            <li class="flex gap-5 border-t hairline pt-5" data-reveal data-reveal-delay={index * 0.08}>
+              <span class="display-tight shrink-0 text-sm text-brand-red">
+                0{index + 1}
+              </span>
+              <div>
+                <h3 class="text-base font-medium text-bone">{title}</h3>
+                <p class="mt-1.5 text-sm leading-relaxed text-muted">{body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="lg:col-span-6 lg:col-start-7">
+      <div class="grid grid-cols-2 gap-4 lg:gap-6">
+        <figure class="grain relative col-span-2 overflow-hidden rounded-2xl border hairline">
+          <Image
+            src={photos.coachBoard.src}
+            alt={photos.coachBoard.alt}
+            widths={[560, 860, 960]}
+            sizes="(min-width: 1024px) 44vw, 92vw"
+            loading="lazy"
+            class="photo aspect-[4/5] w-full object-cover"
+          />
+        </figure>
+
+        <figure class="grain relative overflow-hidden rounded-2xl border hairline">
+          <div class="overflow-hidden">
+            <Image
+              src={photos.walkout.src}
+              alt={photos.walkout.alt}
+              widths={[420, 640, 874]}
+              sizes="(min-width: 1024px) 21vw, 45vw"
+              loading="lazy"
+              data-parallax="14"
+              class="photo aspect-[3/4] w-full scale-[1.14] object-cover will-change-transform"
+            />
+          </div>
+        </figure>
+
+        <figure class="grain relative overflow-hidden rounded-2xl border hairline">
+          <div class="overflow-hidden">
+            <Image
+              src={photos.matchAction.src}
+              alt={photos.matchAction.alt}
+              widths={[420, 640, 854]}
+              sizes="(min-width: 1024px) 21vw, 45vw"
+              loading="lazy"
+              data-parallax="20"
+              class="photo aspect-[3/4] w-full scale-[1.14] object-cover will-change-transform"
+            />
+          </div>
+        </figure>
+      </div>
+
+      <blockquote class="mt-10 border-l-2 border-brand-red pl-6" data-reveal>
+        <p class="display-tight text-2xl leading-tight text-bone lg:text-3xl">
+          “Al jugador no le falta ganas. Le falta un plan que aguante los noventa
+          minutos.”
+        </p>
+      </blockquote>
+    </div>
+  </div>
+</section>

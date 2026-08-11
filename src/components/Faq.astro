@@ -1,0 +1,62 @@
+---
+const faqs = [
+  {
+    q: '¿Necesito gimnasio para seguir el plan?',
+    a: 'No siempre. Adapto el plan a lo que tengas: gimnasio completo, sala básica o solo cancha y peso corporal. Lo definimos en la valoración inicial.',
+  },
+  {
+    q: '¿Sirve si juego en categorías formativas?',
+    a: 'Sí. De hecho es donde más impacto tiene, porque se corrigen patrones antes de que se vuelvan lesiones. Trabajo con deportistas desde los 14 años, siempre con consentimiento de sus acudientes.',
+  },
+  {
+    q: '¿Cómo recibo el plan y las correcciones?',
+    a: 'Recibes la planificación semanal con videos de cada ejercicio, y me envías tus registros. La retroalimentación va por WhatsApp y, según el plan, en videollamada.',
+  },
+  {
+    q: 'Estoy volviendo de una lesión, ¿puedo empezar?',
+    a: 'Sí, con el alta de tu médico o fisioterapeuta. El plan de readaptación se construye sobre ese diagnóstico, no lo reemplaza.',
+  },
+  {
+    q: '¿Hay permanencia o contrato mínimo?',
+    a: 'No hay permanencia. Los planes se renuevan mes a mes, aunque los cambios reales se ven a partir del segundo bloque de cuatro semanas.',
+  },
+];
+---
+
+<section id="faq" class="py-24 lg:py-40">
+  <div class="shell grid gap-12 lg:grid-cols-12">
+    <div class="lg:col-span-4">
+      <p class="eyebrow mb-5" data-reveal="fade">07 — Preguntas</p>
+      <h2 class="display text-[clamp(2.2rem,5vw,4rem)] text-bone" data-split>
+        Antes de<br />empezar
+      </h2>
+    </div>
+
+    <div class="lg:col-span-7 lg:col-start-6">
+      {
+        faqs.map((faq, index) => (
+          <details
+            class="group border-t hairline last:border-b"
+            data-reveal
+            data-reveal-delay={index * 0.06}
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-lg text-bone transition-colors duration-300 hover:text-brand-red">
+              {faq.q}
+              <span class="relative size-4 shrink-0" aria-hidden="true">
+                <span class="absolute top-1/2 left-0 h-px w-4 -translate-y-1/2 bg-current" />
+                <span class="absolute top-0 left-1/2 h-4 w-px -translate-x-1/2 bg-current transition-transform duration-400 ease-[var(--ease-out-expo)] group-open:rotate-90 group-open:opacity-0" />
+              </span>
+            </summary>
+            <p class="max-w-2xl pb-7 leading-relaxed text-muted">{faq.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

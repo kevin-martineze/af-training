@@ -1,0 +1,38 @@
+---
+interface Props {
+  items: string[];
+  speed?: number;
+  direction?: 'left' | 'right';
+  tone?: 'outline' | 'solid';
+}
+
+const { items, speed = 30, direction = 'left', tone = 'outline' } = Astro.props;
+// The track is rendered twice so the -50% loop lands seamlessly.
+const doubled = [...items, ...items];
+---
+
+<div
+  data-marquee={speed}
+  data-marquee-direction={direction}
+  class:list={[
+    'mask-fade-x relative flex overflow-hidden border-y hairline py-5 select-none',
+    tone === 'solid' ? 'bg-brand-red text-bone' : 'text-bone',
+  ]}
+  aria-hidden="true"
+>
+  <div data-marquee-track class="flex w-max shrink-0 items-center gap-10 pr-10">
+    {
+      doubled.map((item) => (
+        <span class="display-tight flex items-center gap-10 text-3xl whitespace-nowrap md:text-5xl">
+          {item}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0 opacity-60">
+            <path
+              d="M8 0l1.8 6.2L16 8l-6.2 1.8L8 16l-1.8-6.2L0 8l6.2-1.8L8 0z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+      ))
+    }
+  </div>
+</div>

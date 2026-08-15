@@ -3,31 +3,36 @@ import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Marquee from '../components/Marquee.astro';
 import Manifesto from '../components/Manifesto.astro';
+import Services from '../components/Services.astro';
 import Method from '../components/Method.astro';
 import Plans from '../components/Plans.astro';
-import Coach from '../components/Coach.astro';
+import Team from '../components/Team.astro';
+import Sponsors from '../components/Sponsors.astro';
 import Gallery from '../components/Gallery.astro';
 import Reels from '../components/Reels.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
 ---
 
 <Layout>
   <Hero />
   <Marquee
-    items={['Fuerza', 'Velocidad', 'Resistencia', 'Readaptación', 'Táctica', 'Mentalidad']}
+    items={['Velocidad', 'Fuerza', 'Resistencia', 'Coordinación', 'Agilidad', 'Potencia']}
     speed={34}
   />
   <Manifesto />
+  <Services />
   <Method />
   <Marquee
-    items={['Pasión que nos une', 'AF Training', 'Pasión que nos une', 'AF Training']}
+    items={[site.tagline, site.name, site.tagline, site.name]}
     speed={40}
     direction="right"
     tone="solid"
   />
   <Plans />
-  <Coach />
+  <Team />
+  <Sponsors />
   <Gallery />
   <Reels />
   <Faq />

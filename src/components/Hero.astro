@@ -1,75 +1,134 @@
 ---
 import { Image } from 'astro:assets';
-import { photos } from '../data/media';
+import { brand, heroVideo } from '../data/media';
 import { site, whatsappLink } from '../data/site';
 
+/* Figures that are true and checkable from the client's document, so nothing
+   here needs a disclaimer: four professionals, eight sessions, ten services. */
 const stats = [
-  { value: 8, suffix: '+', label: 'Años dirigiendo' },
-  { value: 120, suffix: '', label: 'Deportistas guiados' },
-  { value: 4, suffix: '', label: 'Títulos con el club' },
+  { value: 4, suffix: '', label: 'Profesionales' },
+  { value: 8, suffix: '', label: 'Sesiones al mes' },
+  { value: 10, suffix: '', label: 'Servicios' },
 ];
 ---
 
-<section data-hero class="relative isolate grain min-h-[100svh] overflow-hidden pt-28 lg:pt-32">
-  <!-- Ambient backdrop. The source photo is only 960px wide, so it is blurred
-       and pushed back — at this scale a sharp copy would show compression. -->
+<section data-hero class="relative isolate grain flex min-h-[100svh] flex-col overflow-hidden">
+  <!-- Video layer. object-cover on a 1080px-wide source: the footage is night
+       grade with grain over it, so the upscale on large displays never shows. -->
   <div data-hero-media class="absolute inset-0 -z-20 will-change-transform">
-    <Image
-      src={photos.coachCircle.src}
-      alt=""
-      aria-hidden="true"
-      widths={[720, 960]}
-      sizes="100vw"
-      loading="eager"
-      fetchpriority="high"
-      class="size-full scale-110 object-cover object-center blur-[26px]"
-    />
+    <video
+      data-hero-video
+      class="size-full object-cover"
+      poster={heroVideo.wide.poster}
+      data-poster-wide={heroVideo.wide.poster}
+      data-poster-portrait={heroVideo.portrait.poster}
+      data-wide-webm={heroVideo.wide.webm}
+      data-wide-mp4={heroVideo.wide.mp4}
+      data-portrait-mp4={heroVideo.portrait.mp4}
+      muted
+      loop
+      playsinline
+      autoplay
+      preload="none"
+      aria-label={heroVideo.label}
+    ></video>
   </div>
+
+  <!-- Sources are attached at parse time so phones never fetch the desktop cut,
+       and reduced-motion visitors keep the poster with nothing downloaded. -->
+  <script is:inline>
+    (function () {
+      var v = document.querySelector('[data-hero-video]');
+      if (!v) return;
+
+      var portrait = window.matchMedia('(max-width: 767px)').matches;
+      if (portrait) v.poster = v.dataset.posterPortrait;
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        v.removeAttribute('autoplay');
+        return;
+      }
+
+      var add = function (src, type) {
+        var s = document.createElement('source');
+        s.src = src;
+        s.type = type;
+        v.appendChild(s);
+      };
+
+      if (portrait) {
+        add(v.dataset.portraitMp4, 'video/mp4');
+      } else {
+        add(v.dataset.wideWebm, 'video/webm');
+        add(v.dataset.wideMp4, 'video/mp4');
+      }
+
+      v.preload = 'auto';
+      v.load();
+      // Autoplay can still be refused (low power mode); the poster stays put.
+      var play = v.play();
+      if (play) play.catch(function () {});
+    })();
+  </script>
+
+  <!-- Grade: darkened from the bottom for the copy, with a navy wash that ties
+       the footage to the crest palette. -->
   <div
     data-hero-veil
-    class="absolute inset-0 -z-10 bg-[radial-gradient(120%_90%_at_70%_10%,rgba(46,49,176,0.22),transparent_60%),linear-gradient(to_bottom,rgba(5,5,6,0.72),rgba(5,5,6,0.9)_55%,var(--color-ink-950))]"
+    class="absolute inset-0 -z-10 bg-[linear-gradient(to_top,var(--color-ink-950)_2%,rgba(5,7,13,0.82)_28%,rgba(5,7,13,0.45)_58%,rgba(11,27,58,0.5)_100%)]"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(120%_80%_at_50%_50%,transparent_35%,rgba(5,7,13,0.7)_100%)]"
+    aria-hidden="true"
   >
   </div>
 
-  <div class="shell grid items-end gap-12 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-24">
-    <div class="lg:col-span-7 xl:col-span-7">
-      <p class="eyebrow mb-6 flex items-center gap-3" data-reveal="fade">
+  <div class="shell flex flex-1 flex-col justify-end pt-32 pb-14 lg:pb-20">
+    <div class="max-w-4xl">
+      <p class="eyebrow mb-6 flex items-center gap-3 text-bone/70" data-reveal="fade">
         <span class="inline-block h-px w-10 bg-brand-red"></span>
-        {site.tagline}
+        {site.city}
       </p>
 
-      <h1 class="display text-[clamp(3.2rem,11vw,9.5rem)] text-bone" data-split>
-        Entrena<br />
-        como se<br />
-        <span class="text-brand-red">compite</span>
+      <h1 class="display text-[clamp(2.9rem,10vw,9rem)] text-bone" data-split>
+        Más que<br />
+        entrenar,<br />
+        <span class="text-brand-red">evolucionar</span>
       </h1>
 
-      <p class="mt-8 max-w-lg text-lg leading-relaxed text-muted" data-reveal data-reveal-delay="0.15">
-        Planes de entrenamiento diseñados para futbolistas reales: fuerza, velocidad y
-        resistencia periodizadas alrededor de tu calendario de partidos. Sin plantillas
-        genéricas.
+      <p
+        class="mt-8 max-w-xl text-lg leading-relaxed text-bone/75"
+        data-reveal
+        data-reveal-delay="0.15"
+      >
+        Entrenamos deportistas de forma integral: capacidades físicas, técnica, preparación
+        mental y prevención. Cada proceso se diseña sobre una valoración, no sobre una
+        rutina genérica.
       </p>
 
       <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="0.25">
         <a
-          href="#planes"
+          href={whatsappLink(
+            'Hola, quiero agendar mi valoración inicial gratuita con Andrés Lara Entrenamientos.',
+          )}
+          target="_blank"
+          rel="noopener"
           class="group relative overflow-hidden rounded-full bg-brand-red px-8 py-4 text-sm font-medium tracking-wide text-bone uppercase"
         >
           <span
             class="absolute inset-0 translate-y-full bg-bone transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0"
           ></span>
           <span class="relative transition-colors duration-300 group-hover:text-ink-950">
-            Ver planes
+            {site.cta}
           </span>
         </a>
 
         <a
-          href={whatsappLink('Hola, quiero agendar una valoración inicial.')}
-          target="_blank"
-          rel="noopener"
-          class="group flex items-center gap-2 rounded-full border hairline px-8 py-4 text-sm tracking-wide text-bone uppercase transition-colors duration-300 hover:border-bone"
+          href="#planes"
+          class="group flex items-center gap-2 rounded-full border hairline bg-ink-950/30 px-8 py-4 text-sm tracking-wide text-bone uppercase backdrop-blur-sm transition-colors duration-300 hover:border-bone"
         >
-          Agendar valoración
+          Ver planes
           <svg
             width="14"
             height="14"
@@ -81,16 +140,29 @@ const stats = [
             <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"></path>
           </svg>
         </a>
-      </div>
 
-      <dl class="mt-14 grid max-w-xl grid-cols-3 gap-6 border-t hairline pt-8">
+        <p class="flex items-center gap-2 text-sm text-bone/70">
+          <span class="relative flex size-2">
+            <span
+              class="absolute inline-flex size-full animate-ping rounded-full bg-brand-gold opacity-70"
+            ></span>
+            <span class="relative inline-flex size-2 rounded-full bg-brand-gold"></span>
+          </span>
+          Valoración inicial gratuita
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-14 flex flex-wrap items-end justify-between gap-8 border-t hairline pt-8">
+      <dl class="grid max-w-lg flex-1 grid-cols-3 gap-6">
         {
           stats.map((stat, index) => (
             <div data-reveal data-reveal-delay={0.3 + index * 0.08}>
               <dt class="sr-only">{stat.label}</dt>
               <dd>
                 <span class="display-tight block text-4xl text-bone lg:text-5xl">
-                  <span data-count={stat.value}>0</span>{stat.suffix}
+                  <span data-count={stat.value}>0</span>
+                  {stat.suffix}
                 </span>
                 <span class="mt-2 block text-xs tracking-wide text-muted uppercase">
                   {stat.label}
@@ -100,33 +172,21 @@ const stats = [
           ))
         }
       </dl>
-    </div>
 
-    <!-- Portrait column. Capped at the photo's native width so it stays sharp. -->
-    <div class="relative lg:col-span-5 xl:col-start-9 xl:col-span-4" data-reveal="scale" data-reveal-delay="0.1">
-      <figure class="relative mx-auto w-full max-w-[26rem]">
-        <div class="grain relative overflow-hidden rounded-[1.75rem] border hairline">
-          <Image
-            src={photos.coachPortrait.src}
-            alt={photos.coachPortrait.alt}
-            widths={[520, 760, 1066]}
-            sizes="(min-width: 1280px) 26rem, (min-width: 1024px) 34vw, 88vw"
-            loading="eager"
-            class="photo aspect-[2/3] w-full object-cover"
-          />
-          <div
-            class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-950/80 via-transparent to-transparent"
-          >
-          </div>
-        </div>
-
-        <figcaption
-          class="absolute -bottom-5 left-1/2 w-[min(20rem,90%)] -translate-x-1/2 rounded-2xl border hairline bg-ink-900/85 px-5 py-4 backdrop-blur-md"
-        >
-          <p class="display-tight text-base text-bone">{site.coach.name}</p>
-          <p class="mt-1 text-xs text-muted">{site.coach.role}</p>
-        </figcaption>
-      </figure>
+      <div class="flex items-center gap-4" data-reveal data-reveal-delay="0.4">
+        <Image
+          src={brand.crest.src}
+          alt={brand.crest.alt}
+          widths={[72, 144]}
+          sizes="72px"
+          loading="eager"
+          class="size-16 shrink-0 object-contain lg:size-[4.5rem]"
+        />
+        <p class="max-w-[13rem] text-xs leading-relaxed text-muted">
+          Entrenamiento, preparación física, fisioterapia y comunicación en un mismo
+          proceso.
+        </p>
+      </div>
     </div>
   </div>
 
@@ -154,7 +214,11 @@ const stats = [
     animation: scroll-cue 2.2s var(--ease-in-out-quart) infinite;
   }
   @keyframes scroll-cue {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(250%); }
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(250%);
+    }
   }
 </style>

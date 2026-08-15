@@ -23,9 +23,9 @@ import { whatsappLink } from '../data/site';
   <div class="shell">
     <div class="mb-14 flex flex-wrap items-end justify-between gap-8">
       <div>
-        <p class="eyebrow mb-5" data-reveal="fade">03 — Planes</p>
+        <p class="eyebrow mb-5" data-reveal="fade">04 — Planes</p>
         <h2 class="display text-[clamp(2.4rem,6vw,5.5rem)] text-bone" data-split>
-          Elige tu<br />nivel de exigencia
+          Todos mensuales,<br />8 sesiones
         </h2>
       </div>
 
@@ -59,13 +59,13 @@ import { whatsappLink } from '../data/site';
             class:list={[
               'group relative flex flex-col rounded-[1.5rem] border p-8 transition-colors duration-500 lg:p-9',
               plan.featured
-                ? 'border-brand-blue-bright/45 bg-brand-blue/[0.14]'
+                ? 'border-brand-red/45 bg-brand-red/[0.07]'
                 : 'hairline bg-ink-900/50 hover:border-bone/25',
             ]}
           >
             {plan.featured && (
               <span class="absolute -top-3 left-8 rounded-full bg-brand-red px-4 py-1.5 text-[0.65rem] tracking-[0.18em] text-bone uppercase">
-                Más elegido
+                Más equilibrado
               </span>
             )}
 
@@ -74,15 +74,22 @@ import { whatsappLink } from '../data/site';
             <p class="mt-4 text-sm leading-relaxed text-muted">{plan.summary}</p>
 
             <p class="mt-8 flex items-baseline gap-2">
-              {plan.price === null ? (
-                <span class="display-tight text-3xl text-bone">A convenir</span>
-              ) : (
-                <>
-                  <span class="display-tight text-[2.75rem] leading-none text-bone">
-                    {currencyFormat(plan.price, plan.currency)}
-                  </span>
-                  <span class="text-sm text-muted">{plan.period}</span>
-                </>
+              <span class="display-tight text-[2.75rem] leading-none text-bone">
+                {currencyFormat(plan.price, plan.currency)}
+              </span>
+              <span class="text-sm text-muted">{plan.period}</span>
+            </p>
+
+            {/* The client leads with the per-session figure, so it sits right
+                under the monthly price rather than inside the feature list. */}
+            <p class="mt-3 flex flex-wrap items-baseline gap-2 text-sm">
+              <span class="text-bone/85">
+                {currencyFormat(plan.perSession, plan.currency)} por sesión
+              </span>
+              {plan.perSessionWas && (
+                <span class="text-muted line-through decoration-brand-red/70">
+                  {currencyFormat(plan.perSessionWas, plan.currency)}
+                </span>
               )}
             </p>
 
@@ -115,7 +122,7 @@ import { whatsappLink } from '../data/site';
                   : 'border hairline text-bone hover:border-bone',
               ]}
             >
-              Empezar con {plan.name}
+              Empezar con el {plan.name.replace('Plan ', '')}
               <svg
                 width="14"
                 height="14"
@@ -133,8 +140,8 @@ import { whatsappLink } from '../data/site';
     </div>
 
     <p class="mt-8 text-center text-xs text-muted">
-      Todos los planes incluyen una llamada inicial gratuita de 20 minutos para definir
-      objetivos.
+      Todos los planes incluyen la valoración inicial gratuita. A partir de ella
+      recomendamos el que mejor se adapte a tus necesidades.
     </p>
   </div>
 </section>

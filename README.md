@@ -1,41 +1,83 @@
-# AF Training
+# Andrés Lara Entrenamientos
 
-Landing page for a football strength & conditioning coach, built with Astro.
+Landing page for a sports training project in Barranquilla, Colombia, built with
+Astro. Content comes from the client's institutional document, kept in
+[`docs/`](docs/) — that file is the source of truth for every claim, price and
+credential on the page.
 
-**Stack:** Astro 7 (static output) · Tailwind CSS 4 · GSAP 3 (ScrollTrigger, SplitText) · Lenis smooth scroll · self-hosted variable fonts (Archivo + Inter).
+**Stack:** Astro 7 (static output) · Tailwind CSS 4 · GSAP 3 (ScrollTrigger,
+SplitText) · Lenis smooth scroll · self-hosted variable fonts (Archivo + Inter).
 
 ## Getting started
 
 ```bash
-npm install
-npm run dev      # http://localhost:4321
-npm run build    # static output in dist/
-npm run preview  # serve the production build locally
+pnpm install
+pnpm dev        # http://localhost:4321
+pnpm build      # static output in dist/
+pnpm preview    # serve the production build locally
 ```
 
+The project is on pnpm. `sharp` is an explicit devDependency because pnpm does
+not hoist it the way npm did, and Astro's image pipeline fails the build without
+it.
+
 If the dev server reports that another instance is already running, use
-`npm run dev -- --force` to replace it, or `npx astro dev stop`.
+`npx astro dev stop` (or `astro dev --background` plus `astro dev status` /
+`astro dev logs`).
 
 ## Project layout
 
 ```
 src/
   assets/
-    brand/        club crest
+    brand/        crest and the 2026 kit render
+    sponsors/     supporter logos
     training/     photography, imported through astro:assets so it gets
                   optimised into webp/avif with a responsive srcset
   components/     one file per page section
   data/
     site.ts       brand, contact details and navigation
+    plans.ts      the three monthly plans
+    services.ts   services, audience, capacities and the five-step method
+    team.ts       the four professionals
+    sponsors.ts   "marcas que confían en nosotros"
     media.ts      photo registry — alt text lives here, written once
-    plans.ts      training plans and pricing
   layouts/
   lib/motion.ts   all scroll animation, driven by data-* attributes
   styles/
 public/
-  videos/         short vertical clips
+  videos/         hero loop (wide + portrait) and the vertical reels
   posters/        first-frame stills used as video posters
+docs/             client's institutional document
+media-source/     camera masters, gitignored
 ```
+
+### The hero loop
+
+The client supplied one 1080x1920, 23 s phone reel (`media-source/`). It is
+already a fast-cut edit, so the hero is a curated montage of its seven strongest
+beats rather than one continuous take — wide establishing shot, the club crest,
+two open action beats, a stride, a save, and the keeper set in goal.
+
+Cuts are hard throughout, matching the source's own grammar, which means the
+loop seam is just another cut and needs no crossfade.
+
+Two encodes ship:
+
+| File | Size | Used for |
+| --- | --- | --- |
+| `hero-wide.mp4` / `.webm` | 1080x608 | ≥768px, the horizontal framing |
+| `hero-portrait.mp4` | 720x1280 | <768px, the native vertical framing |
+
+A small inline script in `Hero.astro` attaches the right `<source>` at parse
+time, so phones never download the desktop cut. Under
+`prefers-reduced-motion: reduce` nothing is fetched at all and the poster
+stands in. 1080px is the source's ceiling, so the wide cut upscales on large
+displays — the footage is night-graded with grain over it, which hides it.
+
+To recut, edit the `BEATS` array and re-run the encode script (it needs
+`ffmpeg-static`, whose binary pnpm does not install by default:
+`node node_modules/ffmpeg-static/install.js`).
 
 ### Animation
 
@@ -58,19 +100,27 @@ blank. `prefers-reduced-motion` is honoured throughout.
 
 ### Working with the photography
 
-The source photos are WhatsApp exports capped at 1280px on the long edge, and
-the clips are 464x832. The layout is built around that ceiling: nothing is
-rendered wider than roughly 900 CSS px at 1x, background photos are blurred so
-upscaling is invisible, and a grain overlay masks compression artefacts. If
-higher-resolution originals become available, replacing the files in
-`src/assets/training/` is enough — the `widths` arrays already request larger
-variants where they would help.
+The source photos are WhatsApp exports capped at 1280px on the long edge. The
+layout is built around that ceiling: nothing is rendered wider than roughly
+900 CSS px at 1x, background photos are blurred so upscaling is invisible, and a
+grain overlay masks compression artefacts. If higher-resolution originals become
+available, replacing the files in `src/assets/training/` is enough — the `widths`
+arrays already request larger variants where they would help.
+
+The crest arrived as an opaque PNG on a light backdrop. It ships with that
+backdrop cut to transparency (flood fill seeded from the border, which stops at
+the crest's navy ring and so never touches the whites inside it).
 
 ## Before launch
 
-- Replace the placeholder values marked `TODO` in `src/data/site.ts` (coach
-  name, phone, WhatsApp number, email, city, social links).
-- Transcribe the real training plans into `src/data/plans.ts`, then drop the
-  plans PDF into `public/` and point `plansPdf` at it to enable the download CTA.
-- Update `site` in `astro.config.mjs` to the production domain so the sitemap
-  and canonical URLs are correct.
+- Point `site` in `astro.config.mjs` at the production domain — the sitemap,
+  canonical URLs and `og:image` are all built from it.
+- Drop the real sponsor logos into `src/assets/sponsors/` and wire them up in
+  `src/data/sponsors.ts`. Brands without a logo render as wordmarks, so the
+  section already looks finished; logos are an upgrade, not a blocker.
+- Add the plans PDF to `public/` and point `plansPdf` at it to enable the
+  download CTA.
+- Team cards reuse existing photography. Real headshots for the four members
+  would be a one-line swap each in `Team.astro`.
+- The client mentioned testimonials. None have been supplied, so no testimonial
+  section exists yet — inventing them was not an option.

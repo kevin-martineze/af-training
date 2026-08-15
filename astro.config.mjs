@@ -5,7 +5,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://aftraining.co',
+  // TODO: point at the production domain before launch — the sitemap, canonical
+  // URLs and the og:image URL are all built from this.
+  site: 'https://andreslaraentrenamientos.com',
   integrations: [sitemap()],
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   image: {

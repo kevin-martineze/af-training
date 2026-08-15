@@ -18,23 +18,26 @@ import { site, whatsappLink } from '../data/site';
     />
   </div>
   <div
-    class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(5,5,6,0.95),rgba(5,5,6,0.7)),radial-gradient(80%_60%_at_80%_50%,rgba(245,44,14,0.28),transparent)]"
+    class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(5,7,13,0.95),rgba(5,7,13,0.7)),radial-gradient(80%_60%_at_80%_50%,rgba(200,16,46,0.3),transparent)]"
   >
   </div>
 
   <div class="shell max-w-4xl">
+    <p class="eyebrow mb-6" data-reveal="fade">{site.motto}</p>
+
     <h2 class="display text-[clamp(2.6rem,7vw,6.5rem)] text-bone" data-split>
-      Tu próxima<br />temporada<br />empieza hoy
+      Agenda tu<br />valoración
     </h2>
 
     <p class="mt-8 max-w-lg text-lg leading-relaxed text-bone/80" data-reveal>
-      Escríbeme y agendamos la llamada de valoración. Veinte minutos, sin costo, para
-      saber en qué punto estás y qué plan tiene sentido para ti.
+      La valoración inicial es gratuita. Nos permite conocerte, identificar tus
+      necesidades y definir los objetivos del proceso — y de ahí sale el plan que
+      realmente te sirve.
     </p>
 
     <div class="mt-10 flex flex-wrap gap-4" data-reveal data-reveal-delay="0.12">
       <a
-        href={whatsappLink('Hola, quiero agendar la llamada de valoración gratuita.')}
+        href={whatsappLink('Hola, quiero agendar mi valoración inicial gratuita.')}
         target="_blank"
         rel="noopener"
         class="group relative overflow-hidden rounded-full bg-bone px-8 py-4 text-sm font-medium tracking-wide text-ink-950 uppercase"
@@ -54,5 +57,9 @@ import { site, whatsappLink } from '../data/site';
         {site.email}
       </a>
     </div>
+
+    <p class="mt-8 text-sm text-muted" data-reveal data-reveal-delay="0.2">
+      {site.coverage}
+    </p>
   </div>
 </section>

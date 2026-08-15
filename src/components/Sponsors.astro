@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import { sponsors } from '../data/sponsors';
+import { brand } from '../data/media';
+
+/* The client asked for this wording over "Patrocinadores": these are brands
+   that back the project, and the section should give them visibility without
+   competing with the main mark. Hence the muted treatment. */
+---
+
+<section id="marcas" class="relative py-24 lg:py-32">
+  <div class="shell">
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <p class="eyebrow mb-5" data-reveal="fade">06 — Respaldo</p>
+        <h2 class="display text-[clamp(2rem,4.5vw,3.6rem)] text-bone" data-split>
+          Marcas que<br />confían en<br />nosotros
+        </h2>
+        <p class="mt-7 max-w-sm text-sm leading-relaxed text-muted" data-reveal>
+          Empresas y profesionales que creen en el proyecto, respaldan el trabajo y hacen
+          parte del crecimiento.
+        </p>
+
+        <figure class="mt-10" data-reveal data-reveal-delay="0.1">
+          <div class="grain relative overflow-hidden rounded-2xl border hairline">
+            <Image
+              src={brand.kit.src}
+              alt={brand.kit.alt}
+              widths={[520, 760]}
+              sizes="(min-width: 1024px) 32vw, 92vw"
+              loading="lazy"
+              class="w-full object-cover"
+            />
+          </div>
+          <figcaption class="mt-3 text-xs text-muted">
+            Indumentaria 2026, con las marcas que acompañan el proyecto.
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- One cell per brand. Brands with a logo file show it; the rest render
+           as wordmarks, which keeps the grid even instead of leaving holes. -->
+      <ul class="grid grid-cols-2 gap-px self-start overflow-hidden rounded-2xl border hairline bg-[var(--edge)] sm:grid-cols-3 lg:col-span-7">
+        {
+          sponsors.map((sponsor, index) => (
+            <li
+              data-reveal
+              data-reveal-delay={index * 0.04}
+              class="group flex min-h-[8.5rem] flex-col items-center justify-center gap-2 bg-ink-950 px-5 py-8 text-center transition-colors duration-500 hover:bg-ink-900"
+            >
+              {sponsor.logo ? (
+                <Image
+                  src={sponsor.logo}
+                  alt={sponsor.name}
+                  widths={[120, 240]}
+                  sizes="120px"
+                  loading="lazy"
+                  class="h-14 w-auto object-contain opacity-60 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
+                />
+              ) : (
+                <span class="display-tight text-base leading-tight text-bone/70 transition-colors duration-500 group-hover:text-bone">
+                  {sponsor.name}
+                </span>
+              )}
+              {sponsor.note && (
+                <span class="text-[0.68rem] leading-tight text-muted">{sponsor.note}</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>

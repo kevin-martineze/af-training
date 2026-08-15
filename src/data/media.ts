@@ -23,16 +23,34 @@ import portraitFlex from '../assets/training/portrait-flex.jpeg';
 import portraitPointing from '../assets/training/portrait-pointing.jpeg';
 import portraitKitAwayFull from '../assets/training/portrait-kit-away-full.jpeg';
 import portraitDtArmsCrossed from '../assets/training/portrait-dt-arms-crossed.jpeg';
-import logo from '../assets/brand/logo-af-training.jpeg';
+import crest from '../assets/brand/crest-andres-lara.png';
+import kit2026 from '../assets/brand/kit-2026.png';
 
 export type Photo = { src: ImageMetadata; alt: string };
 
 export const brand = {
-  logo: {
-    src: logo,
-    alt: 'Escudo de AF Training',
+  crest: {
+    src: crest,
+    alt: 'Escudo de Andrés Lara Entrenamientos',
+  } satisfies Photo,
+  kit: {
+    src: kit2026,
+    alt: 'Indumentaria 2026: camiseta, pantaloneta y los logos de las marcas que acompañan el proyecto',
   } satisfies Photo,
 };
+
+/**
+ * Hero loop. Cut from the client's 1080x1920 training reel: the wide beats are
+ * cropped to 16:9 for desktop, and phones get the untouched vertical framing
+ * instead of a sliver of the middle. Posters are each file's own first frame.
+ */
+export const heroVideo = {
+  wide: { mp4: '/videos/hero-wide.mp4', webm: '/videos/hero-wide.webm', poster: '/posters/hero-wide.jpg' },
+  portrait: { mp4: '/videos/hero-portrait.mp4', poster: '/posters/hero-portrait.jpg' },
+  /** Describes the loop for anyone who cannot see it. */
+  label:
+    'Entrenamiento nocturno en cancha sintética: trabajo con balón, atajadas y el grupo reunido antes de la sesión.',
+} as const;
 
 /**
  * Every photo used on the site, with the alt text written once so it stays

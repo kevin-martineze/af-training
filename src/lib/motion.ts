@@ -178,7 +178,7 @@ function initHorizontalRails() {
   });
 }
 
-/** Hero: photo scales down and the overlay darkens as you scroll past it. */
+/** Hero: the loop drifts and the overlay darkens as you scroll past it. */
 function initHero() {
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (!hero || reduced) return;
@@ -196,7 +196,22 @@ function initHero() {
       },
     })
     .to(media, { scale: 1.14, yPercent: 8, ease: 'none' }, 0)
-    .to(veil, { opacity: 0.85, ease: 'none' }, 0);
+    .to(veil, { opacity: 0.9, ease: 'none' }, 0);
+
+  // Decoding video costs power for something nobody is looking at. Pausing the
+  // loop once the hero is offscreen is free on desktop and noticeable on phones.
+  const video = hero.querySelector<HTMLVideoElement>('[data-hero-video]');
+  if (!video) return;
+
+  ScrollTrigger.create({
+    trigger: hero,
+    start: 'top bottom',
+    end: 'bottom top',
+    onToggle: (self) => {
+      if (self.isActive) void video.play().catch(() => {});
+      else video.pause();
+    },
+  });
 }
 
 /** Header collapses to a compact bar once the hero is behind you. */

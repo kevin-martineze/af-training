@@ -1,0 +1,64 @@
+---
+import { Image } from 'astro:assets';
+import { team } from '../data/team';
+import { photos } from '../data/media';
+
+/* No individual headshots have been supplied yet, so each card pairs with a
+   photo from the existing set. Swapping in a real portrait later is a one-line
+   change per member — the card geometry does not depend on which photo it is. */
+const portrait = [photos.coachBoard, photos.coachSprint, photos.staffNight, photos.staffStanding];
+---
+
+<section id="equipo" class="relative overflow-hidden bg-ink-900 py-24 lg:py-40">
+  <div class="shell">
+    <div class="mb-14 grid gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <p class="eyebrow mb-5" data-reveal="fade">05 — Equipo</p>
+        <h2 class="display text-[clamp(2.4rem,6vw,5.5rem)] text-bone" data-split>
+          Cuatro áreas,<br />un solo proceso
+        </h2>
+      </div>
+      <p
+        class="max-w-sm self-end text-sm leading-relaxed text-muted lg:col-span-4 lg:col-start-9"
+        data-reveal
+      >
+        La unión de entrenamiento, preparación física, fisioterapia y comunicación
+        audiovisual es lo que permite ofrecer un proceso completo.
+      </p>
+    </div>
+
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        team.map((member, index) => (
+          <article
+            data-reveal
+            data-reveal-delay={index * 0.08}
+            class="group flex flex-col overflow-hidden rounded-[1.5rem] border hairline bg-ink-950/60 transition-colors duration-500 hover:border-bone/25"
+          >
+            <div class="grain relative overflow-hidden">
+              <Image
+                src={portrait[index].src}
+                alt=""
+                aria-hidden="true"
+                widths={[320, 520]}
+                sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 92vw"
+                loading="lazy"
+                class="photo aspect-[4/5] w-full object-cover grayscale transition-all duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-105 group-hover:grayscale-0"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/30 to-transparent" />
+              <span class="absolute top-5 left-6 rounded-full bg-ink-950/70 px-3.5 py-1.5 text-[0.65rem] tracking-[0.16em] text-brand-gold uppercase backdrop-blur-sm">
+                {member.field}
+              </span>
+            </div>
+
+            <div class="flex flex-1 flex-col p-6">
+              <h3 class="display-tight text-xl text-bone">{member.name}</h3>
+              <p class="mt-2 text-xs leading-relaxed text-brand-gold/90">{member.role}</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted">{member.bio}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

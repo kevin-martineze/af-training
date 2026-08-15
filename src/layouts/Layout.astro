@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { site } from '../data/site';
+import { plans } from '../data/plans';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
@@ -12,6 +13,7 @@ interface Props {
 const { title, description = site.description } = Astro.props;
 const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const ogImage = new URL('/posters/hero-wide.jpg', Astro.site ?? Astro.url).href;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -21,8 +23,22 @@ const jsonLd = {
   url: canonical.href,
   telephone: site.phone,
   email: site.email,
-  address: { '@type': 'PostalAddress', addressLocality: site.city },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Barranquilla',
+    addressCountry: 'CO',
+  },
+  areaServed: 'Barranquilla, Colombia',
+  slogan: site.tagline,
   sameAs: Object.values(site.social),
+  makesOffer: plans.map((plan) => ({
+    '@type': 'Offer',
+    name: plan.name,
+    description: plan.summary,
+    price: plan.price,
+    priceCurrency: plan.currency,
+    availability: 'https://schema.org/InStock',
+  })),
 };
 ---
 
@@ -35,13 +51,22 @@ const jsonLd = {
     <link rel="canonical" href={canonical.href} />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#050506" />
+    <meta name="theme-color" content="#05070d" />
 
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="es_CO" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- The hero loop is the largest paint on the page; warming the connection
+         is pointless (same origin) but the poster is worth having early. -->
+    <link rel="preload" as="image" href="/posters/hero-wide.jpg" media="(min-width: 768px)" />
+    <link rel="preload" as="image" href="/posters/hero-portrait.jpg" media="(max-width: 767px)" />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   </head>

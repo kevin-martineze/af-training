@@ -11,15 +11,15 @@ import { brand } from '../data/media';
   <div class="shell flex items-center justify-between gap-6 py-5">
     <a href="#" class="group flex items-center gap-3" aria-label={`${site.name} — inicio`}>
       <Image
-        src={brand.logo.src}
-        alt={brand.logo.alt}
-        width={44}
-        height={44}
+        src={brand.crest.src}
+        alt={brand.crest.alt}
+        widths={[48, 96]}
+        sizes="48px"
         loading="eager"
-        class="size-11 rounded-lg object-cover"
+        class="size-12 shrink-0 object-contain"
       />
-      <span class="display-tight text-sm leading-none tracking-[0.14em] text-bone">
-        AF<br /><span class="text-muted">Training</span>
+      <span class="display-tight text-sm leading-[1.15] tracking-[0.14em] text-bone">
+        Andrés Lara<br /><span class="text-muted">Entrenamientos</span>
       </span>
     </a>
 
@@ -38,16 +38,16 @@ import { brand } from '../data/media';
 
     <div class="flex items-center gap-3">
       <a
-        href={whatsappLink('Hola, quiero información sobre los planes de entrenamiento.')}
+        href={whatsappLink('Hola, quiero agendar mi valoración inicial gratuita.')}
         target="_blank"
         rel="noopener"
-        class="group relative overflow-hidden rounded-full bg-bone px-5 py-2.5 text-sm font-medium text-ink-950"
+        class="group relative hidden overflow-hidden rounded-full bg-bone px-5 py-2.5 text-sm font-medium text-ink-950 sm:block"
       >
         <span
           class="absolute inset-0 -translate-y-full bg-brand-red transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0"
         ></span>
         <span class="relative transition-colors duration-300 group-hover:text-bone">
-          Quiero mi plan
+          {site.cta}
         </span>
       </a>
 

@@ -1,0 +1,11 @@
+# pnpm blocks dependency build scripts until they are named here, and `pnpm dev`
+# refuses to start while any are left undecided.
+allowBuilds:
+  # Required: esbuild's postinstall is what puts the platform binary in place,
+  # and Vite will not start without it.
+  esbuild: true
+  # Not required to build the site. Its postinstall pulls an ~80MB ffmpeg that
+  # is only used to recut the hero loop (scripts/encode-hero.sh), so it stays
+  # off and gets installed on demand:
+  #   node node_modules/ffmpeg-static/install.js
+  ffmpeg-static: false

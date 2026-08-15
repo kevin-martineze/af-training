@@ -1,40 +1,50 @@
 /**
  * Single source of truth for brand + contact strings.
- * Anything marked TODO still needs to be confirmed with the client.
+ *
+ * Everything here comes from the client's institutional document
+ * (src/questions/) — the earlier placeholder identity ("AF Training",
+ * "Andrés Fontalvo") was a guess and has been replaced.
  */
 export const site = {
-  name: 'AF Training',
-  // TODO: confirm the coach's full name and credentials.
-  coach: {
-    name: 'Andrés Fontalvo',
-    role: 'Preparador físico · Entrenador de fútbol',
-    credentials: [
-      'Preparador físico de Elite Football Club',
-      'Especialista en fútbol femenino y formativo',
-      'Planificación de temporada y readaptación',
-    ],
-  },
-  tagline: 'Pasión que nos une',
+  name: 'Andrés Lara Entrenamientos',
+  shortName: 'Andrés Lara',
+  /** Used where the full name would wrap badly — header lockup, footer mark. */
+  initials: 'AL',
+  tagline: 'Más que entrenar, evolucionar',
+  /** Secondary line from the document, used on the closing CTA band. */
+  motto: 'Transforma tu esfuerzo en rendimiento',
   description:
-    'Planes de entrenamiento personalizados para futbolistas: fuerza, velocidad, resistencia y readaptación, con seguimiento semanal.',
-  // TODO: confirm city + real contact details before launch.
+    'Proyecto deportivo en Barranquilla enfocado en el desarrollo integral del deportista: entrenamiento, preparación física, fisioterapia y seguimiento. Valoración inicial gratuita.',
+
   city: 'Barranquilla, Colombia',
-  phone: '+57 300 000 0000',
-  whatsapp: '573000000000',
-  email: 'hola@aftraining.co',
+  /** "Nosotros llegamos a tu zona" — sessions are coordinated per location. */
+  coverage: 'Barranquilla y alrededores · Modalidad online a otras ciudades y países',
+
+  phone: '+57 321 204 2949',
+  whatsapp: '573212042949',
+  email: 'laraorozcoandres@gmail.com',
   social: {
-    instagram: 'https://instagram.com/aftraining',
-    tiktok: 'https://tiktok.com/@aftraining',
+    instagram: 'https://instagram.com/andreslara_',
+    tiktok: 'https://tiktok.com/@andres99k',
   },
+  /** Handles as the client writes them, for display next to the icons. */
+  handles: {
+    instagram: '@Andreslara_',
+    tiktok: '@Andres99k',
+  },
+
+  /** The document names this as the primary call to action. */
+  cta: 'Agenda tu valoración',
 } as const;
 
 export const whatsappLink = (message: string) =>
   `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;
 
 export const nav = [
+  { label: 'Proyecto', href: '#proyecto' },
+  { label: 'Servicios', href: '#servicios' },
   { label: 'Método', href: '#metodo' },
   { label: 'Planes', href: '#planes' },
-  { label: 'Entrenador', href: '#entrenador' },
-  { label: 'Galería', href: '#galeria' },
+  { label: 'Equipo', href: '#equipo' },
   { label: 'Preguntas', href: '#faq' },
 ] as const;

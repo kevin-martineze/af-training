@@ -1,17 +1,20 @@
 /**
- * Training plans.
- *
- * PLACEHOLDER DATA — replace with the contents of the client's plans PDF.
- * Drop the PDF at `public/planes-af-training.pdf` so the "descargar" CTA works,
- * then transcribe each plan here. Keep the shape; the section reads from it.
+ * Training plans, transcribed from the client's institutional document.
+ * All plans are monthly and include 8 sessions; the per-session figure is what
+ * the client leads with, so it is kept alongside the monthly price.
  */
 export type Plan = {
   id: string;
   name: string;
   kicker: string;
-  price: number | null;
+  price: number;
+  /** Per-session price the client quotes for this plan. */
+  perSession: number;
+  /** Previous per-session price, shown struck through. Null when there is none. */
+  perSessionWas: number | null;
   currency: string;
   period: string;
+  sessions: number;
   summary: string;
   includes: string[];
   featured?: boolean;
@@ -26,54 +29,61 @@ export const currencyFormat = (value: number, currency: string) =>
 
 export const plans: Plan[] = [
   {
-    id: 'base',
-    name: 'Plan Base',
+    id: 'basico',
+    name: 'Plan Básico',
     kicker: '01',
-    price: 120000,
+    price: 200000,
+    perSession: 25000,
+    perSessionWas: null,
     currency: 'COP',
     period: '/ mes',
-    summary:
-      'Para quien arranca. Rutina estructurada de fuerza y acondicionamiento con corrección técnica por video.',
+    sessions: 8,
+    summary: 'Ideal para quienes quieren comenzar un proceso de entrenamiento.',
     includes: [
-      'Plan mensual de 4 sesiones semanales',
-      'Videos explicativos de cada ejercicio',
-      'Ajuste de cargas cada 4 semanas',
-      'Soporte por WhatsApp en horario laboral',
+      '8 sesiones mensuales',
+      'Valoración inicial gratuita',
+      'Trabajo de capacidades físicas base',
+      'Acompañamiento del cuerpo técnico',
     ],
   },
   {
-    id: 'rendimiento',
-    name: 'Plan Rendimiento',
+    id: 'intermedio',
+    name: 'Plan Intermedio',
     kicker: '02',
-    price: 220000,
+    price: 304000,
+    perSession: 38000,
+    perSessionWas: null,
     currency: 'COP',
     period: '/ mes',
-    summary:
-      'Para jugadoras y jugadores en competencia. Periodización real alrededor del calendario de partidos.',
+    sessions: 8,
+    summary: 'Una opción con mayor seguimiento y planificación.',
     includes: [
-      'Periodización semanal según partidos',
-      'Trabajo de velocidad, potencia y cambio de dirección',
-      'Control de carga y test cada 4 semanas',
-      'Videollamada quincenal de seguimiento',
-      'Pautas de nutrición e hidratación',
+      '8 sesiones mensuales',
+      'Valoración inicial gratuita',
+      'Planificación según tus objetivos',
+      'Seguimiento y ajustes del proceso',
+      'Reevaluación de avances',
     ],
     featured: true,
   },
   {
-    id: 'elite',
-    name: 'Plan Élite',
+    id: 'premium',
+    name: 'Plan Premium',
     kicker: '03',
-    price: 380000,
+    price: 600000,
+    perSession: 75000,
+    perSessionWas: 100000,
     currency: 'COP',
     period: '/ mes',
+    sessions: 8,
     summary:
-      'Acompañamiento 1 a 1. Presencial o híbrido, con readaptación de lesiones y análisis de partido.',
+      'Diseñado para quienes buscan un proceso mucho más exclusivo y personalizado.',
     includes: [
-      'Sesiones presenciales individuales',
-      'Readaptación y prevención de lesiones',
-      'Análisis de video de tus partidos',
-      'Plan de fuerza en gimnasio + campo',
-      'Contacto directo con el entrenador',
+      '8 sesiones completamente personalizadas',
+      'Valoración inicial gratuita',
+      'Planificación individual y exclusiva',
+      'Acompañamiento fisioterapéutico',
+      'Seguimiento y reevaluación continua',
     ],
   },
 ];

@@ -1,53 +1,32 @@
 ---
 import { Image } from 'astro:assets';
 import { photos } from '../data/media';
+import { method } from '../data/services';
 
-const steps = [
-  {
-    n: '01',
-    title: 'Valoración',
-    body: 'Medimos fuerza, velocidad, movilidad y tu historial de lesiones. Sin esto, cualquier plan es una apuesta.',
-    photo: photos.staffLocker,
-  },
-  {
-    n: '02',
-    title: 'Planificación',
-    body: 'Diseño tu semana alrededor del calendario real: partidos, viajes, estudio o trabajo.',
-    photo: photos.coachBoard,
-  },
-  {
-    n: '03',
-    title: 'Ejecución',
-    body: 'Cada sesión llega con video, series, cargas y tiempos. Ejecutas, registras, avanzas.',
-    photo: photos.coachSprint,
-  },
-  {
-    n: '04',
-    title: 'Control de carga',
-    body: 'Ajustamos según cómo respondes. Si el cuerpo pide freno, el plan frena.',
-    photo: photos.teamTalk,
-  },
-  {
-    n: '05',
-    title: 'Reevaluación',
-    body: 'Cada cuatro semanas repetimos los test. Comparamos números, no sensaciones.',
-    photo: photos.stands,
-  },
+/* Step copy lives in data/services.ts, transcribed from the client's document.
+   The photo pairing is a presentation choice, so it stays here. */
+const stepPhoto = [
+  photos.staffLocker,
+  photos.coachBoard,
+  photos.coachSprint,
+  photos.teamTalk,
+  photos.stands,
 ];
+const steps = method.map((step, index) => ({ ...step, photo: stepPhoto[index] }));
 ---
 
 <section id="metodo" data-rail class="relative overflow-hidden bg-ink-900 py-24 lg:min-h-screen lg:py-0">
   <div class="lg:flex lg:h-screen lg:flex-col lg:justify-center">
     <div class="shell mb-12 flex flex-wrap items-end justify-between gap-6 lg:mb-14">
       <div>
-        <p class="eyebrow mb-5" data-reveal="fade">02 — Método</p>
+        <p class="eyebrow mb-5" data-reveal="fade">03 — Método</p>
         <h2 class="display text-[clamp(2.4rem,6vw,5.5rem)] text-bone" data-split>
           Cinco pasos,<br />cero adivinanzas
         </h2>
       </div>
       <p class="max-w-xs text-sm leading-relaxed text-muted" data-reveal>
-        El mismo proceso que uso con el plantel profesional, adaptado a tu nivel y a tus
-        horarios.
+        Cada deportista tiene un proceso diferente. El método es el mismo; lo que cambia
+        es lo que sale de la valoración.
       </p>
     </div>
 

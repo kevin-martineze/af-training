@@ -1,32 +1,48 @@
 ---
 import { Image } from 'astro:assets';
 import { photos } from '../data/media';
+import { capacities } from '../data/services';
+
+/* The client's stated differentiator, written in the document as a sum. Keeping
+   it as a formula rather than prose is the whole point of the section. */
+const formula = [
+  'Capacidades físicas',
+  'Habilidades técnicas',
+  'Preparación mental',
+  'Prevención',
+  'Formación personal',
+];
+
+const values = [
+  ['Respeto', 'La base de cualquier grupo que entrena junto.'],
+  ['Compromiso', 'El proceso funciona cuando se sostiene en el tiempo.'],
+  ['Trabajo en equipo', 'Incluso en un plan individual, nadie avanza solo.'],
+  ['Superación personal', 'Competir contra la versión anterior de uno mismo.'],
+];
 ---
 
-<section class="relative py-24 lg:py-40">
+<section id="proyecto" class="relative py-24 lg:py-40">
   <div class="shell grid gap-14 lg:grid-cols-12 lg:gap-10">
-    <div class="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
-      <p class="eyebrow mb-6" data-reveal="fade">01 — Filosofía</p>
+    <div class="lg:sticky lg:top-32 lg:col-span-5 lg:self-start">
+      <p class="eyebrow mb-6" data-reveal="fade">01 — El proyecto</p>
       <h2 class="display text-[clamp(2.4rem,6vw,5rem)] text-bone" data-split>
-        El talento<br />no se<br />improvisa
+        No solo<br />buenos<br />jugadores
       </h2>
       <p class="mt-8 max-w-md text-lg leading-relaxed text-muted" data-reveal>
-        Trabajo con jugadoras y jugadores que ya compiten y con quienes recién empiezan.
-        La diferencia nunca está en entrenar más: está en entrenar lo que toca, cuando
-        toca, y medirlo.
+        Creemos que el deporte es una herramienta para formar también grandes personas.
+        Por eso trabajamos habilidades físicas, técnicas y mentales, con entrenamientos
+        diseñados según las necesidades, capacidades y objetivos de cada persona.
       </p>
 
       <ul class="mt-10 space-y-5">
         {
-          [
-            ['Diagnóstico primero', 'Test de fuerza, velocidad y movilidad antes de tocar una sola carga.'],
-            ['Carga controlada', 'La semana se planifica según el partido, no al revés.'],
-            ['Evidencia, no intuición', 'Reevaluación cada cuatro semanas con datos comparables.'],
-          ].map(([title, body], index) => (
-            <li class="flex gap-5 border-t hairline pt-5" data-reveal data-reveal-delay={index * 0.08}>
-              <span class="display-tight shrink-0 text-sm text-brand-red">
-                0{index + 1}
-              </span>
+          values.map(([title, body], index) => (
+            <li
+              class="flex gap-5 border-t hairline pt-5"
+              data-reveal
+              data-reveal-delay={index * 0.08}
+            >
+              <span class="display-tight shrink-0 text-sm text-brand-red">0{index + 1}</span>
               <div>
                 <h3 class="text-base font-medium text-bone">{title}</h3>
                 <p class="mt-1.5 text-sm leading-relaxed text-muted">{body}</p>
@@ -79,12 +95,36 @@ import { photos } from '../data/media';
         </figure>
       </div>
 
-      <blockquote class="mt-10 border-l-2 border-brand-red pl-6" data-reveal>
-        <p class="display-tight text-2xl leading-tight text-bone lg:text-3xl">
-          “Al jugador no le falta ganas. Le falta un plan que aguante los noventa
-          minutos.”
+      <!-- The differentiator as the client writes it: a sum, not a paragraph. -->
+      <div class="mt-10 rounded-2xl border hairline bg-ink-900/50 p-7 lg:p-9" data-reveal>
+        <p class="eyebrow mb-6">Qué nos diferencia</p>
+        <p class="flex flex-wrap items-center gap-x-3 gap-y-2.5">
+          {
+            formula.map((part, index) => (
+              <>
+                {index > 0 && <span class="display-tight text-xl text-brand-red">+</span>}
+                <span class="display-tight text-lg text-bone lg:text-xl">{part}</span>
+              </>
+            ))
+          }
         </p>
-      </blockquote>
+        <p class="mt-6 border-t hairline pt-6 text-sm leading-relaxed text-muted">
+          No nos enfocamos únicamente en hacer ejercicio. Contamos con profesionales de
+          diferentes áreas que permiten complementar el proceso deportivo.
+        </p>
+      </div>
+
+      <!-- Capacities worked inside a personalised process. -->
+      <div class="mt-6" data-reveal data-reveal-delay="0.1">
+        <p class="eyebrow mb-4">Qué trabajamos</p>
+        <ul class="flex flex-wrap gap-2">
+          {
+            capacities.map((item) => (
+              <li class="rounded-full bg-ink-800 px-4 py-2 text-xs text-bone/80">{item}</li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
   </div>
 </section>

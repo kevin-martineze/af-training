@@ -136,7 +136,9 @@ the crest's navy ring and so never touches the whites inside it).
   The client sent them with the logo batch but none appears in the list they
   gave for `data/sponsors.ts`, so they are not on the page — adding a brand is a
   claim about a real relationship. One line each in `sponsors.ts` once confirmed.
-- Vergara is the last brand still rendering as a wordmark; no logo file arrived.
+- All ten brands now ship a logo, so the wordmark fallback in `Sponsors.astro`
+  is currently unexercised. Keep it: it is what stops a new brand from leaving
+  a hole in the grid before its file arrives.
 - Add the plans PDF to `public/` and point `plansPdf` at it to enable the
   download CTA.
 - Nothing on the page has been checked in a real browser at phone widths. The

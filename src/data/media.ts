@@ -29,7 +29,7 @@ import kit2026 from '../assets/brand/kit-2026.png';
 /* Second drop from the client. Unlike the first batch these are camera
    originals, so they carry real detail — see the note on `photos` below. */
 import playerCrouchTurfNight from '../assets/training/player-crouch-turf-night.jpeg';
-import athleteCourtNight from '../assets/training/athlete-court-night.jpeg';
+import playerWalkTurfNight from '../assets/training/player-walk-turf-night.jpeg';
 import coachGuidingSprint from '../assets/training/coach-guiding-sprint.jpeg';
 import stadiumWarmupPf from '../assets/training/stadium-warmup-pf.jpeg';
 import physioServiceCard from '../assets/training/physio-service-card.jpeg';
@@ -37,7 +37,7 @@ import futsalTunnelFocus from '../assets/training/futsal-tunnel-focus.jpeg';
 import teamCircleOverhead from '../assets/training/team-circle-overhead.jpeg';
 import coachSidelineStadium from '../assets/training/coach-sideline-stadium.jpeg';
 import coachPortraitBoard from '../assets/training/coach-portrait-board.jpeg';
-import tacticalBoardHuddle from '../assets/training/tactical-board-huddle.jpeg';
+import lockerHuddleBall from '../assets/training/locker-huddle-ball.jpeg';
 
 export type Photo = { src: ImageMetadata; alt: string };
 
@@ -105,9 +105,9 @@ export const photos = {
     src: playerCrouchTurfNight,
     alt: 'Jugadora en cuclillas sobre la grama sintética, sonriendo tras el entrenamiento nocturno',
   },
-  athleteCourt: {
-    src: athleteCourtNight,
-    alt: 'Deportista de pie en la cancha por la noche, con los puños cerrados y camiseta de entrenamiento',
+  playerWalk: {
+    src: playerWalkTurfNight,
+    alt: 'Jugadora caminando sobre la grama sintética durante un partido nocturno, con la tribuna al fondo',
   },
   coachGuiding: {
     src: coachGuidingSprint,
@@ -139,9 +139,10 @@ export const photos = {
     src: coachPortraitBoard,
     alt: 'Retrato del entrenador con la pizarra táctica en la mano, observando el entrenamiento',
   },
-  tacticalHuddle: {
-    src: tacticalBoardHuddle,
-    alt: 'Vista cenital del equipo reunido alrededor de la pizarra táctica durante una pausa',
+  /** The only landscape frame in the set — see the note in `Method.astro`. */
+  lockerHuddle: {
+    src: lockerHuddleBall,
+    alt: 'El entrenador con el balón en la mano hablando al equipo reunido en el camerino',
   },
 } satisfies Record<string, Photo>;
 

@@ -9,6 +9,7 @@ import peds from '../assets/sponsors/peds.png';
 import drogueriaRenacerJw from '../assets/sponsors/drogueria-renacer-jw.png';
 import draMarinelaMejia from '../assets/sponsors/dra-marinela-mejia.png';
 import aarci from '../assets/sponsors/aarci.png';
+import vergara from '../assets/sponsors/vergara.png';
 
 /**
  * "Marcas que confían en nosotros" — the client explicitly asked for this
@@ -42,7 +43,7 @@ export const sponsors: Sponsor[] = [
   { name: 'Phone Import', logo: ocPhoneImport, tone: 'light' },
   { name: 'Nick Insignares', note: 'Abogado', logo: nickInsignares, tone: 'dark' },
   { name: 'PEDS', logo: peds, tone: 'dark' },
-  { name: 'Vergara' },
+  { name: 'Vergara', note: 'Entertainment', logo: vergara, tone: 'light' },
   { name: 'Droguerías Renacer JW', logo: drogueriaRenacerJw, tone: 'light' },
   {
     name: 'Dra. Marinela Mejía',

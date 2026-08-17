@@ -244,7 +244,7 @@ export const reels: Reel[] = [
   {
     src: '/videos/training-03.mp4',
     poster: '/posters/training-03.jpg',
-    label: 'Jornadas AM y nocturnas',
+    label: 'Jornadas diurnas y nocturnas',
     caption: 'En distintos espacios deportivos de la ciudad',
   },
 ];

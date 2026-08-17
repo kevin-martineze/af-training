@@ -50,13 +50,17 @@ export const brand = {
 /**
  * Hero backdrop: three vertical clips side by side rather than one wide one.
  *
- * The footage is 464x832 phone video, and stretching a single clip across a
- * desktop viewport meant a 4x upscale. Three of them tile to 27:16 — near
- * enough to 16:9 that each panel only has to cover a third of the width, which
- * drops the upscale to about 1.4x. It also degrades cleanly: `minWidth` gates
- * how many panels exist at all, so a phone renders and downloads exactly one.
+ * Three clips tile to 27:16 — near enough to 16:9 that each panel only has to
+ * cover a third of the viewport width, which is what makes vertical footage
+ * usable as a wide backdrop at all. `minWidth` gates how many panels exist, so
+ * a phone renders and downloads exactly one, and playback is staggered by
+ * `delay` so the three never cut in unison.
  *
- * Playback is staggered by `delay` so the three do not pulse in unison.
+ * Panels two and three come from 2160x3840 camera masters (they arrive with a
+ * rotation matrix, so ffmpeg reports them as 3840x2160 until it decodes) and
+ * are encoded down to 1080x1920. Night footage is noisy and noise is expensive
+ * to encode, so they go through `hqdn3d` first — without it the same quality
+ * costs half again as many bytes.
  */
 export type HeroPanel = {
   src: string;
@@ -77,18 +81,18 @@ export const heroPanels: HeroPanel[] = [
     label: 'Circuito de coordinación y velocidad en un entrenamiento nocturno.',
   },
   {
-    src: '/videos/training-02.mp4',
-    poster: '/posters/training-02.jpg',
+    src: '/videos/hero-night-session.mp4',
+    poster: '/posters/hero-night-session.jpg',
     minWidth: 768,
     delay: 1.2,
-    label: 'Sesión de campo al mediodía.',
+    label: 'Jugadores calentando con balón en la cancha, bajo las luces.',
   },
   {
-    src: '/videos/training-01.mp4',
-    poster: '/posters/training-01.jpg',
+    src: '/videos/hero-night-warmup.mp4',
+    poster: '/posters/hero-night-warmup.jpg',
     minWidth: 1024,
     delay: 2.4,
-    label: 'Presentación de la indumentaria 2025/26.',
+    label: 'El grupo estirando en círculo al inicio de la sesión nocturna.',
   },
 ];
 

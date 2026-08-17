@@ -55,10 +55,9 @@ media-source/     camera masters, gitignored
 
 ### The hero backdrop
 
-Three vertical clips side by side, not one wide one. The available footage is
-464x832 phone video; stretched across a desktop viewport a single clip meant a
-4x upscale. Three of them tile to 27:16 — near enough to 16:9 that each panel
-covers only a third of the width, which brings the upscale down to about 1.4x.
+Three vertical clips side by side, not one wide one. Three of them tile to
+27:16 — near enough to 16:9 that each panel covers only a third of the width,
+which is what makes vertical footage usable as a wide backdrop at all.
 
 The panel count is responsive: one column below `md`, two to `lg`, three above.
 A panel only receives a `<source>` once its breakpoint actually matches, so a
@@ -66,8 +65,14 @@ phone downloads one clip rather than three. Playback is staggered by `delay` so
 the three never cut in unison. Under `prefers-reduced-motion: reduce` nothing is
 fetched and the posters stand in.
 
-The same three files serve the "En movimiento" rail lower down the page, which
-is a known duplication — see *Before launch*.
+Panels two and three are cut from 2160x3840 camera masters down to 1080x1920.
+Those masters arrive with a rotation matrix, so `ffprobe` reports 3840x2160
+until something actually decodes a frame — do not trust the header when
+recutting them. Night footage is also noisy, and noise is expensive to encode:
+running `hqdn3d` before x264 costs nothing visible under the hero veil and
+saves roughly a third of the bytes.
+
+Panel one is still 464x832 phone video, and it is the one a phone gets.
 
 `scripts/encode-hero.sh` is dormant. It cuts a wide loop from a 1920x1080
 master, which is what the hero used until the client asked to replace that
@@ -137,14 +142,15 @@ the crest's navy ring and so never touches the whites inside it).
   a hole in the grid before its file arrives.
 - Add the plans PDF to `public/` and point `plansPdf` at it to enable the
   download CTA.
-- The hero and the "En movimiento" rail now play the same three clips. Either
-  the rail needs different footage or it should go; showing the same three
-  videos twice on one page is the kind of thing a visitor notices.
-- The hero panels are 464x832 phone video. On a phone, where exactly one panel
-  fills the screen, that is roughly a 2.5x upscale — the worst case in the whole
-  layout. `media-source/vertical-1434.MOV` is 1080x1920 of the same kind of
-  material and would fix it; it is sitting there unused because the three
-  current clips were chosen deliberately.
+- The hero's first panel is `training-03`, which also plays in the "En
+  movimiento" rail further down. It is 464x832 phone video, and it is the only
+  panel a phone ever sees — roughly a 2.5x upscale, the worst case in the
+  layout, in the most visible slot. Both problems have the same one-line fix:
+  promote one of the two 1080x1920 panels to first. There is also an unused
+  `media-source/vertical-1434.MOV` at 1080x1920 if a third good clip is wanted.
+- Desktop pulls all three panels, about 5.3 MB of video. Phones pull 0.95 MB.
+  If that desktop figure has to come down, the panels are already denoised —
+  the next lever is dropping them to 864x1536.
 - Nothing on the page has been checked in a real browser at phone widths. The
   hero stat row had to be rebuilt once because of it; the rest of the layout is
   unverified below `lg`.

@@ -6,16 +6,16 @@ import { method } from '../data/services';
 /* Step copy lives in data/services.ts, transcribed from the client's document.
    The photo pairing is a presentation choice, so it stays here.
 
-   `position` matters on the last one: it is the only landscape frame in the set,
-   so the 4:5 card drops most of its width. Pulled left of centre the coach and
-   the ball sit in the middle of the card instead of being crowded out by the
-   red back in the right of the frame. */
+   Two of the five come from landscape frames and are pre-cropped to 4:5 in the
+   file — see the note in `data/media.ts`. That is why they carry their own
+   `widths`: their delivered width tops out where the crop does, and asking for
+   more only upscales. */
 const stepPhoto = [
-  { photo: photos.futsalTunnel, position: 'object-center' },
-  { photo: photos.teamCircleOverhead, position: 'object-center' },
-  { photo: photos.coachSideline, position: 'object-center' },
-  { photo: photos.coachBoardPortrait, position: 'object-center' },
-  { photo: photos.lockerHuddle, position: 'object-[32%_center]' },
+  { photo: photos.futsalDuel, widths: [340, 500, 683] },
+  { photo: photos.teamCircleOverhead, widths: [420, 640, 860, 1060] },
+  { photo: photos.coachSideline, widths: [420, 640, 860, 1060] },
+  { photo: photos.coachBoardPortrait, widths: [420, 640, 860, 1060] },
+  { photo: photos.lockerHuddle, widths: [420, 640, 819] },
 ];
 const steps = method.map((step, index) => ({ ...step, ...stepPhoto[index] }));
 ---
@@ -48,13 +48,10 @@ const steps = method.map((step, index) => ({ ...step, ...stepPhoto[index] }));
               <Image
                 src={step.photo.src}
                 alt={step.photo.alt}
-                widths={[420, 640, 860, 1060]}
+                widths={step.widths}
                 sizes="(min-width: 1024px) 26rem, 78vw"
                 loading="lazy"
-                class:list={[
-                  'photo aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-105',
-                  step.position,
-                ]}
+                class="photo aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-105"
               />
               <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/25 to-transparent" />
               <span class="display absolute top-5 left-6 text-5xl text-bone/25">{step.n}</span>

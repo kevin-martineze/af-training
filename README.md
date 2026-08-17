@@ -55,28 +55,29 @@ media-source/     camera masters, gitignored
 
 ### The hero loop
 
-The client supplied one 1080x1920, 23 s phone reel (`media-source/`). It is
-already a fast-cut edit, so the hero is a curated montage of its seven strongest
-beats rather than one continuous take — wide establishing shot, the club crest,
-two open action beats, a stride, a save, and the keeper set in goal.
+The master is a single continuous 1920x1080 take of a pitchside briefing
+(`media-source/hero-source.mp4`, gitignored). There is no montage to assemble
+and no seam to hide: the loop cuts back to the start on a framing that barely
+moves, which reads as a camera restart rather than a glitch.
 
-Cuts are hard throughout, matching the source's own grammar, which means the
-loop seam is just another cut and needs no crossfade.
-
-Two encodes ship:
+Three encodes ship, all cut from a twelve-second window:
 
 | File | Size | Used for |
 | --- | --- | --- |
-| `hero-wide.mp4` / `.webm` | 1080x608 | ≥768px, the horizontal framing |
-| `hero-portrait.mp4` | 720x1280 | <768px, the native vertical framing |
+| `hero-wide.mp4` / `.webm` | 1920x1080 | ≥768px, the native framing |
+| `hero-portrait.mp4` | 720x1280 | <768px, a 9:16 window out of the middle |
 
 A small inline script in `Hero.astro` attaches the right `<source>` at parse
 time, so phones never download the desktop cut. Under
 `prefers-reduced-motion: reduce` nothing is fetched at all and the poster
-stands in. 1080px is the source's ceiling, so the wide cut upscales on large
-displays — the footage is night-graded with grain over it, which hides it.
+stands in.
 
-To recut, edit the `BEATS` array and re-run the encode script (it needs
+The loop is the heaviest thing on the page — 2.7 MB for the mp4, 1.7 MB for the
+webm most browsers actually take. That budget is why it runs twelve seconds and
+not the master's full twenty-eight; lengthening it is the first thing that will
+cost first paint.
+
+To recut, edit `TRIM` in the encode script and re-run it (it needs
 `ffmpeg-static`, whose binary pnpm does not install by default:
 `node node_modules/ffmpeg-static/install.js`).
 
@@ -114,14 +115,17 @@ a landing page should carry in git). These carry the sections that matter most �
 the project grid, the three service cards and all five method steps — and their
 `widths` arrays request correspondingly larger variants.
 
-Framing is declared next to the photo rather than left to `object-cover`'s
-default: `Services.astro` and `Method.astro` each pair every image with an
-`object-*` position, because two of the shots crop badly when centred. Add new
-photos the same way.
+Where a landscape frame has to fill a portrait card, the crop is baked into the
+file rather than left to `object-cover`. CSS cropping throws away the discarded
+pixels *after* Astro has already generated the variant, so a 4:5 card fed a 3:2
+source receives barely half the width it asked for and looks soft. Pre-cropping
+means the delivered width is all subject. `physio-service-card`,
+`futsal-duel-court` and `locker-huddle-ball` are the three that need it, and
+they carry their own `widths` arrays because their ceiling is the crop, not the
+original.
 
-Anything shot on a white studio backdrop also needs `scrim`, which lays a flat
-wash over the image so the card sits at the same weight as the ones photographed
-on location.
+The team portraits are pre-cropped for a different reason — shared framing
+across the row. See the note in [`src/data/team.ts`](src/data/team.ts).
 
 The crest arrived as an opaque PNG on a light backdrop. It ships with that
 backdrop cut to transparency (flood fill seeded from the border, which stops at
@@ -144,5 +148,10 @@ the crest's navy ring and so never touches the whites inside it).
 - Nothing on the page has been checked in a real browser at phone widths. The
   hero stat row had to be rebuilt once because of it; the rest of the layout is
   unverified below `lg`.
+- Twenty-one photos from the original WhatsApp batch are still in
+  `src/assets/training/` with nothing importing them. They no longer ship —
+  Astro only emits what is imported — but they are dead weight in git. Removing
+  them is a one-liner once someone confirms none are wanted back:
+  `git rm $(comm -23 <(ls src/assets/training) <(grep -rho "training/[a-z0-9-]*\.jpeg" src | cut -d/ -f2 | sort -u) | sed 's|^|src/assets/training/|')`
 - The client mentioned testimonials. None have been supplied, so no testimonial
   section exists yet — inventing them was not an option.

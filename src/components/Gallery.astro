@@ -3,22 +3,42 @@ import { Image } from 'astro:assets';
 import { photos } from '../data/media';
 
 /**
- * Rows sum to 12 columns so the mosaic never leaves holes. Portrait sources get
- * 3:4 tiles; the one landscape source (team-talk-locker) takes the wide slot,
- * so no photo is cropped against its grain or upscaled past 1280px.
+ * Rows sum to 12 columns so the mosaic never leaves holes, and every tile in a
+ * row resolves to the same height: a 3-col tile at 3:4 is exactly as tall as a
+ * 6-col tile at 3:2, and a 4-col tile at 3:4 matches an 8-col tile at 3:2. That
+ * is what lets studio portraits and squad photos share a row without either
+ * being cropped against its grain.
+ *
+ * Below lg the grid collapses to two columns and every tile takes 3:4, so the
+ * landscape frames carry both ratios.
  */
+const WIDE = 'aspect-[3/4] lg:aspect-[3/2]';
+const TALL = 'aspect-[3/4]';
+
+/* A tile eight columns wide is nearly three times the area of a three-column
+   one, so they cannot share a `sizes`/`widths` pair without either starving the
+   big tiles or over-fetching for the small ones. Keyed by column count. */
+const COLS: Record<number, { span: string; sizes: string; widths: number[] }> = {
+  3: { span: 'lg:col-span-3', sizes: '(min-width: 1024px) 24vw, 46vw', widths: [300, 460, 700] },
+  4: { span: 'lg:col-span-4', sizes: '(min-width: 1024px) 32vw, 46vw', widths: [360, 560, 900] },
+  6: { span: 'lg:col-span-6', sizes: '(min-width: 1024px) 48vw, 46vw', widths: [480, 760, 1200, 1500] },
+  8: { span: 'lg:col-span-8', sizes: '(min-width: 1024px) 64vw, 46vw', widths: [640, 1000, 1500, 2000] },
+};
+
 const tiles = [
-  { photo: photos.p13Celebrate, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 10 },
-  { photo: photos.lockerDuo, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 18 },
-  { photo: photos.p29Up, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 8 },
+  { photo: photos.studioPointing, ...COLS[3], ratio: TALL, parallax: 10 },
+  { photo: photos.squadOrange, ...COLS[6], ratio: WIDE, parallax: 12 },
+  { photo: photos.studio13, ...COLS[3], ratio: TALL, parallax: 16 },
 
-  { photo: photos.pFlex, span: 'lg:col-span-3', ratio: 'aspect-[3/4]', parallax: 14 },
-  { photo: photos.teamTalk, span: 'lg:col-span-6', ratio: 'aspect-[3/4] lg:aspect-[3/2]', parallax: 12 },
-  { photo: photos.p90Silence, span: 'lg:col-span-3', ratio: 'aspect-[3/4]', parallax: 16 },
+  { photo: photos.studio29, ...COLS[3], ratio: TALL, parallax: 14 },
+  { photo: photos.squadWomen, ...COLS[6], ratio: WIDE, parallax: 9 },
+  { photo: photos.studio7, ...COLS[3], ratio: TALL, parallax: 11 },
 
-  { photo: photos.lockerBench, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 9 },
-  { photo: photos.p13Badge, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 13 },
-  { photo: photos.pKitAway, span: 'lg:col-span-4', ratio: 'aspect-[3/4]', parallax: 11 },
+  { photo: photos.studio26, ...COLS[4], ratio: TALL, parallax: 13 },
+  { photo: photos.squadYouth, ...COLS[8], ratio: WIDE, parallax: 8 },
+
+  { photo: photos.duoMedal, ...COLS[6], ratio: WIDE, parallax: 15 },
+  { photo: photos.squadNight, ...COLS[6], ratio: WIDE, parallax: 10 },
 ];
 ---
 
@@ -48,8 +68,8 @@ const tiles = [
               <Image
                 src={tile.photo.src}
                 alt={tile.photo.alt}
-                widths={[360, 560, 900]}
-                sizes="(min-width: 1024px) 32vw, 46vw"
+                widths={tile.widths}
+                sizes={tile.sizes}
                 loading="lazy"
                 data-parallax={tile.parallax}
                 class="photo size-full scale-[1.18] object-cover transition-[filter] duration-700 will-change-transform group-hover:brightness-110"

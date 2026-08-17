@@ -12,21 +12,34 @@ import { reels } from '../data/media';
         </h2>
       </div>
       <p class="max-w-xs text-sm leading-relaxed text-muted" data-reveal>
-        Clips grabados en cancha durante los entrenamientos de la semana.
+        La indumentaria con la que se trabaja y las sesiones de la semana, grabadas en
+        cancha.
       </p>
     </div>
 
-    <!-- Native resolution is 464x832, so the rail caps each card at 18rem.
+    <!-- Native resolution is 464x832, so the rail caps each card at 18rem. The
+         featured card runs wider because the kit clip is the only studio-clean
+         footage in the set and it opens the rail.
          Playback is gated by IntersectionObserver in motion.ts. -->
-    <div class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 lg:gap-6">
+    <div class="flex snap-x snap-mandatory items-start gap-4 overflow-x-auto pb-4 lg:gap-6">
       {
         reels.map((reel, index) => (
           <figure
-            class="group relative w-[62vw] shrink-0 snap-start sm:w-[40vw] md:w-[16rem] lg:w-[18rem]"
+            class:list={[
+              'group relative shrink-0 snap-start',
+              reel.featured
+                ? 'w-[72vw] sm:w-[46vw] md:w-[19rem] lg:w-[22rem]'
+                : 'w-[62vw] sm:w-[40vw] md:w-[16rem] lg:w-[18rem]',
+            ]}
             data-reveal
             data-reveal-delay={index * 0.08}
           >
-            <div class="grain relative overflow-hidden rounded-2xl border hairline">
+            <div
+              class:list={[
+                'grain relative overflow-hidden rounded-2xl border',
+                reel.featured ? 'border-brand-gold/45' : 'hairline',
+              ]}
+            >
               <video
                 data-reel
                 src={reel.src}
@@ -44,6 +57,12 @@ import { reels } from '../data/media';
                 <p class="mt-1 text-xs text-muted">{reel.caption}</p>
               </figcaption>
             </div>
+
+            {reel.note && (
+              <p class="mt-4 border-l-2 border-brand-gold/45 pl-4 text-sm leading-relaxed text-bone/80">
+                {reel.note}
+              </p>
+            )}
           </figure>
         ))
       }

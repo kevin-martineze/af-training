@@ -85,13 +85,18 @@ const stats = [
   </div>
 
   <div class="shell flex flex-1 flex-col justify-end pt-32 pb-14 lg:pb-20">
-    <div class="max-w-4xl">
+    <div>
       <p class="eyebrow mb-6 flex items-center gap-3 text-bone/70" data-reveal="fade">
         <span class="inline-block h-px w-10 bg-brand-red"></span>
         {site.city}
       </p>
 
-      <h1 class="display text-[clamp(2.9rem,10vw,9rem)] text-bone" data-split>
+      <!-- Full shell width on purpose. "evolucionar" is eleven characters set at
+           `wdth` 112, which runs wider than a 56rem column at these sizes — and
+           SplitText's line mask clips the overflow instead of letting it spill,
+           so the word lost its tail. The measure below is constrained per block
+           rather than by a wrapper around the headline. -->
+      <h1 class="display text-[clamp(2.9rem,9.4vw,8.5rem)] text-bone" data-split>
         Más que<br />
         entrenar,<br />
         <span class="text-brand-red">evolucionar</span>
@@ -153,8 +158,14 @@ const stats = [
       </div>
     </div>
 
-    <div class="mt-14 flex flex-wrap items-end justify-between gap-8 border-t hairline pt-8">
-      <dl class="grid max-w-lg flex-1 grid-cols-3 gap-6">
+    <!-- Stacks below lg. Previously this was one flex row and the stat list
+         carried `flex-1`, so its basis was 0 and it collapsed to whatever the
+         crest block left over — on a phone that was ~120px for three columns,
+         and the labels overlapped each other into noise. -->
+    <div
+      class="mt-14 flex flex-col gap-8 border-t hairline pt-8 lg:flex-row lg:flex-wrap lg:items-end lg:justify-between"
+    >
+      <dl class="grid w-full max-w-lg grid-cols-3 gap-4 sm:gap-6 lg:flex-1">
         {
           stats.map((stat, index) => (
             <div data-reveal data-reveal-delay={0.3 + index * 0.08}>
@@ -164,7 +175,9 @@ const stats = [
                   <span data-count={stat.value}>0</span>
                   {stat.suffix}
                 </span>
-                <span class="mt-2 block text-xs tracking-wide text-muted uppercase">
+                <span
+                  class="mt-2 block text-[0.65rem] tracking-wide text-muted uppercase sm:text-xs"
+                >
                   {stat.label}
                 </span>
               </dd>

@@ -4,15 +4,20 @@ import { photos } from '../data/media';
 import { method } from '../data/services';
 
 /* Step copy lives in data/services.ts, transcribed from the client's document.
-   The photo pairing is a presentation choice, so it stays here. */
+   The photo pairing is a presentation choice, so it stays here.
+
+   `position` matters on the last one: the huddle shot is a 9:16 phone frame, so
+   a centred 4:5 crop pushes the tactical board down behind the caption. Anchored
+   to the bottom the board lands mid-card and the parked motorbikes at the top of
+   the frame fall away. */
 const stepPhoto = [
-  photos.staffLocker,
-  photos.coachBoard,
-  photos.coachSprint,
-  photos.teamTalk,
-  photos.stands,
+  { photo: photos.futsalTunnel, position: 'object-center' },
+  { photo: photos.teamCircleOverhead, position: 'object-center' },
+  { photo: photos.coachSideline, position: 'object-center' },
+  { photo: photos.coachBoardPortrait, position: 'object-center' },
+  { photo: photos.tacticalHuddle, position: 'object-bottom' },
 ];
-const steps = method.map((step, index) => ({ ...step, photo: stepPhoto[index] }));
+const steps = method.map((step, index) => ({ ...step, ...stepPhoto[index] }));
 ---
 
 <section id="metodo" data-rail class="relative overflow-hidden bg-ink-900 py-24 lg:min-h-screen lg:py-0">
@@ -43,10 +48,13 @@ const steps = method.map((step, index) => ({ ...step, photo: stepPhoto[index] })
               <Image
                 src={step.photo.src}
                 alt={step.photo.alt}
-                widths={[420, 640, 860]}
+                widths={[420, 640, 860, 1060]}
                 sizes="(min-width: 1024px) 26rem, 78vw"
                 loading="lazy"
-                class="photo aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-105"
+                class:list={[
+                  'photo aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-105',
+                  step.position,
+                ]}
               />
               <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/25 to-transparent" />
               <span class="display absolute top-5 left-6 text-5xl text-bone/25">{step.n}</span>

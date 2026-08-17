@@ -3,7 +3,10 @@ import { Image } from 'astro:assets';
 import { serviceGroups, audience } from '../data/services';
 import { photos } from '../data/media';
 
-const groupPhoto = [photos.coachSprint, photos.coachBoard, photos.staffLocker];
+/* One photo per intent: the field session, the professional setting, and the
+   physio who runs the health side. The physio file is already cropped to this
+   card's framing, so all three sit on the same centred `object-cover`. */
+const groupPhoto = [photos.coachGuiding, photos.stadiumWarmup, photos.physioPortrait];
 ---
 
 <section id="servicios" class="relative py-24 lg:py-40">
@@ -33,7 +36,7 @@ const groupPhoto = [photos.coachSprint, photos.coachBoard, photos.staffLocker];
               <Image
                 src={groupPhoto[index].src}
                 alt={groupPhoto[index].alt}
-                widths={[420, 640]}
+                widths={[420, 640, 900, 1200]}
                 sizes="(min-width: 1024px) 30vw, 92vw"
                 loading="lazy"
                 class="photo aspect-[16/10] w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-105"

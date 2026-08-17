@@ -1,12 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { team } from '../data/team';
-import { photos } from '../data/media';
-
-/* No individual headshots have been supplied yet, so each card pairs with a
-   photo from the existing set. Swapping in a real portrait later is a one-line
-   change per member — the card geometry does not depend on which photo it is. */
-const portrait = [photos.coachBoard, photos.coachSprint, photos.staffNight, photos.staffStanding];
 ---
 
 <section id="equipo" class="relative overflow-hidden bg-ink-900 py-24 lg:py-40">
@@ -37,10 +31,9 @@ const portrait = [photos.coachBoard, photos.coachSprint, photos.staffNight, phot
           >
             <div class="grain relative overflow-hidden">
               <Image
-                src={portrait[index].src}
-                alt=""
-                aria-hidden="true"
-                widths={[320, 520]}
+                src={member.portrait}
+                alt={member.alt}
+                widths={[320, 520, 720, 1000]}
                 sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 92vw"
                 loading="lazy"
                 class="photo aspect-[4/5] w-full object-cover grayscale transition-all duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-105 group-hover:grayscale-0"

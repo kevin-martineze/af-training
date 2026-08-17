@@ -32,6 +32,7 @@ src/
   assets/
     brand/        crest and the 2026 kit render
     sponsors/     supporter logos
+    team/         marks belonging to individual team members
     training/     photography, imported through astro:assets so it gets
                   optimised into webp/avif with a responsive srcset
   components/     one file per page section
@@ -100,12 +101,27 @@ blank. `prefers-reduced-motion` is honoured throughout.
 
 ### Working with the photography
 
-The source photos are WhatsApp exports capped at 1280px on the long edge. The
-layout is built around that ceiling: nothing is rendered wider than roughly
-900 CSS px at 1x, background photos are blurred so upscaling is invisible, and a
-grain overlay masks compression artefacts. If higher-resolution originals become
-available, replacing the files in `src/assets/training/` is enough — the `widths`
-arrays already request larger variants where they would help.
+`src/assets/training/` holds two generations of files.
+
+The first batch are WhatsApp exports capped at 1280px on the long edge. Wherever
+they are still used the layout works around that ceiling: nothing is rendered
+wider than roughly 900 CSS px at 1x, background photos are blurred so upscaling
+is invisible, and a grain overlay masks compression artefacts.
+
+The second batch are camera originals, re-encoded to a 2000px long edge on the
+way into the repo (the largest arrived at 3650x5489 and 7 MB, which is more than
+a landing page should carry in git). These carry the sections that matter most —
+the project grid, the three service cards and all five method steps — and their
+`widths` arrays request correspondingly larger variants.
+
+Framing is declared next to the photo rather than left to `object-cover`'s
+default: `Services.astro` and `Method.astro` each pair every image with an
+`object-*` position, because two of the shots crop badly when centred. Add new
+photos the same way.
+
+Anything shot on a white studio backdrop also needs `scrim`, which lays a flat
+wash over the image so the card sits at the same weight as the ones photographed
+on location.
 
 The crest arrived as an opaque PNG on a light backdrop. It ships with that
 backdrop cut to transparency (flood fill seeded from the border, which stops at
@@ -115,12 +131,16 @@ the crest's navy ring and so never touches the whites inside it).
 
 - Point `site` in `astro.config.mjs` at the production domain — the sitemap,
   canonical URLs and `og:image` are all built from it.
-- Drop the real sponsor logos into `src/assets/sponsors/` and wire them up in
-  `src/data/sponsors.ts`. Brands without a logo render as wordmarks, so the
-  section already looks finished; logos are an upgrade, not a blocker.
+- Confirm the four marks sitting unused in `src/assets/sponsors/`
+  (`clutch-turbinas-del-sur`, `ew-william-ortiz`, `gutysport`, `veinticinco`).
+  The client sent them with the logo batch but none appears in the list they
+  gave for `data/sponsors.ts`, so they are not on the page — adding a brand is a
+  claim about a real relationship. One line each in `sponsors.ts` once confirmed.
+- Vergara is the last brand still rendering as a wordmark; no logo file arrived.
 - Add the plans PDF to `public/` and point `plansPdf` at it to enable the
   download CTA.
-- Team cards reuse existing photography. Real headshots for the four members
-  would be a one-line swap each in `Team.astro`.
+- Nothing on the page has been checked in a real browser at phone widths. The
+  hero stat row had to be rebuilt once because of it; the rest of the layout is
+  unverified below `lg`.
 - The client mentioned testimonials. None have been supplied, so no testimonial
   section exists yet — inventing them was not an option.

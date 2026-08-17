@@ -26,6 +26,19 @@ import portraitDtArmsCrossed from '../assets/training/portrait-dt-arms-crossed.j
 import crest from '../assets/brand/crest-andres-lara.png';
 import kit2026 from '../assets/brand/kit-2026.png';
 
+/* Second drop from the client. Unlike the first batch these are camera
+   originals, so they carry real detail — see the note on `photos` below. */
+import playerCrouchTurfNight from '../assets/training/player-crouch-turf-night.jpeg';
+import athleteCourtNight from '../assets/training/athlete-court-night.jpeg';
+import coachGuidingSprint from '../assets/training/coach-guiding-sprint.jpeg';
+import stadiumWarmupPf from '../assets/training/stadium-warmup-pf.jpeg';
+import physioServiceCard from '../assets/training/physio-service-card.jpeg';
+import futsalTunnelFocus from '../assets/training/futsal-tunnel-focus.jpeg';
+import teamCircleOverhead from '../assets/training/team-circle-overhead.jpeg';
+import coachSidelineStadium from '../assets/training/coach-sideline-stadium.jpeg';
+import coachPortraitBoard from '../assets/training/coach-portrait-board.jpeg';
+import tacticalBoardHuddle from '../assets/training/tactical-board-huddle.jpeg';
+
 export type Photo = { src: ImageMetadata; alt: string };
 
 export const brand = {
@@ -56,8 +69,11 @@ export const heroVideo = {
  * Every photo used on the site, with the alt text written once so it stays
  * consistent wherever the image is reused.
  *
- * Note: the source files are WhatsApp exports capped at 1280px on the long
- * edge. Nothing here should be rendered wider than ~900 CSS px at 1x.
+ * Two generations live here. The originals are WhatsApp exports capped at
+ * 1280px on the long edge, so anything using them still has to stay under
+ * ~900 CSS px at 1x. The second batch (grouped at the bottom) are camera
+ * originals re-encoded to a 2000px long edge, so those can be rendered larger
+ * and requested at higher `widths` without going soft.
  */
 export const photos = {
   coachPortrait: { src: coachPortraitElite, alt: 'El entrenador de perfil junto a la cancha, camiseta Elite' },
@@ -83,18 +99,78 @@ export const photos = {
   pPointing: { src: portraitPointing, alt: 'Retrato de estudio de una jugadora señalando a cámara' },
   pKitAway: { src: portraitKitAwayFull, alt: 'Retrato de estudio de cuerpo entero con la camiseta visitante' },
   pDt: { src: portraitDtArmsCrossed, alt: 'Retrato de estudio del director técnico' },
+
+  /* --- Camera originals, 2000px long edge ------------------------------ */
+  playerCrouch: {
+    src: playerCrouchTurfNight,
+    alt: 'Jugadora en cuclillas sobre la grama sintética, sonriendo tras el entrenamiento nocturno',
+  },
+  athleteCourt: {
+    src: athleteCourtNight,
+    alt: 'Deportista de pie en la cancha por la noche, con los puños cerrados y camiseta de entrenamiento',
+  },
+  coachGuiding: {
+    src: coachGuidingSprint,
+    alt: 'El entrenador acompañando a una jugadora con la mano en la espalda durante un ejercicio de carrera',
+  },
+  stadiumWarmup: {
+    src: stadiumWarmupPf,
+    alt: 'Calentamiento con balón en el estadio, supervisado por el preparador físico',
+  },
+  /* Cropped tight from the studio portrait: at full length the face landed too
+     small in the 16:10 service card to read at all. */
+  physioPortrait: {
+    src: physioServiceCard,
+    alt: 'Retrato de estudio del fisioterapeuta del equipo, con uniforme negro',
+  },
+  futsalTunnel: {
+    src: futsalTunnelFocus,
+    alt: 'Jugador concentrado con el balón antes de saltar a la cancha de fútbol sala',
+  },
+  teamCircleOverhead: {
+    src: teamCircleOverhead,
+    alt: 'Vista cenital del entrenador hablando con las jugadoras sentadas en círculo sobre la grama',
+  },
+  coachSideline: {
+    src: coachSidelineStadium,
+    alt: 'El entrenador dando indicaciones desde la banda durante un partido en el estadio',
+  },
+  coachBoardPortrait: {
+    src: coachPortraitBoard,
+    alt: 'Retrato del entrenador con la pizarra táctica en la mano, observando el entrenamiento',
+  },
+  tacticalHuddle: {
+    src: tacticalBoardHuddle,
+    alt: 'Vista cenital del equipo reunido alrededor de la pizarra táctica durante una pausa',
+  },
 } satisfies Record<string, Photo>;
 
 /**
  * Short vertical clips shot on phone (464x832). They are deliberately shown
  * small, in a stories-style rail — blowing them up would look broken.
+ *
+ * The kit clip leads the rail as `featured`: it is the only studio-clean
+ * footage in the set, so it gets the wider card and carries the standard the
+ * other two then show in the field. `note` is the line inside its card.
  */
-export const reels = [
+export type Reel = {
+  src: string;
+  poster: string;
+  label: string;
+  caption: string;
+  /** Extra line rendered under the card. Only the featured reel uses it. */
+  note?: string;
+  featured?: boolean;
+};
+
+export const reels: Reel[] = [
   {
     src: '/videos/training-01.mp4',
     poster: '/posters/training-01.jpg',
     label: 'Uniforme 25/26',
-    caption: 'Presentación de indumentaria',
+    caption: 'La identidad con la que se entrena',
+    note: 'Entrenamiento de calidad, con método, seguimiento y respaldo profesional.',
+    featured: true,
   },
   {
     src: '/videos/training-02.mp4',
@@ -108,4 +184,4 @@ export const reels = [
     label: 'Entreno nocturno',
     caption: 'Circuito de coordinación y velocidad',
   },
-] as const;
+];

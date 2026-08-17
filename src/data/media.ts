@@ -48,17 +48,49 @@ export const brand = {
 };
 
 /**
- * Hero loop, cut by scripts/encode-hero.sh from a 1920x1080 master. Desktop
- * gets the native framing; phones get a 9:16 window out of its middle rather
- * than a sliver of a letterboxed 16:9. Posters are each file's own first frame.
+ * Hero backdrop: three vertical clips side by side rather than one wide one.
+ *
+ * The footage is 464x832 phone video, and stretching a single clip across a
+ * desktop viewport meant a 4x upscale. Three of them tile to 27:16 — near
+ * enough to 16:9 that each panel only has to cover a third of the width, which
+ * drops the upscale to about 1.4x. It also degrades cleanly: `minWidth` gates
+ * how many panels exist at all, so a phone renders and downloads exactly one.
+ *
+ * Playback is staggered by `delay` so the three do not pulse in unison.
  */
-export const heroVideo = {
-  wide: { mp4: '/videos/hero-wide.mp4', webm: '/videos/hero-wide.webm', poster: '/posters/hero-wide.jpg' },
-  portrait: { mp4: '/videos/hero-portrait.mp4', poster: '/posters/hero-portrait.jpg' },
-  /** Describes the loop for anyone who cannot see it. */
-  label:
-    'El entrenador explicando una jugada en la pizarra táctica a las jugadoras, junto a la cancha.',
-} as const;
+export type HeroPanel = {
+  src: string;
+  poster: string;
+  /** Viewport width at which this panel appears. 0 means always. */
+  minWidth: number;
+  /** Seconds into the clip to start, so the three never move together. */
+  delay: number;
+  label: string;
+};
+
+export const heroPanels: HeroPanel[] = [
+  {
+    src: '/videos/training-03.mp4',
+    poster: '/posters/training-03.jpg',
+    minWidth: 0,
+    delay: 0,
+    label: 'Circuito de coordinación y velocidad en un entrenamiento nocturno.',
+  },
+  {
+    src: '/videos/training-02.mp4',
+    poster: '/posters/training-02.jpg',
+    minWidth: 768,
+    delay: 1.2,
+    label: 'Sesión de campo al mediodía.',
+  },
+  {
+    src: '/videos/training-01.mp4',
+    poster: '/posters/training-01.jpg',
+    minWidth: 1024,
+    delay: 2.4,
+    label: 'Presentación de la indumentaria 2025/26.',
+  },
+];
 
 /**
  * Every photo used on the site, with the alt text written once so it stays

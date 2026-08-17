@@ -13,7 +13,10 @@ interface Props {
 const { title, description = site.description } = Astro.props;
 const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
-const ogImage = new URL('/posters/hero-wide.jpg', Astro.site ?? Astro.url).href;
+/* A dedicated 1200x628 crop rather than a hero frame: the hero is vertical
+   footage now, and WhatsApp — where most of this link gets shared — crops a
+   share card to roughly 1.91:1 and would have cut the subject out. */
+const ogImage = new URL('/og.jpg', Astro.site ?? Astro.url).href;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -63,10 +66,11 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- The hero loop is the largest paint on the page; warming the connection
-         is pointless (same origin) but the poster is worth having early. -->
-    <link rel="preload" as="image" href="/posters/hero-wide.jpg" media="(min-width: 768px)" />
-    <link rel="preload" as="image" href="/posters/hero-portrait.jpg" media="(max-width: 767px)" />
+    <!-- The hero is the largest paint on the page. Only the first panel is
+         guaranteed to be on screen, so only its poster is worth preloading —
+         the other two are behind breakpoints and would be wasted bytes on a
+         phone. -->
+    <link rel="preload" as="image" href="/posters/training-03.jpg" />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   </head>

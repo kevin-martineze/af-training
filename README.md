@@ -53,33 +53,25 @@ docs/             client's institutional document
 media-source/     camera masters, gitignored
 ```
 
-### The hero loop
+### The hero backdrop
 
-The master is a single continuous 1920x1080 take of a pitchside briefing
-(`media-source/hero-source.mp4`, gitignored). There is no montage to assemble
-and no seam to hide: the loop cuts back to the start on a framing that barely
-moves, which reads as a camera restart rather than a glitch.
+Three vertical clips side by side, not one wide one. The available footage is
+464x832 phone video; stretched across a desktop viewport a single clip meant a
+4x upscale. Three of them tile to 27:16 — near enough to 16:9 that each panel
+covers only a third of the width, which brings the upscale down to about 1.4x.
 
-Three encodes ship, all cut from a twelve-second window:
+The panel count is responsive: one column below `md`, two to `lg`, three above.
+A panel only receives a `<source>` once its breakpoint actually matches, so a
+phone downloads one clip rather than three. Playback is staggered by `delay` so
+the three never cut in unison. Under `prefers-reduced-motion: reduce` nothing is
+fetched and the posters stand in.
 
-| File | Size | Used for |
-| --- | --- | --- |
-| `hero-wide.mp4` / `.webm` | 1920x1080 | ≥768px, the native framing |
-| `hero-portrait.mp4` | 720x1280 | <768px, a 9:16 window out of the middle |
+The same three files serve the "En movimiento" rail lower down the page, which
+is a known duplication — see *Before launch*.
 
-A small inline script in `Hero.astro` attaches the right `<source>` at parse
-time, so phones never download the desktop cut. Under
-`prefers-reduced-motion: reduce` nothing is fetched at all and the poster
-stands in.
-
-The loop is the heaviest thing on the page — 2.7 MB for the mp4, 1.7 MB for the
-webm most browsers actually take. That budget is why it runs twelve seconds and
-not the master's full twenty-eight; lengthening it is the first thing that will
-cost first paint.
-
-To recut, edit `TRIM` in the encode script and re-run it (it needs
-`ffmpeg-static`, whose binary pnpm does not install by default:
-`node node_modules/ffmpeg-static/install.js`).
+`scripts/encode-hero.sh` is dormant. It cuts a wide loop from a 1920x1080
+master, which is what the hero used until the client asked to replace that
+footage. It is kept ready for the reshoot.
 
 ### Animation
 
@@ -145,6 +137,14 @@ the crest's navy ring and so never touches the whites inside it).
   a hole in the grid before its file arrives.
 - Add the plans PDF to `public/` and point `plansPdf` at it to enable the
   download CTA.
+- The hero and the "En movimiento" rail now play the same three clips. Either
+  the rail needs different footage or it should go; showing the same three
+  videos twice on one page is the kind of thing a visitor notices.
+- The hero panels are 464x832 phone video. On a phone, where exactly one panel
+  fills the screen, that is roughly a 2.5x upscale — the worst case in the whole
+  layout. `media-source/vertical-1434.MOV` is 1080x1920 of the same kind of
+  material and would fix it; it is sitting there unused because the three
+  current clips were chosen deliberately.
 - Nothing on the page has been checked in a real browser at phone widths. The
   hero stat row had to be rebuilt once because of it; the rest of the layout is
   unverified below `lg`.

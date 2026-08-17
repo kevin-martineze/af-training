@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# DORMANT. The hero no longer uses a wide clip — it tiles three vertical ones,
+# see data/media.ts. The client did not like the horizontal footage and is
+# reshooting it; this script is kept ready for that replacement. Point SRC at
+# the new master, run it, and switch Hero.astro back to a single <video>.
+#
 # Cuts the hero loop from the camera master in media-source/.
 #
 # The source is a single continuous 1920x1080 take of a pitchside briefing —

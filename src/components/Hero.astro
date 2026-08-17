@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import { brand, heroVideo } from '../data/media';
+import { brand, heroPanels } from '../data/media';
 import { site, whatsappLink } from '../data/site';
 
 /* Figures that are true and checkable from the client's document, so nothing
@@ -13,61 +13,71 @@ const stats = [
 ---
 
 <section data-hero class="relative isolate grain flex min-h-[100svh] flex-col overflow-hidden">
-  <!-- Video layer. object-cover on a 1080px-wide source: the footage is night
-       grade with grain over it, so the upscale on large displays never shows. -->
-  <div data-hero-media class="absolute inset-0 -z-20 will-change-transform">
-    <video
-      data-hero-video
-      class="size-full object-cover"
-      poster={heroVideo.wide.poster}
-      data-poster-wide={heroVideo.wide.poster}
-      data-poster-portrait={heroVideo.portrait.poster}
-      data-wide-webm={heroVideo.wide.webm}
-      data-wide-mp4={heroVideo.wide.mp4}
-      data-portrait-mp4={heroVideo.portrait.mp4}
-      muted
-      loop
-      playsinline
-      autoplay
-      preload="none"
-      aria-label={heroVideo.label}
-    ></video>
+  <!-- Video layer: a strip of vertical panels. One column on phones, two from
+       md, three from lg — see the note in data/media.ts for why this beats one
+       wide clip. Each panel keeps its own 9:16 frame under object-cover, so the
+       crop is slight at every breakpoint. -->
+  <div
+    data-hero-media
+    class="absolute inset-0 -z-20 grid grid-cols-1 will-change-transform md:grid-cols-2 lg:grid-cols-3"
+  >
+    {
+      heroPanels.map((panel) => (
+        <video
+          data-hero-video
+          data-src={panel.src}
+          data-min-width={panel.minWidth}
+          data-delay={panel.delay}
+          class:list={[
+            'size-full object-cover',
+            panel.minWidth === 768 && 'hidden md:block',
+            panel.minWidth === 1024 && 'hidden lg:block',
+          ]}
+          poster={panel.poster}
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-label={panel.label}
+        />
+      ))
+    }
   </div>
 
-  <!-- Sources are attached at parse time so phones never fetch the desktop cut,
-       and reduced-motion visitors keep the poster with nothing downloaded. -->
+  <!-- A panel only gets a source once its breakpoint is actually met, so a
+       phone downloads one clip instead of three. Reduced-motion visitors keep
+       the posters and download nothing at all. -->
   <script is:inline>
     (function () {
-      var v = document.querySelector('[data-hero-video]');
-      if (!v) return;
+      var panels = document.querySelectorAll('[data-hero-video]');
+      if (!panels.length) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-      var portrait = window.matchMedia('(max-width: 767px)').matches;
-      if (portrait) v.poster = v.dataset.posterPortrait;
+      Array.prototype.forEach.call(panels, function (v) {
+        var min = Number(v.dataset.minWidth || 0);
+        if (min && !window.matchMedia('(min-width: ' + min + 'px)').matches) return;
 
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        v.removeAttribute('autoplay');
-        return;
-      }
-
-      var add = function (src, type) {
         var s = document.createElement('source');
-        s.src = src;
-        s.type = type;
+        s.src = v.dataset.src;
+        s.type = 'video/mp4';
         v.appendChild(s);
-      };
 
-      if (portrait) {
-        add(v.dataset.portraitMp4, 'video/mp4');
-      } else {
-        add(v.dataset.wideWebm, 'video/webm');
-        add(v.dataset.wideMp4, 'video/mp4');
-      }
+        // Staggered so the three panels never cut in unison.
+        v.addEventListener(
+          'loadedmetadata',
+          function () {
+            var d = Number(v.dataset.delay || 0);
+            if (d && d < v.duration) v.currentTime = d;
+          },
+          { once: true },
+        );
 
-      v.preload = 'auto';
-      v.load();
-      // Autoplay can still be refused (low power mode); the poster stays put.
-      var play = v.play();
-      if (play) play.catch(function () {});
+        v.preload = 'auto';
+        v.load();
+        // Autoplay can still be refused (low power mode); the poster stays put.
+        var play = v.play();
+        if (play) play.catch(function () {});
+      });
     })();
   </script>
 

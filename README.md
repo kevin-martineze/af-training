@@ -65,14 +65,20 @@ phone downloads one clip rather than three. Playback is staggered by `delay` so
 the three never cut in unison. Under `prefers-reduced-motion: reduce` nothing is
 fetched and the posters stand in.
 
-Panels two and three are cut from 2160x3840 camera masters down to 1080x1920.
-Those masters arrive with a rotation matrix, so `ffprobe` reports 3840x2160
-until something actually decodes a frame — do not trust the header when
-recutting them. Night footage is also noisy, and noise is expensive to encode:
-running `hqdn3d` before x264 costs nothing visible under the hero veil and
-saves roughly a third of the bytes.
+Panels one and three are two windows of the same 23 s master, cut from scenes
+far enough apart that they read as different clips, and separated by panel two
+so they are never side by side. That master's last second is a logo card and
+sits outside both cuts on purpose.
 
-Panel one is still 464x832 phone video, and it is the one a phone gets.
+All three encode to 900x1600 with `hqdn3d` ahead of x264. Night footage is noisy
+and noise is expensive to encode; the denoise pass costs nothing visible under
+the hero veil and saves roughly a third of the bytes. One master arrives with a
+rotation matrix, so `ffprobe` reports 3840x2160 until something actually decodes
+a frame — do not trust the header when recutting.
+
+Masters live in `media-source/`, which is gitignored. Keep them out of
+`public/`: everything there is copied verbatim into `dist`, so one stray
+147 MB `.MOV` takes the build from 19 MB to 159 MB.
 
 `scripts/encode-hero.sh` is dormant. It cuts a wide loop from a 1920x1080
 master, which is what the hero used until the client asked to replace that
@@ -142,15 +148,13 @@ the crest's navy ring and so never touches the whites inside it).
   a hole in the grid before its file arrives.
 - Add the plans PDF to `public/` and point `plansPdf` at it to enable the
   download CTA.
-- The hero's first panel is `training-03`, which also plays in the "En
-  movimiento" rail further down. It is 464x832 phone video, and it is the only
-  panel a phone ever sees — roughly a 2.5x upscale, the worst case in the
-  layout, in the most visible slot. Both problems have the same one-line fix:
-  promote one of the two 1080x1920 panels to first. There is also an unused
-  `media-source/vertical-1434.MOV` at 1080x1920 if a third good clip is wanted.
-- Desktop pulls all three panels, about 5.3 MB of video. Phones pull 0.95 MB.
-  If that desktop figure has to come down, the panels are already denoised —
-  the next lever is dropping them to 864x1536.
+- Desktop pulls all three hero panels, about 5.6 MB of video; phones pull only
+  the first, 1.8 MB. If the desktop figure has to come down, the panels are
+  already denoised and downscaled — the next lever is shortening them below
+  nine seconds.
+- `media-source/night-session-4k.MP4` is a second 2160x3840 night clip that no
+  panel currently uses. It is the obvious swap if one of the three starts to
+  feel stale.
 - Nothing on the page has been checked in a real browser at phone widths. The
   hero stat row had to be rebuilt once because of it; the rest of the layout is
   unverified below `lg`.

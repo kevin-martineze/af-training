@@ -56,11 +56,16 @@ export const brand = {
  * a phone renders and downloads exactly one, and playback is staggered by
  * `delay` so the three never cut in unison.
  *
- * Panels two and three come from 2160x3840 camera masters (they arrive with a
- * rotation matrix, so ffmpeg reports them as 3840x2160 until it decodes) and
- * are encoded down to 1080x1920. Night footage is noisy and noise is expensive
- * to encode, so they go through `hqdn3d` first — without it the same quality
- * costs half again as many bytes.
+ * Panels one and three are two separate windows of the same 23s master, cut
+ * from scenes far enough apart that they read as different clips — arrival and
+ * ball work — and placed either side of panel two so they are never adjacent.
+ * The master's last second is a logo card and is deliberately outside both cuts.
+ *
+ * All three are encoded to 900x1600. Night footage is noisy and noise is
+ * expensive to encode, so they go through `hqdn3d` first; without it the same
+ * quality costs about half again as many bytes. One of the masters arrives with
+ * a rotation matrix, so ffprobe reports 3840x2160 until something decodes a
+ * frame — do not trust the header when recutting.
  */
 export type HeroPanel = {
   src: string;
@@ -74,25 +79,25 @@ export type HeroPanel = {
 
 export const heroPanels: HeroPanel[] = [
   {
-    src: '/videos/training-03.mp4',
-    poster: '/posters/training-03.jpg',
+    src: '/videos/hero-night-arrival.mp4',
+    poster: '/posters/hero-night-arrival.jpg',
     minWidth: 0,
     delay: 0,
-    label: 'Circuito de coordinación y velocidad en un entrenamiento nocturno.',
-  },
-  {
-    src: '/videos/hero-night-session.mp4',
-    poster: '/posters/hero-night-session.jpg',
-    minWidth: 768,
-    delay: 1.2,
-    label: 'Jugadores calentando con balón en la cancha, bajo las luces.',
+    label: 'El entrenador y el preparador físico conversando al borde de la cancha.',
   },
   {
     src: '/videos/hero-night-warmup.mp4',
     poster: '/posters/hero-night-warmup.jpg',
+    minWidth: 768,
+    delay: 1.2,
+    label: 'El grupo estirando al inicio de la sesión nocturna.',
+  },
+  {
+    src: '/videos/hero-night-drill.mp4',
+    poster: '/posters/hero-night-drill.jpg',
     minWidth: 1024,
-    delay: 2.4,
-    label: 'El grupo estirando en círculo al inicio de la sesión nocturna.',
+    delay: 3.5,
+    label: 'Una jugadora conduciendo el balón en un ejercicio con conos.',
   },
 ];
 

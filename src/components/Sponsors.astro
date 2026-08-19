@@ -1,7 +1,6 @@
 ---
 import { Image } from 'astro:assets';
 import { sponsors } from '../data/sponsors';
-import { brand } from '../data/media';
 
 /* The client asked for this wording over "Patrocinadores": these are brands
    that back the project, and the section should give them visibility without
@@ -18,24 +17,27 @@ import { brand } from '../data/media';
         </h2>
         <p class="mt-7 max-w-sm text-sm leading-relaxed text-muted" data-reveal>
           Empresas y profesionales que creen en el proyecto, respaldan el trabajo y hacen
-          parte del crecimiento.
+          parte del crecimiento. Todas van en la indumentaria 2026.
         </p>
 
-        <figure class="mt-10" data-reveal data-reveal-delay="0.1">
-          <div class="grain relative overflow-hidden rounded-2xl border hairline">
-            <Image
-              src={brand.kit.src}
-              alt={brand.kit.alt}
-              widths={[520, 760]}
-              sizes="(min-width: 1024px) 32vw, 92vw"
-              loading="lazy"
-              class="w-full object-cover"
-            />
-          </div>
-          <figcaption class="mt-3 text-xs text-muted">
-            Indumentaria 2026, con las marcas que acompañan el proyecto.
-          </figcaption>
-        </figure>
+        <a
+          href="#indumentaria"
+          class="group mt-7 inline-flex items-center gap-2 text-sm text-bone transition-colors duration-300 hover:text-brand-red"
+          data-reveal
+          data-reveal-delay="0.1"
+        >
+          Ver la indumentaria
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            aria-hidden="true"
+            class="transition-transform duration-300 group-hover:translate-x-1"
+          >
+            <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"></path>
+          </svg>
+        </a>
       </div>
 
       <!-- One cell per brand. Brands with a logo file show it; the rest render

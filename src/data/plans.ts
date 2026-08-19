@@ -90,3 +90,18 @@ export const plans: Plan[] = [
 
 /** Path to the downloadable PDF. Null hides the download CTA. */
 export const plansPdf: string | null = null;
+
+/**
+ * The 2026 kit, sold on its own rather than folded into a plan.
+ *
+ * Unlike everything else in this file the price did not come from the
+ * institutional document — the client gave it directly — so there is nothing to
+ * check it against. `includes` is what the render in src/assets/brand actually
+ * shows, which is the only claim the page makes about what the money buys.
+ */
+export const kit = {
+  name: 'Indumentaria 2026',
+  price: 90000,
+  currency: 'COP',
+  includes: ['Camiseta', 'Pantaloneta'],
+} as const;

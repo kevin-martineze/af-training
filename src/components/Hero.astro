@@ -105,8 +105,18 @@ const stats = [
            `wdth` 112, which runs wider than a 56rem column at these sizes — and
            SplitText's line mask clips the overflow instead of letting it spill,
            so the word lost its tail. The measure below is constrained per block
-           rather than by a wrapper around the headline. -->
-      <h1 class="display text-[clamp(2.9rem,9.4vw,8.5rem)] text-bone" data-split>
+           rather than by a wrapper around the headline.
+
+           The `min()` is what stops that happening on a phone. "evolucionar"
+           is one unbreakable word and measures 8.26em at these axis settings,
+           so it only fits while the size stays under (shell width / 8.26). The
+           shell runs 92vw wide once the gutter is on its 4vw ramp and never
+           narrower than 90vw down to a 320px viewport, so 10.4vw is the largest
+           coefficient that clears both. It binds below roughly 494px; above
+           that the design ramp is the smaller of the two and takes over.
+           Without it the 2.9rem floor rendered 46.4px on a 402px iPhone, 13px
+           more than fits, and the line mask ate the final R. -->
+      <h1 class="display text-[min(10.4vw,clamp(2.9rem,9.4vw,8.5rem))] text-bone" data-split>
         Más que<br />
         entrenar,<br />
         <span class="text-brand-red">evolucionar</span>
@@ -182,7 +192,12 @@ const stats = [
               <dt class="sr-only">{stat.label}</dt>
               <dd>
                 <span class="display-tight block text-4xl text-bone lg:text-5xl">
-                  <span data-count={stat.value}>0</span>
+                  {/* The real figure, not a zero waiting to be counted up:
+                      motion.ts resets it to 0 the moment it takes the counter
+                      over, so the markup only has to be right for the case
+                      where it never does. This used to read "0 profesionales,
+                      0 sesiones, 0 servicios" whenever the bundle failed. */}
+                  <span data-count={stat.value}>{stat.value}</span>
                   {stat.suffix}
                 </span>
                 <span

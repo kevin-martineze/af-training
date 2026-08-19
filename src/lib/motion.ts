@@ -5,7 +5,19 @@ import { SplitText } from 'gsap/SplitText';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
+/* Claimed as soon as this bundle executes. The inline guard in Layout.astro
+   watches for this attribute and reveals the page if it never appears — a chunk
+   that fails to download would otherwise leave every [data-reveal] sitting at
+   opacity 0 with nothing left to turn it back on. */
+document.documentElement.setAttribute('data-motion', '');
+
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* The guard fired before this bundle arrived, so the page is already visible.
+   Playing the enter animations now would hide the text and bring it back in,
+   which reads as a flash — the reveals are skipped instead. */
+const alreadyRevealed = document.documentElement.classList.contains('no-motion');
+const skipReveals = reduced || alreadyRevealed;
 
 /**
  * Smooth scroll. Lenis owns the scroll position, so ScrollTrigger has to read
@@ -44,7 +56,7 @@ function initSmoothScroll() {
 function initSplitHeadings() {
   const headings = document.querySelectorAll<HTMLElement>('[data-split]');
 
-  if (reduced) {
+  if (skipReveals) {
     gsap.set(headings, { opacity: 1 });
     return;
   }
@@ -57,8 +69,11 @@ function initSplitHeadings() {
     });
 
     gsap.set(el, { opacity: 1 });
+    // 130 rather than 115: the mask now clips 0.26em taller than the line box
+    // (see .split-line-mask in global.css), so a shorter throw would leave the
+    // tip of an accent showing before the line has started to rise.
     gsap.from(split.lines, {
-      yPercent: 115,
+      yPercent: 130,
       duration: 1.1,
       ease: 'expo.out',
       stagger: 0.08,
@@ -75,7 +90,7 @@ function initSplitHeadings() {
 function initReveals() {
   const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
 
-  if (reduced) {
+  if (skipReveals) {
     gsap.set(targets, { opacity: 1 });
     return;
   }
@@ -231,6 +246,10 @@ function initCounters() {
     const target = Number(el.dataset.count ?? 0);
     const state = { value: 0 };
 
+    // The markup ships the real figure so it still reads correctly if this
+    // never runs; zero it only now that the count-up is definitely happening.
+    el.textContent = '0';
+
     gsap.to(state, {
       value: target,
       duration: 1.8,
@@ -257,20 +276,44 @@ function initReels() {
   });
 }
 
+/* Booted one at a time. These used to be ten bare calls inside a single
+   try/catch, so one throw skipped every feature after it and took the whole
+   page's motion down with it. A broken counter should cost the counters. */
+const features: [string, () => void][] = [
+  ['smoothScroll', initSmoothScroll],
+  ['header', initHeader],
+  ['splitHeadings', initSplitHeadings],
+  ['reveals', initReveals],
+  ['parallax', initParallax],
+  ['marquees', initMarquees],
+  ['rails', initHorizontalRails],
+  ['hero', initHero],
+  ['counters', initCounters],
+  ['reels', initReels],
+];
+
 function boot() {
-  initSmoothScroll();
-  initHeader();
-  initSplitHeadings();
-  initReveals();
-  initParallax();
-  initMarquees();
-  initHorizontalRails();
-  initHero();
-  initCounters();
-  initReels();
+  let failures = 0;
+
+  for (const [name, init] of features) {
+    try {
+      init();
+    } catch (error) {
+      failures += 1;
+      console.error(`[motion] ${name} failed`, error);
+    }
+  }
+
+  // Nothing came up at all, so the reveals never ran either — hand over to the
+  // fallback rather than leave the page at opacity 0.
+  if (failures === features.length) throw new Error('every feature failed');
 
   // Fonts change line boxes, which changes every trigger position.
   void document.fonts?.ready.then(() => ScrollTrigger.refresh());
+  // So do images and videos that only report their size once they arrive. A
+  // trigger measured against a shorter page can end up past its own start,
+  // where it never fires and the text it was holding never appears.
+  window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
 }
 
 try {

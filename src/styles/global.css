@@ -149,6 +149,17 @@ html.no-motion [data-split] { opacity: 1; }
 /* SplitText's mask wrapper needs a block box to clip the rising line. */
 .split-line { will-change: transform; }
 
+/* That wrapper clips to the line box, and `.display` runs a 0.85 line-height
+   against a face whose ink is 1.09em tall — so the acute on "MÁS" lost its tip
+   and the comma after "entrenar," lost its tail. Give the clip the full ink
+   height and pull the wrapper back by the same amount, so the mask gains the
+   room without the leading moving. GSAP names the wrapper after the line class,
+   so this only matches once SplitText has run. */
+.split-line-mask {
+  padding-block: 0.18em 0.08em;
+  margin-block-start: -0.26em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal],
   [data-split] { opacity: 1 !important; transform: none !important; }

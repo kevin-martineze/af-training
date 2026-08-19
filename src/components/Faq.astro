@@ -33,7 +33,12 @@ const faqs = [
   <div class="shell grid gap-12 lg:grid-cols-12">
     <div class="lg:col-span-4">
       <p class="eyebrow mb-5" data-reveal="fade">09 — Preguntas</p>
-      <h2 class="display text-[clamp(2.2rem,5vw,4rem)] text-bone" data-split>
+      <!-- Same fit cap as the project heading: 4 of 12 tracks from lg up, and
+           "empezar" is 5.54em wide, which 5vw overshot between 1024 and 1074px. -->
+      <h2
+        class="display text-[clamp(2.2rem,5vw,4rem)] text-bone lg:text-[min(4.6vw,4rem)]"
+        data-split
+      >
         Antes de<br />empezar
       </h2>
     </div>

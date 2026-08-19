@@ -25,7 +25,17 @@ const values = [
   <div class="shell grid gap-14 lg:grid-cols-12 lg:gap-10">
     <div class="lg:sticky lg:top-32 lg:col-span-5 lg:self-start">
       <p class="eyebrow mb-6" data-reveal="fade">01 — El proyecto</p>
-      <h2 class="display text-[clamp(2.4rem,6vw,5rem)] text-bone" data-split>
+      <!-- The lg override is a fit cap, not a style choice. From lg up this
+           column is 5 of 12 tracks, which works out to roughly 0.38 of the
+           viewport, and "jugadores" is one unbreakable word 7.13em wide — at
+           6vw it ran past the column from 1024px up and the line mask ate the
+           final S. 4.8vw is the largest coefficient the column holds, and the
+           4.75rem cap catches the top end, where the shell stops growing at
+           96rem but vw does not. -->
+      <h2
+        class="display text-[clamp(2.4rem,6vw,5rem)] text-bone lg:text-[min(4.8vw,4.75rem)]"
+        data-split
+      >
         No solo<br />buenos<br />jugadores
       </h2>
       <p class="mt-8 max-w-md text-lg leading-relaxed text-muted" data-reveal>

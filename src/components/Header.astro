@@ -68,72 +68,78 @@ import { brand } from '../data/media';
     </div>
   </div>
 
-  <!-- Drawer. It sits above the header rather than pushing it, so the crest
-       stays put and only the panel moves. `inert` while closed keeps its links
-       out of the tab order without needing `hidden`, which would kill the
-       transition. -->
-  <div data-menu-backdrop class="fixed inset-0 z-40 bg-ink-950/80 backdrop-blur-sm lg:hidden"></div>
-
-  <aside
-    id="menu-movil"
-    data-menu-panel
-    inert
-    aria-label="Menú"
-    class="fixed inset-y-0 right-0 z-[60] flex w-[min(86vw,21rem)] flex-col border-l hairline bg-ink-900 lg:hidden"
-  >
-    <div class="flex items-center justify-between border-b hairline px-6 py-5">
-      <span class="eyebrow">Menú</span>
-      <button
-        type="button"
-        data-menu-close
-        class="flex size-10 items-center justify-center rounded-full border hairline text-bone transition-colors duration-300 hover:border-bone"
-      >
-        <span class="sr-only">Cerrar menú</span>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5"></path>
-        </svg>
-      </button>
-    </div>
-
-    <nav aria-label="Menú móvil" class="flex flex-1 flex-col overflow-y-auto px-6 py-2">
-      {
-        nav.map((item, index) => (
-          <a
-            href={item.href}
-            data-menu-link
-            style={`--i:${index}`}
-            class="group flex items-center justify-between border-b hairline py-5 text-lg text-bone last:border-0"
-          >
-            {item.label}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              aria-hidden="true"
-              class="text-brand-red transition-transform duration-300 group-hover:translate-x-1"
-            >
-              <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" />
-            </svg>
-          </a>
-        ))
-      }
-    </nav>
-
-    <div class="border-t hairline p-6">
-      <a
-        href={whatsappLink('Hola, quiero agendar mi valoración inicial gratuita.')}
-        target="_blank"
-        rel="noopener"
-        data-menu-link
-        style={`--i:${nav.length}`}
-        class="block rounded-full bg-brand-red px-6 py-4 text-center text-sm font-medium tracking-wide text-bone uppercase"
-      >
-        {site.cta}
-      </a>
-    </div>
-  </aside>
 </header>
+
+<!-- Drawer. Deliberately a sibling of <header> and not a child of it: the
+     header takes a `backdrop-filter` once it sticks, and a filtered ancestor
+     becomes the containing block for `position: fixed` descendants. Nested,
+     the panel resolved `inset-y-0` against the header box and collapsed to
+     its height as soon as the page was scrolled.
+
+     `inert` while closed keeps the links out of the tab order without needing
+     `hidden`, which would remove the box and leave nothing to slide. -->
+<div data-menu-backdrop class="fixed inset-0 z-[55] bg-ink-950/80 backdrop-blur-sm lg:hidden"></div>
+
+<aside
+  id="menu-movil"
+  data-menu-panel
+  inert
+  aria-label="Menú"
+  class="fixed inset-y-0 right-0 z-[60] flex w-[min(86vw,21rem)] flex-col border-l hairline bg-ink-900 lg:hidden"
+>
+  <div class="flex items-center justify-between border-b hairline px-6 py-5">
+    <span class="eyebrow">Menú</span>
+    <button
+      type="button"
+      data-menu-close
+      class="flex size-10 items-center justify-center rounded-full border hairline text-bone transition-colors duration-300 hover:border-bone"
+    >
+      <span class="sr-only">Cerrar menú</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav aria-label="Menú móvil" class="flex flex-1 flex-col overflow-y-auto px-6 py-2">
+    {
+      nav.map((item, index) => (
+        <a
+          href={item.href}
+          data-menu-link
+          style={`--i:${index}`}
+          class="group flex items-center justify-between border-b hairline py-5 text-lg text-bone last:border-0"
+        >
+          {item.label}
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            aria-hidden="true"
+            class="text-brand-red transition-transform duration-300 group-hover:translate-x-1"
+          >
+            <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" />
+          </svg>
+        </a>
+      ))
+    }
+  </nav>
+
+  <div class="border-t hairline p-6">
+    <a
+      href={whatsappLink('Hola, quiero agendar mi valoración inicial gratuita.')}
+      target="_blank"
+      rel="noopener"
+      data-menu-link
+      style={`--i:${nav.length}`}
+      class="block rounded-full bg-brand-red px-6 py-4 text-center text-sm font-medium tracking-wide text-bone uppercase"
+    >
+      {site.cta}
+    </a>
+  </div>
+</aside>
+
 
 <style>
   [data-header].is-stuck {

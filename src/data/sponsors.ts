@@ -10,6 +10,8 @@ import drogueriaRenacerJw from '../assets/sponsors/drogueria-renacer-jw.png';
 import draMarinelaMejia from '../assets/sponsors/dra-marinela-mejia.png';
 import aarci from '../assets/sponsors/aarci.png';
 import vergara from '../assets/sponsors/vergara.png';
+import ewWilliamOrtiz from '../assets/sponsors/ew-william-ortiz.png';
+import juanSebastianTorres from '../assets/sponsors/juan-sebastian-torres.png';
 
 /**
  * "Marcas que confían en nosotros" — the client explicitly asked for this
@@ -26,30 +28,27 @@ export type Sponsor = {
   /** Second line, for brands whose descriptor is part of the name. */
   note?: string;
   logo?: ImageMetadata;
-  /**
-   * The background the brand delivered its mark on. The files are flattened
-   * images, not transparent cut-outs, so the section cannot treat them alike:
-   * `dark` art is screened straight onto the cell and the black drops out,
-   * while `light` art keeps its colours on a bone plate. Guessing wrong shows
-   * up as a white slab in the grid, so it is declared per brand.
-   */
-  tone?: 'dark' | 'light';
 };
 
 export const sponsors: Sponsor[] = [
-  { name: 'PF Training', logo: pfTraining, tone: 'dark' },
-  { name: 'Mencova Tech', logo: mencovaTech, tone: 'light' },
-  { name: 'Clínica Cure', note: 'Odontología integral', logo: clinicaCure, tone: 'dark' },
-  { name: 'Phone Import', logo: ocPhoneImport, tone: 'light' },
-  { name: 'Nick Insignares', note: 'Abogado', logo: nickInsignares, tone: 'dark' },
-  { name: 'PEDS', logo: peds, tone: 'dark' },
-  { name: 'Vergara', note: 'Entertainment', logo: vergara, tone: 'light' },
-  { name: 'Droguerías Renacer JW', logo: drogueriaRenacerJw, tone: 'light' },
+  { name: 'PF Training', logo: pfTraining },
+  { name: 'Mencova Tech', logo: mencovaTech },
+  { name: 'Clínica Cure', note: 'Odontología integral', logo: clinicaCure },
+  { name: 'Phone Import', logo: ocPhoneImport },
+  { name: 'Nick Insignares', note: 'Abogado', logo: nickInsignares },
+  { name: 'PEDS', logo: peds },
+  { name: 'Vergara', note: 'Entertainment', logo: vergara },
+  { name: 'Droguerías Renacer JW', logo: drogueriaRenacerJw },
   {
     name: 'Dra. Marinela Mejía',
     note: 'Odontología general y especializada',
     logo: draMarinelaMejia,
-    tone: 'dark',
   },
-  { name: 'AARCI', logo: aarci, tone: 'dark' },
+  { name: 'AARCI', logo: aarci },
+  { name: 'EW William Ortiz', logo: ewWilliamOrtiz },
+  {
+    name: 'Juan Sebastián Torres',
+    note: 'Fisioterapeuta',
+    logo: juanSebastianTorres,
+  },
 ];

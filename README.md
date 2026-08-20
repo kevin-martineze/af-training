@@ -30,7 +30,7 @@ If the dev server reports that another instance is already running, use
 ```
 src/
   assets/
-    brand/        crest and the 2026 kit render
+    brand/        crest and the two 2026 kit renders
     sponsors/     supporter logos
     team/         marks belonging to individual team members
     training/     photography, imported through astro:assets so it gets
@@ -47,7 +47,7 @@ src/
   lib/motion.ts   all scroll animation, driven by data-* attributes
   styles/
 public/
-  videos/         hero loop (wide + portrait) and the vertical reels
+  videos/         the three hero panels and the vertical reels
   posters/        first-frame stills used as video posters
 docs/             client's institutional document
 media-source/     camera masters, gitignored
@@ -138,14 +138,16 @@ the crest's navy ring and so never touches the whites inside it).
 
 - Point `site` in `astro.config.mjs` at the production domain — the sitemap,
   canonical URLs and `og:image` are all built from it.
-- Confirm the four marks sitting unused in `src/assets/sponsors/`
-  (`clutch-turbinas-del-sur`, `ew-william-ortiz`, `gutysport`, `veinticinco`).
-  The client sent them with the logo batch but none appears in the list they
-  gave for `data/sponsors.ts`, so they are not on the page — adding a brand is a
-  claim about a real relationship. One line each in `sponsors.ts` once confirmed.
-- All ten brands now ship a logo, so the wordmark fallback in `Sponsors.astro`
-  is currently unexercised. Keep it: it is what stops a new brand from leaving
-  a hole in the grid before its file arrives.
+- Two marks are still unused in `src/assets/sponsors/`: `clutch-turbinas-del-sur`
+  and `veinticinco`. Both are printed on the navy kit, so the relationship is
+  real, but their files are weak — Clutch is 224px square and Veinticinco is a
+  photograph of a neon sign rather than a mark. `gutysport` is also unused and
+  is the kit manufacturer rather than a supporter; the file is an Instagram
+  screenshot with the comment bar still in it. Ask for proper artwork before
+  adding any of the three.
+- Every brand on the page ships a logo, so the wordmark fallback in
+  `Sponsors.astro` is currently unexercised. Keep it: it is what stops a new
+  brand from leaving a hole in the grid before its file arrives.
 - Add the plans PDF to `public/` and point `plansPdf` at it to enable the
   download CTA.
 - Desktop pulls all three hero panels, about 5.6 MB of video; phones pull only

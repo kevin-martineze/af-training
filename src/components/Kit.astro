@@ -24,15 +24,24 @@ import { whatsappLink } from '../data/site';
   </div>
 
   <div class="shell grid items-center gap-12 py-20 lg:grid-cols-12 lg:gap-16 lg:py-24">
-    <figure class="lg:col-span-5" data-reveal="scale">
-      <Image
-        src={brand.kit.src}
-        alt={brand.kit.alt}
-        widths={[520, 760, 1040]}
-        sizes="(min-width: 1024px) 40vw, 92vw"
-        loading="lazy"
-        class="w-full object-contain"
-      />
+    <!-- Both colourways. The navy one carries the sponsor marks the copy below
+         refers to, so it reads first. -->
+    <figure
+      class="grid grid-cols-2 items-center gap-3 lg:col-span-5 lg:gap-5"
+      data-reveal="scale"
+    >
+      {
+        brand.kits.map((colourway) => (
+          <Image
+            src={colourway.src}
+            alt={colourway.alt}
+            widths={[320, 520, 760]}
+            sizes="(min-width: 1024px) 20vw, 46vw"
+            loading="lazy"
+            class="w-full object-contain"
+          />
+        ))
+      }
     </figure>
 
     <div class="lg:col-span-6 lg:col-start-7">

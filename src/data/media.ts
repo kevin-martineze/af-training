@@ -8,7 +8,8 @@ import coachSprintDrill from '../assets/training/coach-sprint-drill.jpeg';
 import huddleTunnel from '../assets/training/huddle-tunnel.jpeg';
 
 import crest from '../assets/brand/crest-andres-lara.png';
-import kit2026 from '../assets/brand/kit-2026.png';
+import kitHome from '../assets/brand/kit-2026-home.png';
+import kitAway from '../assets/brand/kit-2026-away.jpeg';
 
 /* Camera originals. See the note on `photos` below. */
 import playerCrouchTurfNight from '../assets/training/player-crouch-turf-night.jpeg';
@@ -41,10 +42,21 @@ export const brand = {
     src: crest,
     alt: 'Escudo de Andrés Lara Entrenamientos',
   } satisfies Photo,
-  kit: {
-    src: kit2026,
-    alt: 'Indumentaria 2026: camiseta, pantaloneta y los logos de las marcas que acompañan el proyecto',
-  } satisfies Photo,
+  /* Two colourways. The navy one carries every sponsor mark and is what the
+     "todas van en la indumentaria" claim points at, so it leads; the white one
+     is the coach's own kit and carries only his crest and signature. */
+  kits: [
+    {
+      src: kitHome,
+      label: 'Azul',
+      alt: 'Indumentaria 2026 azul: camiseta y pantaloneta con los logos de las marcas que acompañan el proyecto',
+    },
+    {
+      src: kitAway,
+      label: 'Blanca',
+      alt: 'Indumentaria 2026 blanca: camiseta con el escudo al frente y la firma de Andrés Lara en la espalda',
+    },
+  ] satisfies (Photo & { label: string })[],
 };
 
 /**

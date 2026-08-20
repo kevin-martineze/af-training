@@ -49,6 +49,11 @@ function initSmoothScroll() {
     });
   });
 
+  // The mobile drawer needs the page to hold still underneath it. Lenis owns
+  // the scroll position, so `overflow: hidden` alone would not stop it.
+  document.addEventListener('menu:open', () => lenis.stop());
+  document.addEventListener('menu:close', () => lenis.start());
+
   return lenis;
 }
 
@@ -148,20 +153,54 @@ function initParallax() {
 function initMarquees() {
   document.querySelectorAll<HTMLElement>('[data-marquee]').forEach((el) => {
     const track = el.querySelector<HTMLElement>('[data-marquee-track]');
-    if (!track) return;
+    const group = track?.querySelector<HTMLElement>('[data-marquee-group]');
+    if (!track || !group) return;
 
     const speed = Number(el.dataset.marquee ?? 28);
     const direction = el.dataset.marqueeDirection === 'right' ? 1 : -1;
+    let loop: gsap.core.Tween | null = null;
 
-    const loop = gsap.to(track, {
-      xPercent: direction * -50,
-      duration: speed,
-      ease: 'none',
-      repeat: -1,
+    /**
+     * The strip travels exactly one group and repeats, so the seam is a group
+     * boundary and never shows. What has to hold is that the copies trailing
+     * the one being scrolled away still cover the container — otherwise the
+     * tail end of the travel exposes empty track. How many copies that takes
+     * depends on the rendered width of the text against the viewport, so it is
+     * measured here rather than assumed in the markup.
+     */
+    const build = () => {
+      loop?.kill();
+      gsap.set(track, { x: 0 });
+      track.replaceChildren(group);
+
+      const width = group.offsetWidth;
+      if (!width) return;
+
+      const copies = Math.max(2, Math.ceil(el.offsetWidth / width) + 1);
+      for (let i = 1; i < copies; i += 1) track.appendChild(group.cloneNode(true));
+
+      // `speed` stays the seconds one group takes to pass, so adding copies
+      // for a wider viewport does not change how fast the text reads.
+      loop = gsap.to(track, {
+        x: -width,
+        duration: speed,
+        ease: 'none',
+        repeat: -1,
+      });
+      if (direction === 1) loop.progress(1).timeScale(-1);
+      if (reduced) loop.pause();
+    };
+
+    build();
+
+    // Fonts land after first paint and change every width in here.
+    void document.fonts?.ready.then(build);
+
+    let resizeId = 0;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeId);
+      resizeId = window.setTimeout(build, 200);
     });
-    if (direction === 1) loop.progress(1).timeScale(-1);
-
-    if (reduced) loop.pause();
   });
 }
 

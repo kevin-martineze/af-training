@@ -51,33 +51,27 @@ import { sponsors } from '../data/sponsors';
               class="group flex min-h-[8.5rem] flex-col items-center justify-center gap-2 bg-ink-950 px-5 py-8 text-center transition-colors duration-500 hover:bg-ink-900"
             >
               {sponsor.logo ? (
-                <span
-                  class:list={[
-                    'flex items-center justify-center opacity-60 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0',
-                    // Marks delivered on white keep their colours on a plate;
-                    // marks delivered on black are screened so the background
-                    // disappears into the cell.
-                    sponsor.tone === 'light' && 'rounded-lg bg-bone px-3 py-2',
-                  ]}
-                >
-                  <Image
-                    src={sponsor.logo}
-                    alt={sponsor.name}
-                    widths={[120, 240, 360]}
-                    sizes="120px"
-                    loading="lazy"
-                    class:list={[
-                      'h-14 w-auto object-contain',
-                      sponsor.tone !== 'light' && 'mix-blend-screen',
-                    ]}
-                  />
-                </span>
+                /* Each mark shows on the background its own file carries. The
+                   section used to plate the white ones and screen the black
+                   ones out; both treatments read as something the site had
+                   added, so neither survives. */
+                <Image
+                  src={sponsor.logo}
+                  alt={sponsor.name}
+                  widths={[120, 240, 360]}
+                  sizes="120px"
+                  loading="lazy"
+                  class="h-14 w-auto rounded-md object-contain opacity-60 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
+                />
               ) : (
                 <span class="display-tight text-base leading-tight text-bone/70 transition-colors duration-500 group-hover:text-bone">
                   {sponsor.name}
                 </span>
               )}
-              {sponsor.note && (
+              {/* Only under a wordmark. Every logo file already sets the
+                  descriptor in its own artwork, so repeating it below the
+                  image just prints the word twice. */}
+              {sponsor.note && !sponsor.logo && (
                 <span class="text-[0.68rem] leading-tight text-muted">{sponsor.note}</span>
               )}
             </li>

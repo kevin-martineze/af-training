@@ -7,8 +7,9 @@ interface Props {
 }
 
 const { items, speed = 30, direction = 'left', tone = 'outline' } = Astro.props;
-// The track is rendered twice so the -50% loop lands seamlessly.
-const doubled = [...items, ...items];
+/* One group ships in the markup. motion.ts clones it as many times as the
+   viewport needs, because how many copies make a seamless loop depends on the
+   rendered width of the text — which is not knowable here. */
 ---
 
 <div
@@ -20,19 +21,21 @@ const doubled = [...items, ...items];
   ]}
   aria-hidden="true"
 >
-  <div data-marquee-track class="flex w-max shrink-0 items-center gap-10 pr-10">
-    {
-      doubled.map((item) => (
-        <span class="display-tight flex items-center gap-10 text-3xl whitespace-nowrap md:text-5xl">
-          {item}
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0 opacity-60">
-            <path
-              d="M8 0l1.8 6.2L16 8l-6.2 1.8L8 16l-1.8-6.2L0 8l6.2-1.8L8 0z"
-              fill="currentColor"
-            />
-          </svg>
-        </span>
-      ))
-    }
+  <div data-marquee-track class="flex w-max shrink-0 items-center">
+    <div data-marquee-group class="flex shrink-0 items-center gap-10 pr-10">
+      {
+        items.map((item) => (
+          <span class="display-tight flex items-center gap-10 text-3xl whitespace-nowrap md:text-5xl">
+            {item}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" class="shrink-0 opacity-60">
+              <path
+                d="M8 0l1.8 6.2L16 8l-6.2 1.8L8 16l-1.8-6.2L0 8l6.2-1.8L8 0z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+        ))
+      }
+    </div>
   </div>
 </div>

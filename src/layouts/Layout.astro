@@ -72,6 +72,36 @@ const jsonLd = {
          phone. -->
     <link rel="preload" as="image" href="/posters/hero-night-arrival.jpg" />
 
+    <!-- Everything carrying data-reveal or data-split starts at opacity 0 and
+         waits for motion.ts to bring it in. motion.ts stamps data-motion on
+         <html> the moment its bundle executes; if that never happens — a chunk
+         that fails to download, a browser that refuses the module — the text
+         stays invisible with nothing left to reveal it. This is the floor under
+         that: no bundle within two seconds and the page shows itself. -->
+    <script is:inline>
+      setTimeout(function () {
+        if (!document.documentElement.hasAttribute('data-motion')) {
+          document.documentElement.classList.add('no-motion');
+        }
+      }, 2000);
+    </script>
+
+    <!-- The guard above still needs JavaScript to run. With it off entirely
+         nothing ever clears the opacity, so the stylesheet has to. -->
+    <noscript>
+      <!-- is:inline keeps Astro from lifting this into the CSS bundle, where it
+           would apply to everyone and disable the reveals outright. -->
+      <style is:inline>
+        /* :root only to outrank the opacity: 0 in global.css — Astro injects the
+           stylesheet link after this block, so matching its specificity would
+           lose on document order. */
+        :root [data-reveal],
+        :root [data-split] {
+          opacity: 1;
+        }
+      </style>
+    </noscript>
+
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>

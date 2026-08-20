@@ -25,7 +25,13 @@ import { site, whatsappLink } from '../data/site';
   <div class="shell max-w-4xl">
     <p class="eyebrow mb-6" data-reveal="fade">{site.motto}</p>
 
-    <h2 class="display text-[clamp(2.6rem,7vw,6.5rem)] text-bone" data-split>
+    <!-- Fit-capped at both ends, like the hero headline: "valoración" is one
+         unbreakable word 7.43em wide, and this shell is the narrow max-w-4xl
+         one. 11.6vw catches the bottom, where the 2.6rem floor was more than a
+         320px phone holds; 6.3rem catches the top, where the shell stops at
+         56rem and 6.5rem no longer fits inside it. In between the 7vw ramp is
+         the smallest of the three and nothing changes. -->
+    <h2 class="display text-[min(11.6vw,clamp(2.6rem,7vw,6.3rem))] text-bone" data-split>
       Agenda tu<br />valoración
     </h2>
 

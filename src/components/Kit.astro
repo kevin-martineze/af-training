@@ -1,0 +1,103 @@
+---
+import { Image } from 'astro:assets';
+import { brand } from '../data/media';
+import { currencyFormat, kit } from '../data/plans';
+import { whatsappLink } from '../data/site';
+
+/* The kit render used to sit in the sponsors column, small, as evidence that
+   the brands are really on the shirt. It carries a price now, so it leads its
+   own band instead — bigger, and in the run of the page where money is already
+   being discussed, right after the plans. The sponsors section keeps the claim
+   in words; its logo grid was always the part doing the work there. */
+---
+
+<section
+  id="indumentaria"
+  class="relative isolate grain overflow-hidden border-y hairline bg-ink-900"
+>
+  <!-- A red wash under the render, on the side the render sits on, so the band
+       reads as its own surface rather than as more of the section above. -->
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(65%_70%_at_24%_50%,rgba(200,16,46,0.18),transparent)]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="shell grid items-center gap-12 py-20 lg:grid-cols-12 lg:gap-16 lg:py-24">
+    <figure class="lg:col-span-5" data-reveal="scale">
+      <Image
+        src={brand.kit.src}
+        alt={brand.kit.alt}
+        widths={[520, 760, 1040]}
+        sizes="(min-width: 1024px) 40vw, 92vw"
+        loading="lazy"
+        class="w-full object-contain"
+      />
+    </figure>
+
+    <div class="lg:col-span-6 lg:col-start-7">
+      <p class="eyebrow mb-5" data-reveal="fade">{kit.name}</p>
+
+      <!-- "VÍSTETE DEL" is 7.18em wide, so the 2.2rem floor still clears a
+           320px shell and the 5.5vw ramp clears the 6-of-12 column from lg up.
+           The Í is why the mask rule in global.css exists. -->
+      <h2 class="display text-[clamp(2.2rem,5.5vw,4.5rem)] text-bone" data-split>
+        Vístete del<br />proceso
+      </h2>
+
+      <!-- The price is the point of the band, so it is set at display size
+           rather than tucked into the copy. "$&nbsp;90.000" is 4.45em wide,
+           which the column holds at every step of this ramp. -->
+      <div class="mt-9 flex flex-wrap items-end gap-x-4" data-reveal data-reveal-delay="0.1">
+        <p class="display text-[clamp(3rem,9vw,7rem)] leading-[0.8] text-bone">
+          {currencyFormat(kit.price, kit.currency)}
+        </p>
+        <span class="eyebrow pb-2 text-brand-gold">{kit.currency}</span>
+      </div>
+
+      <span
+        class="mt-6 block h-px w-full max-w-sm origin-left bg-brand-red"
+        data-reveal="left"
+        data-reveal-delay="0.2"
+        aria-hidden="true"
+      ></span>
+
+      {/* A chip row rather than a sentence: the entries are proper nouns on
+          the kit and joining them into prose put a capital in mid-sentence. */}
+      <ul
+        class="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-bone/85"
+        data-reveal
+        data-reveal-delay="0.25"
+      >
+        {kit.includes.map((item, index) => (
+          <li class="flex items-center gap-3">
+            {index > 0 && <span class="size-1 rounded-full bg-brand-gold" aria-hidden="true" />}
+            {item}
+          </li>
+        ))}
+      </ul>
+
+      <p class="mt-4 max-w-md text-sm leading-relaxed text-muted" data-reveal data-reveal-delay="0.3">
+        Lleva los logos de las marcas que acompañan el proyecto.
+      </p>
+
+      <a
+        href={whatsappLink(
+          `Hola, quiero pedir la ${kit.name} (${currencyFormat(kit.price, kit.currency)}). ¿Cómo la consigo?`,
+        )}
+        target="_blank"
+        rel="noopener"
+        class="group relative mt-9 inline-flex overflow-hidden rounded-full bg-bone px-8 py-4 text-sm font-medium tracking-wide text-ink-950 uppercase"
+        data-reveal
+        data-reveal-delay="0.35"
+      >
+        <span
+          class="absolute inset-0 translate-y-full bg-brand-red transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0"
+        ></span>
+        <span class="relative transition-colors duration-300 group-hover:text-bone">
+          Pedir indumentaria
+        </span>
+      </a>
+    </div>
+  </div>
+</section>

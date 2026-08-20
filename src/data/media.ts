@@ -48,13 +48,15 @@ export const brand = {
   kits: [
     {
       src: kitHome,
+      label: 'Azul',
       alt: 'Indumentaria 2026 azul: camiseta y pantaloneta con los logos de las marcas que acompañan el proyecto',
     },
     {
       src: kitAway,
+      label: 'Blanca',
       alt: 'Indumentaria 2026 blanca: camiseta con el escudo al frente y la firma de Andrés Lara en la espalda',
     },
-  ] satisfies Photo[],
+  ] satisfies (Photo & { label: string })[],
 };
 
 /**

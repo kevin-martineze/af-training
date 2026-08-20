@@ -24,25 +24,35 @@ import { whatsappLink } from '../data/site';
   </div>
 
   <div class="shell grid items-center gap-12 py-20 lg:grid-cols-12 lg:gap-16 lg:py-24">
-    <!-- Both colourways. The navy one carries the sponsor marks the copy below
-         refers to, so it reads first. -->
-    <figure
-      class="grid grid-cols-2 items-center gap-3 lg:col-span-5 lg:gap-5"
-      data-reveal="scale"
-    >
+    <!-- Both colourways as a stepped pair rather than a flat row. The navy one
+         carries the sponsor marks the copy refers to, so it leads and sits
+         higher; the white one drops to break the shared baseline. The renders
+         arrive on their own dark backdrop, so a hairline and a rounded corner
+         are enough to read them as two cards. -->
+    <div class="grid grid-cols-2 gap-4 lg:col-span-5 lg:gap-5" data-reveal="scale">
       {
-        brand.kits.map((colourway) => (
-          <Image
-            src={colourway.src}
-            alt={colourway.alt}
-            widths={[320, 520, 760]}
-            sizes="(min-width: 1024px) 20vw, 46vw"
-            loading="lazy"
-            class="w-full object-contain"
-          />
+        brand.kits.map((colourway, index) => (
+          <figure
+            class:list={[
+              'group/kit relative overflow-hidden rounded-2xl border hairline bg-ink-950/40 transition-[transform,border-color] duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-2 hover:border-bone/25',
+              index === 1 && 'mt-10 lg:mt-14',
+            ]}
+          >
+            <Image
+              src={colourway.src}
+              alt={colourway.alt}
+              widths={[320, 520, 760]}
+              sizes="(min-width: 1024px) 20vw, 46vw"
+              loading="lazy"
+              class="w-full object-contain transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover/kit:scale-[1.04]"
+            />
+            <figcaption class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950 via-ink-950/70 to-transparent px-4 pt-10 pb-3">
+              <span class="eyebrow text-[0.6rem] text-bone/85">{colourway.label}</span>
+            </figcaption>
+          </figure>
         ))
       }
-    </figure>
+    </div>
 
     <div class="lg:col-span-6 lg:col-start-7">
       <p class="eyebrow mb-5" data-reveal="fade">{kit.name}</p>

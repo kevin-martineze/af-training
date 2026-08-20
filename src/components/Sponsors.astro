@@ -68,7 +68,10 @@ import { sponsors } from '../data/sponsors';
                   {sponsor.name}
                 </span>
               )}
-              {sponsor.note && (
+              {/* Only under a wordmark. Every logo file already sets the
+                  descriptor in its own artwork, so repeating it below the
+                  image just prints the word twice. */}
+              {sponsor.note && !sponsor.logo && (
                 <span class="text-[0.68rem] leading-tight text-muted">{sponsor.note}</span>
               )}
             </li>

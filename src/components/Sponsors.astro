@@ -5,6 +5,15 @@ import { sponsors } from '../data/sponsors';
 /* The client asked for this wording over "Patrocinadores": these are brands
    that back the project, and the section should give them visibility without
    competing with the main mark. Hence the muted treatment. */
+
+/* The grid draws its hairlines by showing a 1px background through the gaps,
+   which means an unfinished last row shows that background as a pale block
+   instead of a rule — and the count only divides evenly by luck. Two columns
+   below sm and three above need different numbers of blanks, so each
+   breakpoint gets its own set and hides the other's. Nothing to do when the
+   count already divides: the expression is 0 and no cell is rendered. */
+const blanksBase = (2 - (sponsors.length % 2)) % 2;
+const blanksSm = (3 - (sponsors.length % 3)) % 3;
 ---
 
 <section id="marcas" class="relative py-24 lg:py-32">
@@ -77,6 +86,13 @@ import { sponsors } from '../data/sponsors';
             </li>
           ))
         }
+
+        {Array.from({ length: blanksBase }).map(() => (
+          <li aria-hidden="true" class="min-h-[8.5rem] bg-ink-950 sm:hidden" />
+        ))}
+        {Array.from({ length: blanksSm }).map(() => (
+          <li aria-hidden="true" class="hidden min-h-[8.5rem] bg-ink-950 sm:block" />
+        ))}
       </ul>
     </div>
   </div>

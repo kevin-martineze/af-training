@@ -5,13 +5,14 @@ import mencovaTech from '../assets/sponsors/mencova-tech.png';
 import clinicaCure from '../assets/sponsors/clinica-cure.png';
 import ocPhoneImport from '../assets/sponsors/oc-phone-import.jpeg';
 import nickInsignares from '../assets/sponsors/nick-insignares.jpeg';
-import peds from '../assets/sponsors/peds.png';
 import drogueriaRenacerJw from '../assets/sponsors/drogueria-renacer-jw.png';
 import draMarinelaMejia from '../assets/sponsors/dra-marinela-mejia.png';
 import aarci from '../assets/sponsors/aarci.png';
 import vergara from '../assets/sponsors/vergara.png';
 import ewWilliamOrtiz from '../assets/sponsors/ew-william-ortiz.png';
 import juanSebastianTorres from '../assets/sponsors/juan-sebastian-torres.png';
+import julyFerreteria from '../assets/sponsors/july-ferreteria.jpeg';
+import marRoseUsa from '../assets/sponsors/mar-rose-usa.jpeg';
 
 /**
  * "Marcas que confían en nosotros" — the client explicitly asked for this
@@ -36,7 +37,6 @@ export const sponsors: Sponsor[] = [
   { name: 'Clínica Cure', note: 'Odontología integral', logo: clinicaCure },
   { name: 'Phone Import', logo: ocPhoneImport },
   { name: 'Nick Insignares', note: 'Abogado', logo: nickInsignares },
-  { name: 'PEDS', logo: peds },
   { name: 'Vergara', note: 'Entertainment', logo: vergara },
   { name: 'Droguerías Renacer JW', logo: drogueriaRenacerJw },
   {
@@ -51,4 +51,6 @@ export const sponsors: Sponsor[] = [
     note: 'Fisioterapeuta',
     logo: juanSebastianTorres,
   },
+  { name: 'July Ferretería', logo: julyFerreteria },
+  { name: 'Mar Rose USA', note: 'Personal shopper', logo: marRoseUsa },
 ];

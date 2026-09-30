@@ -40,7 +40,7 @@ src/
     site.ts       brand, contact details and navigation
     plans.ts      the three monthly plans
     services.ts   services, audience, capacities and the five-step method
-    team.ts       the four professionals
+    team.ts       the five professionals
     sponsors.ts   "marcas que confían en nosotros"
     media.ts      photo registry — alt text lives here, written once
   layouts/
@@ -84,6 +84,34 @@ Masters live in `media-source/`, which is gitignored. Keep them out of
 master, which is what the hero used until the client asked to replace that
 footage. It is kept ready for the reshoot.
 
+### The coach band
+
+`CoachFilm.astro` is the one section built around a finished piece rather than
+raw footage. The client supplied a single 23s take of Andrés Lara correcting
+movement on the pitch, already edited: it opens on a title card and carries
+burned-in kinetic captions for its whole length. Nothing is recut.
+`scripts/encode-coach.sh` downscales it to 1080p and keeps the audio.
+
+The settled decision is not to crop the captions out. Shaving the bottom band
+would remove them, but the ball and both his hands go with them, and the
+captions are the reason the clip reads with the sound off. Instead the page
+stays out of their way: the section's own type sits above the video, the only
+control inside the frame is a sound pill in the top-right, and the play badge
+sits bottom-left on the poster's title card rather than over it.
+
+The same captions are the source of the chip row under the video — those terms
+are transcribed from the clip, which is why the wording reads as the coach's
+and not ours. They also carry the meaning on phones, where a letterboxed 16:9
+frame renders the burned-in captions at roughly 9px. The video switches to a 4:5
+`object-cover` crop below `md`: that keeps the full height of the shot, captions
+included, and crops the towers instead.
+
+The band is `preload="none"` behind its poster and only fetches the file once it
+is half on screen, so it adds nothing to first paint. At 3.9 MB it is the
+heaviest single video in the repo; if that has to come down, the encode is
+CRF 25 and the source is 4K, so there is room in the rate before the picture
+starts to show it.
+
 ### Animation
 
 `src/lib/motion.ts` is the only place that touches GSAP. Components stay
@@ -102,6 +130,28 @@ Elements carrying `data-reveal` or `data-split` start at `opacity: 0`. If
 anything in the boot sequence throws, `motion.ts` adds `no-motion` to `<html>`,
 which restores full opacity — a JavaScript failure can never leave the page
 blank. `prefers-reduced-motion` is honoured throughout.
+
+### The team row
+
+Five cards do not divide evenly into two or three tracks at any width, so every
+breakpoint below `xl` has to do something with its remainder. The row runs one
+track, then two, then three, then five: `sm:grid-cols-2 lg:grid-cols-3
+xl:grid-cols-5`.
+
+Five across waits for `xl` rather than arriving at `lg`. The shell caps at
+96rem, so a five-track row at 1024px puts each card at ~172px — narrower than
+the four-track row this section used to run, and too narrow for a two-sentence
+bio. At `xl` the same row lands at 220px and up.
+
+On the two-track layout the remainder is a single card, which would sit alone in
+the left column with an empty track beside it. That one card spans both tracks
+at a sibling's width and centres itself, so the last row reads as deliberate.
+Three and five tracks absorb their remainder on their own and need no help.
+
+Two of the five cards carry the same `FISIOTERAPIA` badge and sit next to each
+other, which is the honest reading rather than a mistake: `field` names the
+discipline, and the section's "four areas" now has two professionals behind one
+of them.
 
 ### Working with the photography
 
@@ -136,6 +186,19 @@ the crest's navy ring and so never touches the whites inside it).
 
 ## Before launch
 
+- Luis Fernando Carbonell's card carries the one name on the page that
+  contradicts its own photograph: the lab coat he is wearing is embroidered
+  "Luis Orlando Valencia". He was asked and confirmed the name on the card, so
+  it ships as given — but confirm it once more with the client, and ask whether
+  the coat is even his. If the surname is wrong, it is wrong on a real person's
+  face, which is the failure this repo's portrait note exists to prevent. His
+  portrait is also the only one from a different shoot, so it will not match the
+  row exactly; see `data/team.ts`.
+- The coach band's copy is the only prose on the page that did not come from the
+  institutional document. It describes what the clip visibly shows, and the
+  fútbol sala line rests on Andrés Lara's own bio, but the client has not read
+  it — get it signed off, and confirm they are happy for the piece to run on the
+  site at all rather than only on social.
 - Point `site` in `astro.config.mjs` at the production domain — the sitemap,
   canonical URLs and `og:image` are all built from it.
 - Two marks are still unused in `src/assets/sponsors/`: `clutch-turbinas-del-sur`

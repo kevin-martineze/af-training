@@ -7,7 +7,7 @@ import { team } from '../data/team';
   <div class="shell">
     <div class="mb-14 grid gap-8 lg:grid-cols-12">
       <div class="lg:col-span-7">
-        <p class="eyebrow mb-5" data-reveal="fade">05 — Equipo</p>
+        <p class="eyebrow mb-5" data-reveal="fade">06 — Equipo</p>
         <h2 class="display text-[clamp(2.4rem,6vw,5.5rem)] text-bone" data-split>
           Cuatro áreas,<br />un solo proceso
         </h2>
@@ -21,20 +21,38 @@ import { team } from '../data/team';
       </p>
     </div>
 
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <!-- Five cards, three different rows. The count is what forces the shapes:
+         five will not divide evenly into two or three tracks at any width, so
+         every breakpoint below xl has to do something with its remainder.
+
+         Five across only from xl. The shell caps at 96rem, so a five-track row
+         at lg lands each card at ~172px — narrower than the four-track row this
+         section used to run, and too narrow for a two-sentence bio. Three tracks
+         is as far as lg goes, where 3+2 reads as a full row and a short one. -->
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
       {
         team.map((member, index) => (
           <article
             data-reveal
             data-reveal-delay={index * 0.08}
-            class="group flex flex-col overflow-hidden rounded-[1.5rem] border hairline bg-ink-950/60 transition-colors duration-500 hover:border-bone/25"
+            class:list={[
+              'group flex flex-col overflow-hidden rounded-[1.5rem] border hairline bg-ink-950/60 transition-colors duration-500 hover:border-bone/25',
+              // On the two-track layout — the one place the remainder is a single
+              // card — a fifth card sits alone in the left column with an empty
+              // track beside it. Span both tracks at a sibling's width and centre
+              // it, so the last row reads as deliberate rather than as a card
+              // that failed to fill its row. Three and five tracks absorb the
+              // remainder on their own, so this resets at lg.
+              index === team.length - 1 &&
+                'sm:col-span-2 sm:w-[calc(50%-0.625rem)] sm:justify-self-center lg:col-span-1 lg:w-full',
+            ]}
           >
             <div class="grain relative overflow-hidden">
               <Image
                 src={member.portrait}
                 alt={member.alt}
-                widths={[320, 520, 720, 1000]}
-                sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 92vw"
+                widths={[280, 460, 640]}
+                sizes="(min-width: 1280px) 18vw, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
                 loading="lazy"
                 layout="none"
                 class="photo aspect-[4/5] w-full object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-105"

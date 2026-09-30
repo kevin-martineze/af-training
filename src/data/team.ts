@@ -3,10 +3,14 @@ import type { ImageMetadata } from 'astro';
 import andresLara from '../assets/team/andres-lara.jpeg';
 import andresRubiano from '../assets/team/andres-rubiano.jpeg';
 import juanSebastianTorres from '../assets/team/juan-sebastian-torres.jpeg';
+import luisFernandoCarbonell from '../assets/team/luis-fernando-carbonell.jpeg';
 import germanEstrella from '../assets/team/german-estrella.jpeg';
 
 /**
- * The four professionals behind the project, from the institutional document.
+ * The five professionals behind the project. Four of them are named in the
+ * institutional document; the second physiotherapist arrived afterwards,
+ * straight from the client — see the note on his entry and the open question
+ * in the README.
  * The mix of disciplines is the client's stated differentiator, so `field` is
  * surfaced in the UI rather than kept as an internal label.
  *
@@ -14,12 +18,18 @@ import germanEstrella from '../assets/team/german-estrella.jpeg';
  * are real people, and a card showing the wrong face is worse than one showing
  * no face. `alt` is written per person for the same reason.
  *
- * All four files are pre-cropped to the same 4:5 geometry — head top at ~10%
- * of the frame, head height ~23% — so the row reads as one shoot and the
- * discipline badge never lands on a face. The two studio shots had no headroom
- * at all, so their backdrop was extended upward by a flat sample of its own
- * colour before cropping. Replacing a portrait means matching that geometry;
- * the component applies no per-image positioning.
+ * Every file is pre-cropped to the same 4:5 geometry — head top at ~10% of the
+ * frame, head height ~23% — so the row reads as one shoot and the discipline
+ * badge never lands on a face. The two studio shots had no headroom at all, so
+ * their backdrop was extended upward by a flat sample of its own colour before
+ * cropping. Replacing a portrait means matching that geometry; the component
+ * applies no per-image positioning.
+ *
+ * Carbonell's is the exception that proves the rule: it is the only one from a
+ * different shoot (corridor, lab coat, hands in pockets) and the only source
+ * that could not be loosened to the others' head size — matching them would
+ * have needed a crop wider than the frame. It holds the 4:5 and the head
+ * position, which is what the badge and the row actually depend on.
  */
 export type Member = {
   id: string;
@@ -58,6 +68,20 @@ export const team: Member[] = [
     bio: 'Encargado del acompañamiento en procesos de prevención, recuperación y retorno progresivo a la actividad deportiva.',
     portrait: juanSebastianTorres,
     alt: 'Juan Sebastián Torres de brazos cruzados, con uniforme negro de fisioterapeuta, en fondo blanco',
+  },
+  {
+    /* Supplied by the client rather than taken from the document, and his name
+       is the one thing on this page that contradicts its own evidence: the lab
+       coat in the photograph is embroidered "Luis Orlando Valencia". The client
+       was asked and confirmed the name below, so it stands — but it is the
+       first thing to re-check if anyone edits this row. */
+    id: 'luis-fernando-carbonell',
+    name: 'Luis Fernando Carbonell',
+    field: 'Fisioterapia',
+    role: 'Fisioterapeuta',
+    bio: 'Comprometido con la recuperación funcional, el bienestar y la calidad de vida de sus pacientes. Enfocado en brindar una atención integral, humana y personalizada.',
+    portrait: luisFernandoCarbonell,
+    alt: 'Luis Fernando Carbonell de pie con bata blanca de fisioterapeuta sobre scrubs azules, en el interior de un consultorio',
   },
   {
     id: 'german-estrella',

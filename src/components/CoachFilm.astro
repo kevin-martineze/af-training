@@ -1,0 +1,255 @@
+---
+import { whatsappLink } from '../data/site';
+
+/* The client supplied one finished piece rather than raw footage: a single
+   23s take of Andrés Lara correcting movement on the pitch, delivered with its
+   own opening title card and burned-in kinetic captions. Nothing here is
+   recut — cropping the captions away would cost the ball and his hands, which
+   is the whole point of the shot.
+
+   `concepts` is transcribed from those burned-in captions, which is why the
+   wording reads as his and not ours. Surfacing them as chips is what stops the
+   section from carrying two competing layers of type: the video keeps its
+   typography, the page states the same vocabulary in the brand's. It also
+   carries the meaning on phones, where the burned-in captions render at about
+   9px and are no longer readable. */
+const concepts = [
+  'El corte',
+  'La paralela',
+  'Proteger la pierna',
+  'Amplitud',
+  'Tranquilidad',
+  'Manejo',
+  'Situación real',
+];
+---
+
+<section id="en-cancha" data-coach class="relative overflow-hidden py-24 lg:py-32">
+  <div class="shell">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-10">
+      <div class="lg:col-span-6">
+        <p class="eyebrow mb-5" data-reveal="fade">04 — En cancha</p>
+        <h2 class="display text-[clamp(2.4rem,6vw,5rem)] text-bone lg:text-[min(5vw,4.75rem)]" data-split>
+          El detalle<br />se corrige<br /><span class="text-brand-red">en cancha</span>
+        </h2>
+      </div>
+      <div class="lg:col-span-5 lg:col-start-8">
+        <p class="text-lg leading-relaxed text-muted" data-reveal>
+          En esta sesión, Andrés Lara corrige sobre la cancha los movimientos que deciden un
+          partido de fútbol sala. Es el mismo trabajo que hay detrás de cada plan: ver,
+          explicar y ajustar.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full-bleed on purpose. Everything else on the page sits in the shell or in
+       a rounded card; letting this one run edge to edge is what marks it as the
+       piece you actually watch. -->
+  <div class="relative mt-14 lg:mt-20" data-reveal="fade">
+    <div data-coach-stage class="grain relative overflow-hidden border-y hairline bg-ink-900">
+      <!-- Portrait on phones, not 16:9. A letterboxed 16:9 frame at 390px wide
+           is 219px tall and the subject shrinks to nothing; `object-cover` on a
+           4:5 box keeps the full height of the shot — captions included — and
+           crops the towers instead, which the composition survives. -->
+      <video
+        data-coach-video
+        data-src="/videos/coach-detalles.mp4"
+        poster="/posters/coach-detalles.jpg"
+        class="aspect-[4/5] w-full object-cover md:aspect-video"
+        width="1920"
+        height="1080"
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-label="Andrés Lara corrigiendo movimientos sobre la cancha: el corte, la paralela y la protección de la pierna."
+      ></video>
+
+      <!-- One full-area control, so the clip needs no scrubber and the burned-in
+           captions keep the lower third to themselves. The badge is decorative:
+           it is inside the button, so tapping it toggles playback too. -->
+      <button
+        type="button"
+        data-coach-toggle
+        aria-label="Reproducir el video"
+        aria-pressed="false"
+        class="absolute inset-0 cursor-pointer"
+      >
+        <span
+          data-coach-glyph
+          aria-hidden="true"
+          class="absolute bottom-5 left-5 flex size-14 items-center justify-center rounded-full border border-bone/25 bg-ink-950/60 text-bone backdrop-blur-sm transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)] sm:bottom-7 sm:left-7 sm:size-16"
+        >
+          <svg data-coach-icon="play" width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M8 5.5v13l10-6.5-10-6.5Z" fill="currentColor"></path>
+          </svg>
+          <svg data-coach-icon="pause" width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"></path>
+          </svg>
+        </span>
+      </button>
+
+      <!-- Sits top-right: the bottom band is the clip's own caption area. -->
+      <button
+        type="button"
+        data-coach-sound
+        aria-label="Activar el sonido"
+        aria-pressed="false"
+        class="absolute top-4 right-4 flex items-center gap-2.5 rounded-full border border-bone/25 bg-ink-950/60 px-3.5 py-2.5 text-xs tracking-wide text-bone uppercase backdrop-blur-sm transition-colors duration-300 hover:border-bone sm:top-6 sm:right-6 sm:px-4"
+      >
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M2 6h2.6L8 3.2v9.6L4.6 10H2V6Z" fill="currentColor"></path>
+          <path
+            data-coach-wave
+            d="M10.6 5.6a3.2 3.2 0 0 1 0 4.8M12.7 3.6a6 6 0 0 1 0 8.8"
+            stroke="currentColor"
+            stroke-width="1.3"
+            stroke-linecap="round"></path>
+        </svg>
+        <span data-coach-sound-label class="hidden sm:inline">Activar sonido</span>
+      </button>
+    </div>
+
+    <div class="shell mt-5 flex items-center justify-between gap-4">
+      <p class="text-xs tracking-wide text-muted uppercase">
+        Detalles a corregir<span class="hidden sm:inline">
+          · Andrés Lara, entrenador deportivo</span>
+      </p>
+      <p class="shrink-0 text-xs tracking-wide text-muted uppercase">0:23</p>
+    </div>
+  </div>
+
+  <div class="shell mt-14">
+    <p class="eyebrow mb-4" data-reveal="fade">Lo que se corrige</p>
+    <ul class="flex flex-wrap gap-2" data-reveal>
+      {
+        concepts.map((item) => (
+          <li class="rounded-full border hairline bg-ink-800 px-4 py-2 text-xs text-bone/80">
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-10 flex flex-wrap items-center gap-4">
+      <a
+        href={whatsappLink(
+          'Hola, quiero agendar mi valoración inicial gratuita con Andrés Lara Entrenamientos.',
+        )}
+        target="_blank"
+        rel="noopener"
+        class="rounded-full bg-brand-red px-8 py-4 text-sm font-medium tracking-wide text-bone uppercase transition-colors duration-300 hover:bg-brand-red-bright"
+      >
+        Agenda tu valoración
+      </a>
+      <a
+        href="#planes"
+        class="text-sm tracking-wide text-muted uppercase underline-offset-4 transition-colors duration-300 hover:text-bone hover:underline"
+      >
+        Ver planes
+      </a>
+    </div>
+  </div>
+
+  <!-- The poster is the clip's own first frame, so nothing moves until the
+       section is actually on screen; a visitor who never scrolls this far
+       downloads no video at all. -->
+  <script is:inline>
+    (function () {
+      var root = document.querySelector('[data-coach]');
+      if (!root) return;
+
+      var video = root.querySelector('[data-coach-video]');
+      var toggle = root.querySelector('[data-coach-toggle]');
+      var sound = root.querySelector('[data-coach-sound]');
+      var soundLabel = root.querySelector('[data-coach-sound-label]');
+      if (!video || !toggle || !sound) return;
+
+      var loaded = false;
+
+      function load() {
+        if (loaded) return;
+        loaded = true;
+        var src = video.getAttribute('data-src');
+        if (src) video.setAttribute('src', src);
+        video.load();
+      }
+
+      function play() {
+        load();
+        var p = video.play();
+        if (p) p.catch(function () {});
+      }
+
+      // Driven by the element's own events rather than by our own bookkeeping,
+      // so a refusal from the browser lands in the same state as a pause.
+      video.addEventListener('play', function () {
+        root.setAttribute('data-coach-state', 'playing');
+        toggle.setAttribute('aria-label', 'Pausar el video');
+        toggle.setAttribute('aria-pressed', 'true');
+      });
+      video.addEventListener('pause', function () {
+        root.setAttribute('data-coach-state', 'paused');
+        toggle.setAttribute('aria-label', 'Reproducir el video');
+        toggle.setAttribute('aria-pressed', 'false');
+      });
+
+      toggle.addEventListener('click', function () {
+        if (video.paused) play();
+        else video.pause();
+      });
+
+      sound.addEventListener('click', function () {
+        video.muted = !video.muted;
+        var on = !video.muted;
+        sound.setAttribute('aria-pressed', on ? 'true' : 'false');
+        sound.setAttribute('aria-label', on ? 'Silenciar el video' : 'Activar el sonido');
+        if (soundLabel) soundLabel.textContent = on ? 'Silenciar' : 'Activar sonido';
+        if (on) play();
+      });
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+
+      new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) play();
+            else if (!video.paused) video.pause();
+          });
+        },
+        { threshold: 0.5 },
+      ).observe(root);
+    })();
+  </script>
+
+  <style>
+    [data-coach-icon='pause'] {
+      display: none;
+    }
+
+    /* Playing: the badge gets out of the way and only returns under the cursor,
+       as a pause cue. Paused — which is where reduced-motion visitors rest — it
+       stays put, and it sits bottom-left so it never lands on the poster's own
+       centred title or on the clip's caption band. */
+    [data-coach-state='playing'] [data-coach-glyph] {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    [data-coach-state='playing'] [data-coach-stage]:hover [data-coach-glyph] {
+      opacity: 0.92;
+      transform: none;
+    }
+    [data-coach-state='playing'] [data-coach-icon='play'] {
+      display: none;
+    }
+    [data-coach-state='playing'] [data-coach-icon='pause'] {
+      display: block;
+    }
+
+    [data-coach] video {
+      cursor: pointer;
+    }
+  </style>
+</section>

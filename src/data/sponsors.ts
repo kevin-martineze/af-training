@@ -13,6 +13,7 @@ import ewWilliamOrtiz from '../assets/sponsors/ew-william-ortiz.png';
 import juanSebastianTorres from '../assets/sponsors/juan-sebastian-torres.png';
 import julyFerreteria from '../assets/sponsors/july-ferreteria.jpeg';
 import marRoseUsa from '../assets/sponsors/mar-rose-usa.jpeg';
+import clutchTurbinasDelSur from '../assets/sponsors/clutch-turbinas-del-sur.png';
 
 /**
  * "Marcas que confían en nosotros" — the client explicitly asked for this
@@ -53,4 +54,5 @@ export const sponsors: Sponsor[] = [
   },
   { name: 'July Ferretería', logo: julyFerreteria },
   { name: 'Mar Rose USA', note: 'Personal shopper', logo: marRoseUsa },
+  { name: 'Clutch y Turbinas del Sur', logo: clutchTurbinasDelSur },
 ];

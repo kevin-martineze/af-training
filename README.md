@@ -153,6 +153,53 @@ other, which is the honest reading rather than a mistake: `field` names the
 discipline, and the section's "four areas" now has two professionals behind one
 of them.
 
+### The logo grid
+
+Every mark renders 120px wide and as tall as its own file, and nothing in
+`Sponsors.astro` is doing that. The `<Image>` there carries `h-14 w-auto
+object-contain`, and none of the three lands: Astro's responsive-image
+stylesheet is unlayered while Tailwind 4 puts utilities inside `@layer
+utilities`, and unlayered rules win over layered ones whatever their
+specificity. The class still supplies the greyscale and the rounded corners,
+which is why it reads as if it were working.
+
+So the files themselves are the layout. A square source is a square tile and a
+3:1 source is a short one, which is why the row looks the way it does. Two
+consequences worth knowing before touching this section:
+
+- Adding `layout="none"` — which is what `Team.astro` passes, and why its
+  `sizes` behaves — would not restore `h-14` so much as replace width
+  normalisation with height normalisation. Tall marks would go narrow instead of
+  short. Fix the intent deliberately, not by deleting the prop.
+- Because width is capped rather than height, cropping a mark's own padding
+  changes almost nothing on screen. `clutch-turbinas-del-sur.png` was cropped
+  from a square to 1080x602 and the drawn mark is identical either way; the crop
+  is there to drop dead pixels, not to resize anything.
+
+`blanksBase` and `blanksSm` are what keep the grid's hairlines closed. The `ul`
+paints the edge colour and each `li` covers it, leaving 1px gaps as the rules —
+so an uncovered last cell shows as a pale block of that colour rather than as a
+missing rule. The blanks are the same `bg-ink-950` as a real cell, so they read
+as an empty tile with the frame complete around it.
+
+### Vertical rhythm
+
+Sections space themselves on three steps, and the middle one is the default:
+
+| Step | Class | Where |
+| --- | --- | --- |
+| standard | `py-16 lg:py-20` | manifest, services, method, plans, team, gallery, faq |
+| surfaced | `py-16 lg:py-24` | bands carrying their own background or border — coach, marks, kit |
+| tight | `py-14 lg:py-16` | the reel strip, which is just a `border-y` band |
+
+Every section used to be `lg:py-40`, which put 320px of nothing between one
+section's content and the next's. Two adjacent 160px paddings do that, and the
+page read as though it were full of holes. On the scale above the same gaps are
+160–177px on desktop and 128–144px on mobile. Kit was already at `lg:py-24`
+inside its wrapper; the rest of the page moved down to meet it rather than the
+other way round. `Method` only takes the mobile half — on desktop it is a pinned
+rail, `lg:min-h-screen lg:py-0`.
+
 ### Working with the photography
 
 `src/assets/training/` holds two generations of files.
@@ -201,13 +248,14 @@ the crest's navy ring and so never touches the whites inside it).
   site at all rather than only on social.
 - Point `site` in `astro.config.mjs` at the production domain — the sitemap,
   canonical URLs and `og:image` are all built from it.
-- Two marks are still unused in `src/assets/sponsors/`: `clutch-turbinas-del-sur`
-  and `veinticinco`. Both are printed on the navy kit, so the relationship is
-  real, but their files are weak — Clutch is 224px square and Veinticinco is a
-  photograph of a neon sign rather than a mark. `gutysport` is also unused and
-  is the kit manufacturer rather than a supporter; the file is an Instagram
-  screenshot with the comment bar still in it. Ask for proper artwork before
-  adding any of the three.
+- Two marks are still unused in `src/assets/sponsors/`: `veinticinco` and
+  `gutysport`. Both are printed on the navy kit, so the relationship is real,
+  but the files are weak — Veinticinco is a photograph of a neon sign rather
+  than a mark, and Gutysport is an Instagram screenshot with the comment bar
+  still in it. It is also the kit manufacturer rather than a supporter. Ask for
+  proper artwork before adding either. Clutch used to be the third on this list
+  and came off it the same way: the placeholder was a 224px square and the
+  client sent a 1254px replacement.
 - Every brand on the page ships a logo, so the wordmark fallback in
   `Sponsors.astro` is currently unexercised. Keep it: it is what stops a new
   brand from leaving a hole in the grid before its file arrives.

@@ -48,8 +48,13 @@ export const team: Member[] = [
     field: 'Entrenamiento',
     role: 'Entrenador deportivo · Licenciado en Educación Física',
     bio: 'Normalista Superior y licenciado en Educación Física, con experiencia en procesos de formación y competencia, especialmente en fútbol sala.',
+    /* From the October 2026 pitch shoot, replacing the old studio frame in
+       last season's kit. The source is a 9:16 phone frame shot close, so at
+       full width its 4:5 crop puts the head near 35% of the height rather
+       than the row's ~23%, with the top at ~7%. Tighter than its neighbours,
+       but there is no wider frame to take it from — same trade as Carbonell's. */
     portrait: andresLara,
-    alt: 'Andrés Lara de brazos cruzados, con la indumentaria del club, en fondo de estudio',
+    alt: 'Andrés Lara sonriendo de brazos cruzados en la cancha, con la camiseta blanca 2026',
   },
   {
     id: 'andres-rubiano',

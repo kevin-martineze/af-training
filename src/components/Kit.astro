@@ -4,89 +4,205 @@ import { brand } from '../data/media';
 import { currencyFormat, kit } from '../data/plans';
 import { whatsappLink } from '../data/site';
 
-/* The kit render used to sit in the sponsors column, small, as evidence that
-   the brands are really on the shirt. It carries a price now, so it leads its
-   own band instead — bigger, and in the run of the page where money is already
-   being discussed, right after the plans. The sponsors section keeps the claim
-   in words; its logo grid was always the part doing the work there. */
+/* The kit as a product drop. One stage, four frames, driven by scroll:
+
+     01  the navy shirt, worn on the pitch
+     02  a circle opens on the crest and the camera "lands" on it — the macro
+         is shot on the white shirt, which is how the sequence crosses from
+         one colourway to the other without a hard cut
+     03  an angled wipe turns to the back: the 00 and the sponsor marks, held
+         up by a player at the launch
+     04  both renders wipe up from below, so the two versions close the run
+
+   From lg the whole section pins while the sequence plays. Below lg only the
+   stage pins, centred, so a phone sees every frame at full size instead of
+   watching the sequence run out while the stage is still sliding in. The
+   step list doubles as navigation, and under reduced motion it is the only
+   way through: each step cuts straight to its frame.
+
+   Frames 02 to 04 start clipped away in their inline style, so if motion.ts
+   never runs the stage still shows a finished photograph — frame 01. */
+const steps = [
+  { title: 'En cancha', body: 'La azul 2026, con el escudo al pecho.' },
+  { title: 'El escudo', body: 'Andrés Lara Entrenamientos, en el centro del pecho.' },
+  { title: 'La espalda', body: 'El número y las marcas que nos acompañan.' },
+  { title: 'Las dos versiones', body: 'Azul y blanca, con la firma de Andrés en la blanca.' },
+];
+const origin = brand.worn.origin;
 ---
 
 <section
   id="indumentaria"
   class="relative isolate grain overflow-hidden border-y hairline bg-ink-900"
+  data-kit
 >
-  <!-- A red wash under the render, on the side the render sits on, so the band
-       reads as its own surface rather than as more of the section above. -->
   <div
-    class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(65%_70%_at_24%_50%,rgba(200,16,46,0.18),transparent)]"
+    class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_70%_at_28%_50%,rgba(200,16,46,0.16),transparent)]"
     aria-hidden="true"
   >
   </div>
 
-  <div class="shell grid items-center gap-12 py-20 lg:grid-cols-12 lg:gap-16 lg:py-24">
-    <!-- Both colourways as a stepped pair rather than a flat row. The navy one
-         carries the sponsor marks the copy refers to, so it leads and sits
-         higher; the white one drops to break the shared baseline. The renders
-         arrive on their own dark backdrop, so a hairline and a rounded corner
-         are enough to read them as two cards. -->
-    <div class="grid grid-cols-2 gap-4 lg:col-span-7 lg:gap-6" data-reveal="scale">
-      {
-        brand.kits.map((colourway, index) => (
-          <figure
-            class:list={[
-              'group/kit relative overflow-hidden rounded-2xl border hairline bg-ink-950/40 transition-[transform,border-color] duration-700 ease-[var(--ease-out-expo)] hover:-translate-y-2 hover:border-bone/25',
-              index === 1 && 'mt-10 lg:mt-14',
-            ]}
+  <!-- The year as an outline behind the stage. It drifts sideways on the same
+       timeline as the stage, so it keeps moving while the section is pinned —
+       a data-parallax here would be measured against the pin and stall. -->
+  <p
+    class="display pointer-events-none absolute top-1/2 left-0 -z-10 -translate-y-1/2 text-[34vw] leading-none whitespace-nowrap text-transparent select-none [-webkit-text-stroke:1px_rgba(244,242,237,0.07)] lg:text-[22vw]"
+    aria-hidden="true"
+    data-kit-year
+  >
+    2026
+  </p>
+
+  <div
+    class="shell grid items-center gap-12 py-16 lg:min-h-svh lg:grid-cols-12 lg:gap-16 lg:py-10"
+  >
+    <!-- Stage. Height-led from lg so a pinned section always fits the
+         viewport; width-led below that, where nothing pins. -->
+    <div class="flex justify-center lg:col-span-6" style="perspective: 1400px" data-kit-pin>
+      <div
+        class="relative aspect-[2/3] w-full max-w-md [transform-style:preserve-3d] lg:h-[min(82svh,54rem)] lg:w-auto lg:max-w-none"
+        data-kit-tilt
+      >
+        <div
+          class="relative size-full overflow-hidden rounded-[1.75rem] border hairline bg-ink-950 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
+          data-kit-stage
+          data-kit-origin={origin}
+        >
+          <Image
+            src={brand.worn.src}
+            alt={brand.worn.alt}
+            widths={[420, 640, 900, 1200]}
+            sizes="(min-width: 1024px) 36rem, 92vw"
+            loading="lazy"
+            layout="none"
+            class="photo absolute inset-0 size-full object-cover will-change-transform"
+            style={`transform-origin: ${origin}`}
+            data-kit-layer
+          />
+
+          <Image
+            src={brand.crestDetail.src}
+            alt={brand.crestDetail.alt}
+            widths={[420, 640, 900, 1200]}
+            sizes="(min-width: 1024px) 36rem, 92vw"
+            loading="lazy"
+            layout="none"
+            class="photo absolute inset-0 size-full object-cover will-change-transform"
+            style={`clip-path: circle(0% at ${origin})`}
+            data-kit-layer
+          />
+
+          <Image
+            src={brand.back.src}
+            alt={brand.back.alt}
+            widths={[420, 640, 900, 1200]}
+            sizes="(min-width: 1024px) 36rem, 92vw"
+            loading="lazy"
+            layout="none"
+            class="photo absolute inset-0 size-full object-cover will-change-transform"
+            style="clip-path: polygon(0% 0%, 0% 0%, -30% 100%, -30% 100%)"
+            data-kit-layer
+          />
+
+          <!-- Both renders, stacked. Each row lands near 1.4:1 against renders
+               of ~1.2:1, so a cover crop only trims backdrop top and bottom;
+               contain left strips of a backdrop colour no CSS value matched. -->
+          <div
+            class="absolute inset-0 grid grid-rows-2 gap-3 bg-ink-950 p-3"
+            style="clip-path: inset(100% 0% 0% 0%)"
+            data-kit-layer
           >
-            <Image
-              src={colourway.src}
-              alt={colourway.alt}
-              widths={[360, 560, 820]}
-              sizes="(min-width: 1024px) 28vw, 46vw"
-              loading="lazy"
-              class="w-full object-contain transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover/kit:scale-[1.04]"
-            />
-            <figcaption class="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-950 via-ink-950/70 to-transparent px-4 pt-10 pb-3">
-              <span class="eyebrow text-[0.6rem] text-bone/85">{colourway.label}</span>
-            </figcaption>
-          </figure>
-        ))
-      }
+            {
+              brand.kits.map((colourway) => (
+                <figure class="relative overflow-hidden rounded-2xl">
+                  <Image
+                    src={colourway.src}
+                    alt={colourway.alt}
+                    widths={[360, 560, 820]}
+                    sizes="(min-width: 1024px) 34rem, 88vw"
+                    loading="lazy"
+                    layout="none"
+                    class="size-full object-cover"
+                  />
+                  <figcaption class="absolute bottom-3 left-4 eyebrow text-[0.6rem] text-bone/85">
+                    {colourway.label}
+                  </figcaption>
+                </figure>
+              ))
+            }
+          </div>
+
+          <!-- Gloss follows the pointer (--mx/--my, set in motion.ts). -->
+          <div
+            class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 [background:radial-gradient(420px_circle_at_var(--mx,50%)_var(--my,30%),rgba(255,255,255,0.14),transparent_60%)]"
+            data-kit-gloss
+            aria-hidden="true"
+          >
+          </div>
+
+          <div
+            class="pointer-events-none absolute top-5 left-5 flex items-center gap-2 rounded-full bg-ink-950/70 px-3.5 py-1.5 backdrop-blur-sm"
+            aria-hidden="true"
+          >
+            <span class="eyebrow text-[0.62rem] text-bone" data-kit-counter>01</span>
+            <span class="eyebrow text-[0.62rem]">/ 0{steps.length}</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="lg:col-span-5 lg:col-start-8">
       <p class="eyebrow mb-5" data-reveal="fade">{kit.name}</p>
 
       <!-- "VÍSTETE DEL" is 7.18em wide, so the 2.2rem floor still clears a
-           320px shell and the 5.5vw ramp clears the 6-of-12 column from lg up.
+           320px shell and the ramp clears the 5-of-12 column from lg up.
            The Í is why the mask rule in global.css exists. -->
-      <h2 class="display text-[clamp(2.2rem,5.5vw,4.5rem)] text-bone" data-split>
+      <h2 class="display text-[clamp(2.2rem,5vw,4.2rem)] text-bone" data-split>
         Vístete del<br />proceso
       </h2>
 
-      <!-- The price is the point of the band, so it is set at display size
-           rather than tucked into the copy. "$&nbsp;90.000" is 4.45em wide,
-           which the column holds at every step of this ramp. -->
-      <div class="mt-9 flex flex-wrap items-end gap-x-4" data-reveal data-reveal-delay="0.1">
-        <p class="display text-[clamp(3rem,9vw,7rem)] leading-[0.8] text-bone">
+      <!-- The steps are buttons: they jump the sequence to their frame. The
+           rail on the left fills with the timeline's progress. -->
+      <ol class="relative mt-9 space-y-1 pl-5" data-reveal data-reveal-delay="0.1">
+        <span class="absolute top-0 bottom-0 left-0 w-px bg-bone/12" aria-hidden="true"></span>
+        <span
+          class="absolute top-0 bottom-0 left-0 w-px origin-top scale-y-0 bg-brand-red"
+          aria-hidden="true"
+          data-kit-bar
+        ></span>
+        {
+          steps.map((step, index) => (
+            <li>
+              <button
+                type="button"
+                class="group/step block w-full py-2.5 text-left opacity-45 transition-opacity duration-500 hover:opacity-80 aria-[current=step]:opacity-100"
+                aria-current={index === 0 ? 'step' : undefined}
+                data-kit-step={index}
+              >
+                <span class="flex items-baseline gap-3">
+                  <span class="eyebrow text-[0.62rem] text-brand-gold">0{index + 1}</span>
+                  <span class="display-tight text-lg text-bone">{step.title}</span>
+                </span>
+                <span class="mt-1 block pl-8 text-sm leading-relaxed text-muted">{step.body}</span>
+              </button>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="mt-9 flex flex-wrap items-end gap-x-4" data-reveal data-reveal-delay="0.15">
+        <p class="display text-[clamp(3rem,7vw,5.5rem)] leading-[0.8] text-bone">
           {currencyFormat(kit.price, kit.currency)}
         </p>
         <span class="eyebrow pb-2 text-brand-gold">{kit.currency}</span>
       </div>
 
-      <span
-        class="mt-6 block h-px w-full max-w-sm origin-left bg-brand-red"
-        data-reveal="left"
-        data-reveal-delay="0.2"
-        aria-hidden="true"
-      ></span>
-
       {/* A chip row rather than a sentence: the entries are proper nouns on
           the kit and joining them into prose put a capital in mid-sentence. */}
       <ul
-        class="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-bone/85"
+        class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-bone/85"
         data-reveal
-        data-reveal-delay="0.25"
+        data-reveal-delay="0.2"
       >
         {kit.includes.map((item, index) => (
           <li class="flex items-center gap-3">
@@ -96,25 +212,21 @@ import { whatsappLink } from '../data/site';
         ))}
       </ul>
 
-      <p class="mt-4 max-w-md text-sm leading-relaxed text-muted" data-reveal data-reveal-delay="0.3">
-        Lleva los logos de las marcas que acompañan el proyecto.
-      </p>
-
       <a
         href={whatsappLink(
           `Hola, quiero pedir la ${kit.name} (${currencyFormat(kit.price, kit.currency)}). ¿Cómo la consigo?`,
         )}
         target="_blank"
         rel="noopener"
-        class="group relative mt-9 inline-flex overflow-hidden rounded-full bg-bone px-8 py-4 text-sm font-medium tracking-wide text-ink-950 uppercase"
+        class="group relative mt-8 inline-flex overflow-hidden rounded-full bg-bone px-8 py-4 text-sm font-medium tracking-wide text-ink-950 uppercase"
         data-reveal
-        data-reveal-delay="0.35"
+        data-reveal-delay="0.25"
       >
         <span
           class="absolute inset-0 translate-y-full bg-brand-red transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0"
         ></span>
         <span class="relative transition-colors duration-300 group-hover:text-bone">
-          Pedir indumentaria
+          Pide la tuya
         </span>
       </a>
     </div>

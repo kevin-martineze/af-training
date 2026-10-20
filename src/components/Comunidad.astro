@@ -1,0 +1,104 @@
+---
+import { Image } from 'astro:assets';
+import { community } from '../data/media';
+
+/* The players from the kit launch, under "¿Qué estás esperando?".
+
+   The six portraits are a hand of cards. The markup lays them out already
+   fanned — offset from the centre by --o card-steps, tilted by --o × --tilt
+   degrees (3 on phones, where 5 swung the outer corners off screen),
+   dropped by the square of --o — so with no JavaScript the fan is simply
+   there. motion.ts (initFan) then deals them: they rise out of a soft blur as
+   one stacked pile, then open into the fan from the centre outwards.
+
+   The step between cards is the smaller of a card width and a fifth of the
+   free width, so six always fit the shell: a full spread on desktop, a tight
+   overlapping hand on a phone. Under a fine pointer, hovering a card
+   straightens and lifts it while its neighbours lean away, like a dock. */
+const count = community.players.length;
+const mid = (count - 1) / 2;
+---
+
+<section id="comunidad" class="relative isolate overflow-hidden bg-ink-900 py-16 lg:py-20">
+  <div class="shell">
+    <div class="grid items-end gap-10 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-5">
+        <p class="eyebrow mb-5" data-reveal="fade">Comunidad</p>
+        <!-- Heading at the client's request. "ESPERANDO?" is the widest line,
+             wider than its 6.3em estimate once the question mark lands: at
+             4.3rem it lost the mark to the 5-of-12 column. The ramp now tops
+             out at 3.7rem. -->
+        <h2 class="display text-[clamp(2.1rem,3.9vw,3.7rem)] text-bone" data-split>
+          ¿Qué estás<br />esperando?
+        </h2>
+        <p class="mt-6 max-w-sm text-sm leading-relaxed text-muted" data-reveal>
+          Jugadoras y jugadores del proyecto el día en que estrenaron la indumentaria 2026.
+        </p>
+      </div>
+
+      <!-- The trio leads on its own. The photo is taller than its frame so the
+           parallax has room to travel without showing an edge. -->
+      <!-- Revealed by a curtain rising off it while the photo settles from a
+           zoom (initFan). The parallax sits on the wrapper and the zoom on
+           the image, so the two never write the same transform. -->
+      <figure
+        class="grain relative aspect-[16/10] overflow-hidden rounded-[1.75rem] border hairline lg:col-span-7"
+        data-fan-lead
+      >
+        <div class="absolute inset-x-0 -top-[8%] h-[116%]" data-parallax="14">
+          <Image
+            src={community.lead.src}
+            alt={community.lead.alt}
+            widths={[640, 960, 1280, 1800]}
+            sizes="(min-width: 1024px) 52vw, 92vw"
+            loading="lazy"
+            layout="none"
+            class="photo size-full object-cover will-change-transform"
+            data-fan-lead-img
+          />
+        </div>
+      </figure>
+    </div>
+
+    <ul
+      class="relative mt-14 h-[clamp(15rem,62vw,26rem)] [--cw:clamp(8.5rem,24vw,15rem)] [--tilt:3] sm:[--tilt:5] lg:mt-20"
+      data-fan
+    >
+      {
+        community.players.map((player, index) => {
+          const offset = index - mid;
+          return (
+            <li
+              class="group/card absolute top-0 w-(--cw) hover:z-20!"
+              style={[
+                `--o: ${offset}`,
+                `left: calc(50% - var(--cw) / 2 + var(--o) * min(var(--cw), (100% - var(--cw)) / 5))`,
+                `rotate: calc(var(--o) * var(--tilt) * 1deg)`,
+                `translate: 0 ${(offset * offset * 0.45).toFixed(2)}rem`,
+                `z-index: ${10 - Math.round(Math.abs(offset))}`,
+              ].join('; ')}
+              data-fan-card
+            >
+              {/* Two layers on purpose: the <li> carries the fan pose and
+                  the deal-in, this wrapper carries the hover — so the hover
+                  can straighten a card without undoing where the fan put it. */}
+              <div class="will-change-transform" data-fan-float>
+                <div class="grain relative aspect-[3/4] overflow-hidden rounded-2xl border-2 border-bone/90 bg-ink-950 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.85)] transition-shadow duration-700 group-hover/card:shadow-[0_50px_90px_-30px_rgba(0,0,0,0.95)]">
+                  <Image
+                    src={player.src}
+                    alt={player.alt}
+                    widths={[280, 420, 600]}
+                    sizes="(min-width: 1024px) 15rem, 24vw"
+                    loading="lazy"
+                    layout="none"
+                    class="photo size-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-expo)] group-hover/card:scale-[1.04]"
+                  />
+                </div>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

@@ -30,7 +30,8 @@ If the dev server reports that another instance is already running, use
 ```
 src/
   assets/
-    brand/        crest and the two 2026 kit renders
+    brand/        crest, the two 2026 kit renders and the kit as worn
+    community/    players at the kit launch, for "Visten el proceso"
     sponsors/     supporter logos
     team/         marks belonging to individual team members
     training/     photography, imported through astro:assets so it gets
@@ -43,6 +44,7 @@ src/
     team.ts       the five professionals
     sponsors.ts   "marcas que confían en nosotros"
     media.ts      photo registry — alt text lives here, written once
+    entrega.ts    the kit-launch story: chapters and their timed captions
   layouts/
   lib/motion.ts   all scroll animation, driven by data-* attributes
   styles/
@@ -112,6 +114,91 @@ heaviest single video in the repo; if that has to come down, the encode is
 CRF 25 and the source is 4K, so there is room in the rate before the picture
 starts to show it.
 
+### The kit band
+
+`Kit.astro` is a four-frame product sequence on one 2:3 stage: Andrés Lara in
+the navy shirt on the pitch; a circle opening on its crest into a macro of the
+crest (shot on the white shirt, which is how the sequence crosses colourways);
+an angled wipe to the back of a player's shirt, the 00 and the sponsor marks;
+then both renders wiping up from below. Scroll plays it. From `lg` the whole
+section pins for 230% of the viewport; below `lg` only the stage pins, centred,
+for 160% — scrubbing it unpinned spent the first frame while the stage was
+still sliding in. The step list doubles as navigation and is the only way
+through under reduced motion. That is also why the section sits outside the
+vertical rhythm table below: from `lg` it is `min-h-svh` and centres itself.
+
+The client tried the trio of players as frame one, in a wide frame that
+morphed to portrait, and asked for it back out: the trio already heads the
+players' section further down.
+
+Filters in the timeline are always tweened from an explicit value. From
+`none`, GSAP interpolates through garbage and the frame flashes black.
+
+The circle opens at `brand.worn.origin` in `media.ts`, which is where the crest
+sits in `kit-worn-navy.jpeg`. Recrop that file and the origin has to be
+re-measured, or the zoom lands beside the crest.
+
+Two sections pin now, so `motion.ts` calls `ScrollTrigger.sort()` once every
+feature has booted. Triggers refresh in creation order, and a trigger created
+before a pin above it measures its start without that pin's spacing.
+
+### Día de entrega
+
+`Entrega.astro` is a story player for the 61 s kit-launch piece the client
+shot at the Parque del Golf. The piece is already edited and opens and closes
+on Andrés Lara with Andrés Rubiano in the middle, so it is cut into three
+chapters along those speakers, between words, at 11.8 s and 47.4 s. Each is
+720x1280 at 30 fps, CRF 26, with audio; together they are 10.8 MB, and nothing
+loads until a chapter is about to play (the next one warms at 50%).
+
+Captions are not burned in. They live in `src/data/entrega.ts` as timed cues,
+render word by word over the video, and are repeated as a plain transcript in
+the markup. Autoplay is muted, like any feed, and only with motion allowed;
+"Ver con sonido" is the way in with audio and the only way in under reduced
+motion. The glow behind the card is a 24x42 canvas sampled from the playing
+frame and blurred.
+
+Chapters change on a cube turn: both faces share an edge, the outgoing one
+swings back on it while the incoming one swings in, each darkening as it turns
+away, and the card dips slightly while it happens. Mid-turn, the chapter
+number and title rise out of a mask at the centre of the frame and leave again
+a second later. Chapters are named for what happens in them ("La bienvenida",
+"El invitado", "La invitación") rather than for who speaks, because Andrés
+Lara opens and closes the piece and the index read his name twice.
+
+Reduced motion is not the same as no motion. With it on, the kit steps and the
+chapter changes still crossfade; what goes is the zoom, the wipes, the cube and
+the pins. Worth knowing when reviewing on a Mac: with *Reduce motion* enabled
+in System Settings → Accessibility → Display, every effect on this page is
+deliberately off.
+
+### ¿Qué estás esperando? (the players)
+
+`Comunidad.astro` gives the players from the kit launch their own band, headed
+"¿Qué estás esperando?" at the client's request: the
+trio of players as a wide lead image, unveiled by a curtain rising off it while
+the photo settles from a zoom, then six portraits laid out as a hand of cards.
+
+The fan is the cards' resting place in CSS, so it is there without script.
+`initFan` deals it once the row is well in view: the pile rises out of a soft
+blur, then opens from the centre outwards on a long expo curve. It is played on
+its own clock rather than scrubbed — tied to the wheel it moved in steps. GSAP
+folds the CSS `rotate` and `translate` properties into its own transform the
+first time it touches a card, so the deal ends on the fan's tilt and drop
+rather than on zero, which would flatten the hand into a row. Phones tilt 3°
+per card instead of 5°, or the outer corners leave the screen.
+
+Hover is on a second layer (`[data-fan-float]`) so it never undoes the fan: the
+card under the pointer straightens and lifts, its neighbours lean away, further
+ones less. Fine pointers only.
+
+Nobody in these photos is named on the page. The client sent the pictures, not
+the names, and the alt text describes without identifying.
+
+Headless Chrome reports `prefers-reduced-motion: reduce` by default. Anything
+that screenshots this page headless has to emulate `no-preference`, or it
+captures the static fallback — no pins, no autoplay — and reads it as broken.
+
 ### Animation
 
 `src/lib/motion.ts` is the only place that touches GSAP. Components stay
@@ -125,6 +212,10 @@ declarative and opt into behaviour with attributes:
 | `data-marquee="30"` | Seamless ticker; the track must be duplicated in markup |
 | `data-rail` | Pinned horizontal scroll section (desktop only) |
 | `data-count="120"` | Number counts up when scrolled into view |
+
+The kit sequence and the story player are wired by their own `data-kit-*` and
+`data-story-*` hooks rather than generic attributes — see the two sections
+above.
 
 Elements carrying `data-reveal` or `data-split` start at `opacity: 0`. If
 anything in the boot sequence throws, `motion.ts` adds `no-motion` to `<html>`,
@@ -189,7 +280,7 @@ Sections space themselves on three steps, and the middle one is the default:
 | Step | Class | Where |
 | --- | --- | --- |
 | standard | `py-16 lg:py-20` | manifest, services, method, plans, team, gallery, faq |
-| surfaced | `py-16 lg:py-24` | bands carrying their own background or border — coach, marks, kit |
+| surfaced | `py-16 lg:py-24` | bands carrying their own background or border — coach, marks, entrega |
 | tight | `py-14 lg:py-16` | the reel strip, which is just a `border-y` band |
 
 Every section used to be `lg:py-40`, which put 320px of nothing between one
@@ -232,6 +323,18 @@ backdrop cut to transparency (flood fill seeded from the border, which stops at
 the crest's navy ring and so never touches the whites inside it).
 
 ## Before launch
+
+- The "Día de entrega" captions were machine-transcribed and corrected by hand.
+  Three lines are a best reading of unclear audio and are marked in
+  `src/data/entrega.ts` ("entrega de uniformes", "Desearle lo mejor al profe",
+  "No solo celebramos"). Play them once with sound and fix any that are off.
+  Get the client's sign-off on the section too: it puts Andrés Rubiano's own
+  words on the page, including that he works with Junior de Barranquilla
+  Femenino.
+- Andrés Lara's team portrait is now from the October 2026 pitch shoot. The
+  source is a close 9:16 frame, so his head runs larger in the 4:5 card than
+  the others' — see the note on his entry in `data/team.ts`. A wider frame
+  from the same shoot would fix it.
 
 - Luis Fernando Carbonell's card carries the one name on the page that
   contradicts its own photograph: the lab coat he is wearing is embroidered

@@ -10,6 +10,18 @@ import huddleTunnel from '../assets/training/huddle-tunnel.jpeg';
 import crest from '../assets/brand/crest-andres-lara.png';
 import kitHome from '../assets/brand/kit-2026-home.png';
 import kitAway from '../assets/brand/kit-2026-away.jpeg';
+import kitWornNavy from '../assets/brand/kit-worn-navy.jpeg';
+import kitCrestDetail from '../assets/brand/kit-crest-detail.jpeg';
+import kitBackSponsors from '../assets/brand/kit-back-sponsors.jpeg';
+
+/* The kit-launch shoot: players in the 2026 navy kit. */
+import trioWomen from '../assets/community/trio-women.jpeg';
+import player00Ball from '../assets/community/player-00-ball.jpeg';
+import player19Braid from '../assets/community/player-19-braid.jpeg';
+import playerThumbsCrest from '../assets/community/player-thumbs-crest.jpeg';
+import playerGlasses from '../assets/community/player-glasses.jpeg';
+import playerFists from '../assets/community/player-fists.jpeg';
+import playerPointingCrest from '../assets/community/player-pointing-crest.jpeg';
 
 /* Camera originals. See the note on `photos` below. */
 import playerCrouchTurfNight from '../assets/training/player-crouch-turf-night.jpeg';
@@ -57,6 +69,46 @@ export const brand = {
       alt: 'Indumentaria 2026 blanca: camiseta con el escudo al frente y la firma de Andrés Lara en la espalda',
     },
   ] satisfies (Photo & { label: string })[],
+  /* The kit as worn, from the October 2026 shoot on the pitch. Both are camera
+     originals cut to 2:3 so they share the stage in Kit.astro frame for frame.
+     `origin` is where the crest sits in the navy shot, as a CSS position: the
+     scroll sequence opens its circle there, so the zoom reads as moving into
+     that crest. Recropping the navy file means re-measuring it. */
+  worn: {
+    src: kitWornNavy,
+    alt: 'Andrés Lara sonriendo en la cancha con la camiseta azul 2026, el escudo al pecho',
+    origin: '67% 52%',
+  },
+  crestDetail: {
+    src: kitCrestDetail,
+    alt: 'Primer plano del escudo de Andrés Lara Entrenamientos sobre la camiseta blanca 2026, con un dedo señalándolo',
+  } satisfies Photo,
+  back: {
+    src: kitBackSponsors,
+    alt: 'Un jugador sostiene a la espalda la camiseta azul 2026 con el número 00 y las marcas Clutch y Turbinas del Sur, AARCI y Clínica Cure',
+  } satisfies Photo,
+};
+
+/**
+ * "Visten el proceso": players at the kit launch, cut from camera originals.
+ * The portraits are 3:4 because that is the card in the fan; the trio is the
+ * full 16:9 frame, cropped to 16:10 by its figure. None of them is named on the page —
+ * the client supplied the photos, not the names — so the alt text describes
+ * and never identifies.
+ */
+export const community = {
+  lead: {
+    src: trioWomen,
+    alt: 'Tres jugadoras con la camiseta azul 2026 posando juntas en la cancha, sonriendo',
+  } satisfies Photo,
+  players: [
+    { src: playerThumbsCrest, alt: 'Una jugadora sonriente señala con los pulgares el escudo de su camiseta azul 2026' },
+    { src: player19Braid, alt: 'Una jugadora con trenzas y la camiseta azul 2026 posa en la cancha' },
+    { src: playerFists, alt: 'Un jugador con la camiseta azul 2026 aprieta los puños y sonríe' },
+    { src: player00Ball, alt: 'Un jugador con el número 00 a la espalda conduce el balón en la cancha' },
+    { src: playerGlasses, alt: 'Una jugadora con gafas y la camiseta azul 2026 ríe acomodándose los lentes' },
+    { src: playerPointingCrest, alt: 'Un jugador sonriente señala el escudo de su camiseta azul 2026' },
+  ] satisfies Photo[],
 };
 
 /**

@@ -116,20 +116,20 @@ starts to show it.
 
 ### The kit band
 
-`Kit.astro` is a five-frame product sequence. Frame one, at the client's
-request, is the squad: three players in the navy kit, the one landscape photo,
-so the stage opens as a wide 16:10 frame as wide as the column and morphs into
-the 2:3 portrait as frame two wipes in — Andrés Lara in the navy shirt. Then a
-circle opens on his crest into a macro of the crest (shot on the white shirt,
-which is how the sequence crosses colourways); an angled wipe turns to the back
-of a player's shirt, the 00 and the sponsor marks; and both renders wipe up
-from below. The morph animates the stage inside a fixed 2:3 box, so nothing
-around it reflows. Scroll plays it all. From `lg` the whole section pins for
-300% of the viewport; below `lg` only the stage pins, centred, for 210% —
-scrubbing it unpinned spent the first frame while the stage was still sliding
-in. The step list doubles as navigation and is the only way through under
-reduced motion. That is also why the section sits outside the vertical rhythm
-table below: from `lg` it is `min-h-svh` and centres itself.
+`Kit.astro` is a four-frame product sequence on one 2:3 stage: Andrés Lara in
+the navy shirt on the pitch; a circle opening on its crest into a macro of the
+crest (shot on the white shirt, which is how the sequence crosses colourways);
+an angled wipe to the back of a player's shirt, the 00 and the sponsor marks;
+then both renders wiping up from below. Scroll plays it. From `lg` the whole
+section pins for 230% of the viewport; below `lg` only the stage pins, centred,
+for 160% — scrubbing it unpinned spent the first frame while the stage was
+still sliding in. The step list doubles as navigation and is the only way
+through under reduced motion. That is also why the section sits outside the
+vertical rhythm table below: from `lg` it is `min-h-svh` and centres itself.
+
+The client tried the trio of players as frame one, in a wide frame that
+morphed to portrait, and asked for it back out: the trio already heads the
+players' section further down.
 
 Filters in the timeline are always tweened from an explicit value. From
 `none`, GSAP interpolates through garbage and the frame flashes black.

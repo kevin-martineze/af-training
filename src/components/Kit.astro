@@ -4,32 +4,26 @@ import { brand } from '../data/media';
 import { currencyFormat, kit } from '../data/plans';
 import { whatsappLink } from '../data/site';
 
-/* The kit as a product drop. One stage, five frames, driven by scroll:
+/* The kit as a product drop. One stage, four frames, driven by scroll:
 
-     01  the squad — three players in the navy kit, in a wide 16:10 frame
-         that morphs into the 2:3 portrait as 02 comes in, so nobody is
-         cropped out of the one landscape photo
-     02  Andrés Lara in the navy shirt, wiped in from the right
-     03  a circle opens on his crest and the camera "lands" on it — the macro
+     01  the navy shirt, worn on the pitch
+     02  a circle opens on the crest and the camera "lands" on it — the macro
          is shot on the white shirt, which is how the sequence crosses from
          one colourway to the other without a hard cut
-     04  an angled wipe turns to the back: the 00 and the sponsor marks, held
+     03  an angled wipe turns to the back: the 00 and the sponsor marks, held
          up by a player at the launch
-     05  both renders wipe up from below, so the two versions close the run
-
-   The order of 01 and 02 is the client's.
+     04  both renders wipe up from below, so the two versions close the run
 
    From lg the whole section pins while the sequence plays. Below lg only the
    stage pins, centred, so a phone sees every frame at full size instead of
    watching the sequence run out while the stage is still sliding in. The
    step list doubles as navigation, and under reduced motion it is the only
-   way through: each step fades to its frame.
+   way through: each step cuts straight to its frame.
 
-   Frames 02 to 05 start clipped away in their inline style, so if motion.ts
+   Frames 02 to 04 start clipped away in their inline style, so if motion.ts
    never runs the stage still shows a finished photograph — frame 01. */
 const steps = [
-  { title: 'El equipo', body: 'Jugadoras del proyecto con la azul 2026.' },
-  { title: 'En cancha', body: 'Andrés Lara, con el escudo al pecho.' },
+  { title: 'En cancha', body: 'La azul 2026, con el escudo al pecho.' },
   { title: 'El escudo', body: 'Andrés Lara Entrenamientos, en el centro del pecho.' },
   { title: 'La espalda', body: 'El número y las marcas que nos acompañan.' },
   { title: 'Las dos versiones', body: 'Azul y blanca, con la firma de Andrés en la blanca.' },
@@ -69,31 +63,11 @@ const origin = brand.worn.origin;
         class="relative aspect-[2/3] w-full max-w-md [transform-style:preserve-3d] lg:h-[min(82svh,54rem)] lg:w-auto lg:max-w-none"
         data-kit-tilt
       >
-        <!-- Centred in the 2:3 box rather than filling it, so motion.ts can
-             open it as a wide 16:10 frame for the squad — wider than the box,
-             as wide as the column — and morph it into the 2:3 portrait as the
-             coach comes in. The box keeps its size throughout, so nothing
-             around the stage (or the pin spacer on phones) ever reflows. -->
         <div
-          class="absolute top-1/2 left-1/2 size-full -translate-1/2 overflow-hidden rounded-[1.75rem] border hairline bg-ink-950 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
+          class="relative size-full overflow-hidden rounded-[1.75rem] border hairline bg-ink-950 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
           data-kit-stage
           data-kit-origin={origin}
         >
-          <!-- The squad, landscape: it gets the wide frame, so a plain cover
-               crop keeps all three in the shot. -->
-          <div class="absolute inset-0 overflow-hidden" data-kit-layer>
-            <Image
-              src={brand.squad.src}
-              alt={brand.squad.alt}
-              widths={[640, 1000, 1400, 2000]}
-              sizes="(min-width: 1024px) 44rem, 92vw"
-              loading="lazy"
-              layout="none"
-              class="photo size-full object-cover will-change-transform"
-              data-kit-squad
-            />
-          </div>
-
           <Image
             src={brand.worn.src}
             alt={brand.worn.alt}
@@ -102,7 +76,7 @@ const origin = brand.worn.origin;
             loading="lazy"
             layout="none"
             class="photo absolute inset-0 size-full object-cover will-change-transform"
-            style={`transform-origin: ${origin}; clip-path: inset(0% 0% 0% 100%)`}
+            style={`transform-origin: ${origin}`}
             data-kit-layer
           />
 
@@ -189,7 +163,7 @@ const origin = brand.worn.origin;
 
       <!-- The steps are buttons: they jump the sequence to their frame. The
            rail on the left fills with the timeline's progress. -->
-      <ol class="relative mt-7 space-y-0.5 pl-5" data-reveal data-reveal-delay="0.1">
+      <ol class="relative mt-9 space-y-1 pl-5" data-reveal data-reveal-delay="0.1">
         <span class="absolute top-0 bottom-0 left-0 w-px bg-bone/12" aria-hidden="true"></span>
         <span
           class="absolute top-0 bottom-0 left-0 w-px origin-top scale-y-0 bg-brand-red"
@@ -201,7 +175,7 @@ const origin = brand.worn.origin;
             <li>
               <button
                 type="button"
-                class="group/step block w-full py-1.5 text-left opacity-45 transition-opacity duration-500 hover:opacity-80 aria-[current=step]:opacity-100"
+                class="group/step block w-full py-2.5 text-left opacity-45 transition-opacity duration-500 hover:opacity-80 aria-[current=step]:opacity-100"
                 aria-current={index === 0 ? 'step' : undefined}
                 data-kit-step={index}
               >

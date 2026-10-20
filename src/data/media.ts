@@ -74,13 +74,6 @@ export const brand = {
      `origin` is where the crest sits in the navy shot, as a CSS position: the
      scroll sequence opens its circle there, so the zoom reads as moving into
      that crest. Recropping the navy file means re-measuring it. */
-  /* Frame 01, at the client's request: the squad before the coach. It is
-     the one landscape photo, so the stage opens wide for it and morphs to
-     portrait afterwards — the same file as `community.lead`. */
-  squad: {
-    src: trioWomen,
-    alt: 'Tres jugadoras con la camiseta azul 2026 posando juntas en la cancha, sonriendo',
-  } satisfies Photo,
   worn: {
     src: kitWornNavy,
     alt: 'Andrés Lara sonriendo en la cancha con la camiseta azul 2026, el escudo al pecho',
@@ -98,8 +91,8 @@ export const brand = {
 
 /**
  * "Visten el proceso": players at the kit launch, cut from camera originals.
- * The portraits are 3:4 because that is the card in the fan; the trio is 16:10
- * because it heads the section on its own. None of them is named on the page —
+ * The portraits are 3:4 because that is the card in the fan; the trio is the
+ * full 16:9 frame, cropped to 16:10 by its figure. None of them is named on the page —
  * the client supplied the photos, not the names — so the alt text describes
  * and never identifies.
  */

@@ -327,9 +327,11 @@ function scrollToY(y: number) {
 /**
  * Kit band: three frames on one stage, played by scroll.
  *
- * The navy shot zooms toward its own crest while a circle opens on that spot
- * and the crest macro lands in it; an angled wipe turns to the back of the
- * shirt; then both renders wipe up from below. From
+ * The squad holds in a wide frame that morphs to portrait as the coach wipes
+ * in over them; his shot
+ * zooms toward its own crest while a circle opens on that spot and the crest
+ * macro lands in it; an angled wipe turns to the back of the shirt; then both
+ * renders wipe up from below. From
  * lg the section pins while that plays; below lg it scrubs as the stage
  * crosses the viewport. The step buttons jump to a frame — by scrolling to the
  * matching point when scroll drives the timeline, by seeking it otherwise.
@@ -340,10 +342,11 @@ function initKit() {
   const stage = root?.querySelector<HTMLElement>('[data-kit-stage]');
   if (!root || !stage) return;
 
-  const [worn, crest, back, flats] = Array.from(
+  const [squad, worn, crest, back, flats] = Array.from(
     stage.querySelectorAll<HTMLElement>('[data-kit-layer]'),
   );
-  if (!worn || !crest || !back || !flats) return;
+  if (!squad || !worn || !crest || !back || !flats) return;
+  const squadShot = squad.querySelector<HTMLElement>('[data-kit-squad]');
 
   const steps = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-kit-step]'));
   const counter = root.querySelector<HTMLElement>('[data-kit-counter]');
@@ -351,18 +354,51 @@ function initKit() {
   const year = root.querySelector<HTMLElement>('[data-kit-year]');
   const origin = stage.dataset.kitOrigin ?? '50% 50%';
 
-  // Seconds on the timeline where each frame is fully in place.
-  const frames = [0, 1.3, 2.6, 3.9];
+  // Seconds on the timeline where each frame is fully in place. Frame 01 is
+  // "in place" at its start; the slow push-in on the squad is its own travel.
+  const frames = [0, 2.1, 3.4, 4.7, 6];
   // 90% is enough for the circle to reach the far corner of a 2:3 stage from
   // any origin inside it (radius % is of the diagonal over √2).
   const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
   gsap.set([worn, crest], { transformOrigin: origin });
-  tl.to(worn, { scale: 1.6, duration: 1 }, 0.15)
+  // Frame 01 is wide. The box ([data-kit-tilt]) is the 2:3 portrait; the stage
+  // opens 16:10 inside it, as wide as the column allows, then morphs into the
+  // box while the coach wipes in. Measured at refresh, so a resize re-fits it.
+  const box = root.querySelector<HTMLElement>('[data-kit-tilt]') ?? stage;
+  const column = root.querySelector<HTMLElement>('[data-kit-pin]') ?? box;
+  const wideWidth = () => Math.min(column.clientWidth, box.offsetWidth * 1.5);
+  const wideHeight = () => wideWidth() / 1.6;
+  tl.fromTo(
+    stage,
+    { width: wideWidth, height: wideHeight },
+    { width: () => box.offsetWidth, height: () => box.offsetHeight, duration: 0.95, ease: 'power3.inOut' },
+    1.1,
+  );
+  // Filters are always tweened from an explicit value: from `none`, GSAP
+  // interpolates through garbage and the frame flashes black mid-scroll.
+  if (squadShot) {
+    tl.fromTo(squadShot, { scale: 1 }, { scale: 1.08, duration: 1.1, ease: 'power1.inOut' }, 0);
+  }
+  // Squad to coach: he wipes in from the right, settling from a zoom, while
+  // the squad keeps drifting and dims under him.
+  tl.fromTo(
+    worn,
+    { clipPath: 'inset(0% 0% 0% 100%)', scale: 1.15 },
+    { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, duration: 0.9, ease: 'power2.inOut' },
+    1.15,
+  )
+    .fromTo(
+      squad,
+      { xPercent: 0, filter: 'brightness(1)' },
+      { xPercent: -10, filter: 'brightness(0.45)', duration: 0.9 },
+      1.15,
+    )
+    .to(worn, { scale: 1.6, duration: 1 }, 2.25)
     .fromTo(
       crest,
       { clipPath: `circle(0% at ${origin})`, scale: 1.45 },
       { clipPath: `circle(90% at ${origin})`, scale: 1, duration: 1 },
-      0.15,
+      2.25,
     )
     // Crest to back: an angled wipe from the left, the macro pushed away
     // under it, the back settling from a slight zoom.
@@ -370,18 +406,23 @@ function initKit() {
       back,
       { clipPath: 'polygon(0% 0%, 0% 0%, -30% 100%, -30% 100%)', scale: 1.18 },
       { clipPath: 'polygon(0% 0%, 130% 0%, 100% 100%, 0% 100%)', scale: 1, duration: 1 },
-      1.45,
+      3.55,
     )
-    .to(crest, { xPercent: -12, filter: 'brightness(0.55)', duration: 1 }, 1.45)
+    .fromTo(
+      crest,
+      { xPercent: 0, filter: 'brightness(1)' },
+      { xPercent: -12, filter: 'brightness(0.55)', duration: 1, immediateRender: false },
+      3.55,
+    )
     .fromTo(
       flats,
       { clipPath: 'inset(100% 0% 0% 0%)' },
       { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9 },
-      2.85,
+      4.95,
     )
-    .to(back, { yPercent: -14, scale: 0.94, duration: 0.9 }, 2.85)
-    .to({}, { duration: 0.15 }, frames[3]);
-  if (year) tl.fromTo(year, { xPercent: 4 }, { xPercent: -22, duration: tl.duration() }, 0);
+    .to(back, { yPercent: -14, scale: 0.94, duration: 0.9 }, 4.95)
+    .to({}, { duration: 0.15 }, frames[4]);
+  if (year) tl.fromTo(year, { xPercent: 4 }, { xPercent: -26, duration: tl.duration() }, 0);
 
   let active = -1;
   const setActive = (index: number) => {
@@ -393,7 +434,7 @@ function initKit() {
     });
     if (counter) counter.textContent = `0${index + 1}`;
   };
-  const frameAt = (time: number) => (time < 0.75 ? 0 : time < 2 ? 1 : time < 3.3 ? 2 : 3);
+  const frameAt = (time: number) => (time < 1.55 ? 0 : time < 2.75 ? 1 : time < 4 ? 2 : time < 5.3 ? 3 : 4);
 
   tl.eventCallback('onUpdate', () => {
     setActive(frameAt(tl.time()));
@@ -434,7 +475,7 @@ function initKit() {
       trigger = ScrollTrigger.create({
         trigger: desktop ? root : stageWrap,
         start: desktop ? 'top top' : 'center center',
-        end: desktop ? '+=230%' : '+=160%',
+        end: desktop ? '+=300%' : '+=210%',
         pin: desktop ? true : stageWrap,
         scrub: 0.7,
         animation: tl,

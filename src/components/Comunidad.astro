@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import { community } from '../data/media';
 
-/* "Visten el proceso": the players from the kit launch.
+/* The players from the kit launch, under "¿Qué estás esperando?".
 
    The six portraits are a hand of cards. The markup lays them out already
    fanned — offset from the centre by --o card-steps, tilted by --o × --tilt
@@ -24,8 +24,12 @@ const mid = (count - 1) / 2;
     <div class="grid items-end gap-10 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-5">
         <p class="eyebrow mb-5" data-reveal="fade">Comunidad</p>
-        <h2 class="display text-[clamp(2.4rem,6vw,5rem)] text-bone" data-split>
-          Visten el<br />proceso
+        <!-- Heading at the client's request. "ESPERANDO?" is the widest line,
+             wider than its 6.3em estimate once the question mark lands: at
+             4.3rem it lost the mark to the 5-of-12 column. The ramp now tops
+             out at 3.7rem. -->
+        <h2 class="display text-[clamp(2.1rem,3.9vw,3.7rem)] text-bone" data-split>
+          ¿Qué estás<br />esperando?
         </h2>
         <p class="mt-6 max-w-sm text-sm leading-relaxed text-muted" data-reveal>
           Jugadoras y jugadores del proyecto el día en que estrenaron la indumentaria 2026.

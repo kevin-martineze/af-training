@@ -1,9 +1,8 @@
 import type { ImageMetadata } from 'astro';
 
-/* The three survivors of the original WhatsApp-export batch, all used as
-   backgrounds where the 1280px ceiling never shows. The rest of that batch has
-   been replaced by camera originals and is no longer registered here. */
-import coachTacticalBoard from '../assets/training/coach-tactical-board.jpeg';
+/* Two survivors of the original WhatsApp-export batch, both used as backgrounds
+   where the 1280px ceiling never shows. The rest of that batch has been
+   replaced by camera originals and is no longer registered here. */
 import coachSprintDrill from '../assets/training/coach-sprint-drill.jpeg';
 import huddleTunnel from '../assets/training/huddle-tunnel.jpeg';
 
@@ -13,6 +12,7 @@ import kitAway from '../assets/brand/kit-2026-away.jpeg';
 import kitWornNavy from '../assets/brand/kit-worn-navy.jpeg';
 import kitCrestDetail from '../assets/brand/kit-crest-detail.jpeg';
 import kitBackSponsors from '../assets/brand/kit-back-sponsors.jpeg';
+import kitBack21 from '../assets/brand/kit-back-21.jpeg';
 
 /* The kit-launch shoot: players in the 2026 navy kit. */
 import trioWomen from '../assets/community/trio-women.jpeg';
@@ -23,29 +23,12 @@ import playerGlasses from '../assets/community/player-glasses.jpeg';
 import playerFists from '../assets/community/player-fists.jpeg';
 import playerPointingCrest from '../assets/community/player-pointing-crest.jpeg';
 
-/* Camera originals. See the note on `photos` below. */
-import playerCrouchTurfNight from '../assets/training/player-crouch-turf-night.jpeg';
-import playerWalkTurfNight from '../assets/training/player-walk-turf-night.jpeg';
+/* Camera originals from the October 2026 AL-kit session. */
+import trioHug from '../assets/community/trio-hug.jpeg';
+import player01873 from '../assets/community/player-01873.jpeg';
 import coachGuidingSprint from '../assets/training/coach-guiding-sprint.jpeg';
 import stadiumWarmupPf from '../assets/training/stadium-warmup-pf.jpeg';
-import physioServiceCard from '../assets/training/physio-service-card.jpeg';
-import futsalDuelCourt from '../assets/training/futsal-duel-court.jpeg';
-import teamCircleOverhead from '../assets/training/team-circle-overhead.jpeg';
-import coachSidelineStadium from '../assets/training/coach-sideline-stadium.jpeg';
-import coachPortraitBoard from '../assets/training/coach-portrait-board.jpeg';
-import lockerHuddleBall from '../assets/training/locker-huddle-ball.jpeg';
-
-/* Gallery: the kit shoot and the squads it was shot for. */
-import studioPointingNavy from '../assets/training/studio-pointing-navy.jpeg';
-import studio7White from '../assets/training/studio-7-white.jpeg';
-import studio29Navy from '../assets/training/studio-29-navy.jpeg';
-import studio26White from '../assets/training/studio-26-white.jpeg';
-import studio13Celebrate from '../assets/training/studio-13-celebrate.jpeg';
-import squadOrangeStadium from '../assets/training/squad-orange-stadium.jpeg';
-import duoMedalFutsal from '../assets/training/duo-medal-futsal.jpeg';
-import squadWomenOutdoor from '../assets/training/squad-women-outdoor.jpeg';
-import squadYouthCourt from '../assets/training/squad-youth-court.jpeg';
-import squadTrainingNight from '../assets/training/squad-training-night.jpeg';
+import assessment from '../assets/training/assessment.jpeg';
 
 export type Photo = { src: ImageMetadata; alt: string };
 
@@ -84,22 +67,22 @@ export const brand = {
     alt: 'Primer plano del escudo de Andrés Lara Entrenamientos sobre la camiseta blanca 2026, con un dedo señalándolo',
   } satisfies Photo,
   back: {
-    src: kitBackSponsors,
-    alt: 'Un jugador sostiene a la espalda la camiseta azul 2026 con el número 00 y las marcas Clutch y Turbinas del Sur, AARCI y Clínica Cure',
+    src: kitBack21,
+    alt: 'Un jugador sostiene a la espalda la camiseta azul 2026 con el número 21 y las marcas Clutch y Turbinas del Sur, AARCI y Clínica Cure',
   } satisfies Photo,
 };
 
 /**
- * "Visten el proceso": players at the kit launch, cut from camera originals.
- * The portraits are 3:4 because that is the card in the fan; the trio is the
- * full 16:9 frame, cropped to 16:10 by its figure. None of them is named on the page —
- * the client supplied the photos, not the names — so the alt text describes
- * and never identifies.
+ * "Visten el proceso": players at the kit launch and the October AL session.
+ * The portraits are 3:4 because that is the card in the fan; the lead trio is
+ * cropped to 16:10 in the file. None of them is named on the page — the client
+ * supplied the photos, not the names — so the alt text describes and never
+ * identifies.
  */
 export const community = {
   lead: {
-    src: trioWomen,
-    alt: 'Tres jugadoras con la camiseta azul 2026 posando juntas en la cancha, sonriendo',
+    src: trioHug,
+    alt: 'Tres jugadores abrazados con la camiseta azul 2026 en la cancha',
   } satisfies Photo,
   players: [
     { src: playerThumbsCrest, alt: 'Una jugadora sonriente señala con los pulgares el escudo de su camiseta azul 2026' },
@@ -107,7 +90,7 @@ export const community = {
     { src: playerFists, alt: 'Un jugador con la camiseta azul 2026 aprieta los puños y sonríe' },
     { src: player00Ball, alt: 'Un jugador con el número 00 a la espalda conduce el balón en la cancha' },
     { src: playerGlasses, alt: 'Una jugadora con gafas y la camiseta azul 2026 ríe acomodándose los lentes' },
-    { src: playerPointingCrest, alt: 'Un jugador sonriente señala el escudo de su camiseta azul 2026' },
+    { src: player01873, alt: 'Un jugador con la camiseta azul 2026 posa en la cancha' },
   ] satisfies Photo[],
 };
 
@@ -170,30 +153,35 @@ export const heroPanels: HeroPanel[] = [
  * consistent wherever the image is reused.
  *
  * Everything here is a camera original re-encoded to a 2000px long edge, with
- * three exceptions kept from the first WhatsApp-export batch: `coachBoard`,
- * `coachSprint` and `huddle`. Those three cap out at 1280px, which never shows
- * because all three are used blurred or heavily dimmed behind other content.
- * Anything new should come from the camera.
+ * two exceptions kept from the first WhatsApp-export batch: `coachSprint` and
+ * `huddle`. Those two cap out at 1280px, which never shows because both are
+ * used blurred or heavily dimmed behind other content. Anything new should come
+ * from the camera.
  *
- * A few entries are pre-cropped rather than full frames — `physioPortrait`,
- * `futsalDuel` and `lockerHuddle`. Their sources are landscape and the cards
- * that use them are portrait, so cropping in the file rather than in CSS is
- * what keeps the delivered pixels on the subject instead of throwing half of
- * them away off-frame.
+ * `assessment` is pre-cropped rather than a full frame: its source is a
+ * portrait WhatsApp export and the card that uses it is 16:10, so cropping in
+ * the file rather than in CSS keeps the delivered pixels on the subject.
  */
 export const photos = {
-  coachBoard: { src: coachTacticalBoard, alt: 'El entrenador arrodillado explicando una jugada en la pizarra táctica' },
   coachSprint: { src: coachSprintDrill, alt: 'El entrenador acompañando a una jugadora en un ejercicio de velocidad' },
   huddle: { src: huddleTunnel, alt: 'Jugador con el balón en el túnel antes de salir a la cancha' },
 
-  playerCrouch: {
-    src: playerCrouchTurfNight,
-    alt: 'Jugadora en cuclillas sobre la grama sintética, sonriendo tras el entrenamiento nocturno',
+  /* The three photos the client supplied for "01 — El proyecto". The same
+     frames were the kit-launch lead and fan before the October shoot, so they
+     now live here to avoid repeating them in Kit.astro and Comunidad.astro. */
+  trioWomen: {
+    src: trioWomen,
+    alt: 'Tres jugadoras con la camiseta azul 2026 posando juntas en la cancha, sonriendo',
   },
-  playerWalk: {
-    src: playerWalkTurfNight,
-    alt: 'Jugadora caminando sobre la grama sintética durante un partido nocturno, con la tribuna al fondo',
+  playerPointingCrest: {
+    src: playerPointingCrest,
+    alt: 'Un jugador sonriente señala el escudo de su camiseta azul 2026',
   },
+  kitBack00: {
+    src: kitBackSponsors,
+    alt: 'Un jugador sostiene a la espalda la camiseta azul 2026 con el número 00 y las marcas Clutch y Turbinas del Sur, AARCI y Clínica Cure',
+  },
+
   coachGuiding: {
     src: coachGuidingSprint,
     alt: 'El entrenador acompañando a una jugadora con la mano en la espalda durante un ejercicio de carrera',
@@ -202,73 +190,9 @@ export const photos = {
     src: stadiumWarmupPf,
     alt: 'Calentamiento con balón en el estadio, supervisado por el preparador físico',
   },
-  /* Cropped tight from the studio portrait: at full length the face landed too
-     small in the 16:10 service card to read at all. */
-  physioPortrait: {
-    src: physioServiceCard,
-    alt: 'Retrato de estudio del fisioterapeuta del equipo, con uniforme negro',
-  },
-  futsalDuel: {
-    src: futsalDuelCourt,
-    alt: 'Dos jugadores disputando el balón durante un partido de fútbol sala',
-  },
-  teamCircleOverhead: {
-    src: teamCircleOverhead,
-    alt: 'Vista cenital del entrenador hablando con las jugadoras sentadas en círculo sobre la grama',
-  },
-  coachSideline: {
-    src: coachSidelineStadium,
-    alt: 'El entrenador dando indicaciones desde la banda durante un partido en el estadio',
-  },
-  coachBoardPortrait: {
-    src: coachPortraitBoard,
-    alt: 'Retrato del entrenador con la pizarra táctica en la mano, observando el entrenamiento',
-  },
-  lockerHuddle: {
-    src: lockerHuddleBall,
-    alt: 'El entrenador con el balón en la mano hablando al equipo reunido en el camerino',
-  },
-
-  /* --- Gallery: the kit shoot and the squads it was shot for ----------- */
-  studioPointing: {
-    src: studioPointingNavy,
-    alt: 'Jugadora en estudio señalando a cámara con la camiseta azul del club',
-  },
-  studio7: {
-    src: studio7White,
-    alt: 'Jugadora número 7 de perfil en estudio, con la indumentaria blanca y dorada',
-  },
-  studio29: {
-    src: studio29Navy,
-    alt: 'Jugadora número 29 de cuerpo entero en estudio, con la camiseta azul',
-  },
-  studio26: {
-    src: studio26White,
-    alt: 'Jugadora número 26 sonriendo en estudio, con la indumentaria blanca y dorada',
-  },
-  studio13: {
-    src: studio13Celebrate,
-    alt: 'Jugadora número 13 celebrando con los puños cerrados en estudio',
-  },
-  squadOrange: {
-    src: squadOrangeStadium,
-    alt: 'Plantel masculino posando sobre el césped del estadio antes de un partido',
-  },
-  duoMedal: {
-    src: duoMedalFutsal,
-    alt: 'Dos jugadores de fútbol sala mostrando la medalla de oro frente al arco',
-  },
-  squadWomen: {
-    src: squadWomenOutdoor,
-    alt: 'Plantel femenino junto al cuerpo técnico y la mascota del club al borde de la cancha',
-  },
-  squadYouth: {
-    src: squadYouthCourt,
-    alt: 'Plantel juvenil de fútbol sala celebrando en la cancha techada',
-  },
-  squadNight: {
-    src: squadTrainingNight,
-    alt: 'Grupo de entrenamiento posando en la cancha al terminar la sesión nocturna',
+  assessment: {
+    src: assessment,
+    alt: 'Valoración física: un deportista con sensores en los muslos sostiene un balón entre las rodillas mientras se registra la prueba',
   },
 } satisfies Record<string, Photo>;
 

@@ -146,16 +146,12 @@ export const community = {
  * a phone renders and downloads exactly one, and playback is staggered by
  * `delay` so the three never cut in unison.
  *
- * Panels one and three are two separate windows of the same 23s master, cut
- * from scenes far enough apart that they read as different clips — arrival and
- * ball work — and placed either side of panel two so they are never adjacent.
- * The master's last second is a logo card and is deliberately outside both cuts.
- *
- * All three are encoded to 900x1600. Night footage is noisy and noise is
- * expensive to encode, so they go through `hqdn3d` first; without it the same
- * quality costs about half again as many bytes. One of the masters arrives with
- * a rotation matrix, so ffprobe reports 3840x2160 until something decodes a
- * frame — do not trust the header when recutting.
+ * The three are windows of the same 61s "Día de entrega" master — Andrés Lara's
+ * welcome, Andrés Rubiano's guest spot, and Lara's closing invitation — so the
+ * backdrop is the client's own launch-day footage. Each window sits inside a
+ * single speaker's segment to avoid a mid-word cut. All three are encoded to
+ * 900x1600 from the 1080x1920 master (no crop — the source is already 9:16),
+ * halved to 30fps.
  */
 export type HeroPanel = {
   src: string;
@@ -169,25 +165,25 @@ export type HeroPanel = {
 
 export const heroPanels: HeroPanel[] = [
   {
-    src: '/videos/hero-night-arrival.mp4',
-    poster: '/posters/hero-night-arrival.jpg',
+    src: '/videos/hero-entrega-lara.mp4',
+    poster: '/posters/hero-entrega-lara.jpg',
     minWidth: 0,
     delay: 0,
-    label: 'El entrenador y el preparador físico conversando al borde de la cancha.',
+    label: 'Andrés Lara da la bienvenida en el día de entrega de la indumentaria.',
   },
   {
-    src: '/videos/hero-night-warmup.mp4',
-    poster: '/posters/hero-night-warmup.jpg',
+    src: '/videos/hero-entrega-rubiano.mp4',
+    poster: '/posters/hero-entrega-rubiano.jpg',
     minWidth: 768,
     delay: 1.2,
-    label: 'El grupo estirando al inicio de la sesión nocturna.',
+    label: 'Andrés Rubiano, preparador físico, habla del proyecto.',
   },
   {
-    src: '/videos/hero-night-drill.mp4',
-    poster: '/posters/hero-night-drill.jpg',
+    src: '/videos/hero-entrega-cierre.mp4',
+    poster: '/posters/hero-entrega-cierre.jpg',
     minWidth: 1024,
     delay: 3.5,
-    label: 'Una jugadora conduciendo el balón en un ejercicio con conos.',
+    label: 'Andrés Lara cierra invitando a entrenar con los mejores.',
   },
 ];
 
@@ -239,12 +235,13 @@ export const photos = {
 } satisfies Record<string, Photo>;
 
 /**
- * Short vertical clips shot on phone (464x832). They are deliberately shown
- * small, in a stories-style rail — blowing them up would look broken.
+ * Short vertical clips (464x832) shown in a stories-style rail — blowing them
+ * up would look broken. Reels one and three are the client's launch-day
+ * footage, cut from the "Día de entrega" master; reel two stays as the field
+ * session in the middle.
  *
- * The kit clip leads the rail as `featured`: it is the only studio-clean
- * footage in the set, so it gets the wider card and carries the standard the
- * other two then show in the field. `note` is the line inside its card.
+ * The welcome leads as `featured`: it carries the launch, so it gets the wider
+ * card and the `note` line the other two then show in the field.
  */
 export type Reel = {
   src: string;
@@ -258,10 +255,10 @@ export type Reel = {
 
 export const reels: Reel[] = [
   {
-    src: '/videos/training-01.mp4',
-    poster: '/posters/training-01.jpg',
+    src: '/videos/reel-entrega-lara.mp4',
+    poster: '/posters/reel-entrega-lara.jpg',
     label: 'Conoce mucho más sobre nosotros',
-    caption: 'La identidad con la que se entrena',
+    caption: 'El día en que estrenamos la indumentaria 2026',
     note: 'Entrenamiento de calidad, con método, seguimiento y respaldo profesional.',
     featured: true,
   },
@@ -272,9 +269,9 @@ export const reels: Reel[] = [
     caption: 'Trabajo aeróbico al mediodía',
   },
   {
-    src: '/videos/training-03.mp4',
-    poster: '/posters/training-03.jpg',
-    label: 'Jornadas diurnas y nocturnas',
-    caption: 'En distintos espacios deportivos de la ciudad',
+    src: '/videos/reel-entrega-rubiano.mp4',
+    poster: '/posters/reel-entrega-rubiano.jpg',
+    label: 'Respaldo profesional',
+    caption: 'Andrés Rubiano, preparador físico, con el proyecto',
   },
 ];

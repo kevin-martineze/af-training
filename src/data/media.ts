@@ -1,18 +1,12 @@
 import type { ImageMetadata } from 'astro';
 
-/* The three survivors of the original WhatsApp-export batch, all used as
-   backgrounds where the 1280px ceiling never shows. The rest of that batch has
-   been replaced by camera originals and is no longer registered here. */
-import coachTacticalBoard from '../assets/training/coach-tactical-board.jpeg';
-import coachSprintDrill from '../assets/training/coach-sprint-drill.jpeg';
-import huddleTunnel from '../assets/training/huddle-tunnel.jpeg';
-
 import crest from '../assets/brand/crest-andres-lara.png';
 import kitHome from '../assets/brand/kit-2026-home.png';
 import kitAway from '../assets/brand/kit-2026-away.jpeg';
 import kitWornNavy from '../assets/brand/kit-worn-navy.jpeg';
 import kitCrestDetail from '../assets/brand/kit-crest-detail.jpeg';
 import kitBackSponsors from '../assets/brand/kit-back-sponsors.jpeg';
+import kitBack21 from '../assets/brand/kit-back-21.jpeg';
 
 /* The kit-launch shoot: players in the 2026 navy kit. */
 import trioWomen from '../assets/community/trio-women.jpeg';
@@ -23,29 +17,35 @@ import playerGlasses from '../assets/community/player-glasses.jpeg';
 import playerFists from '../assets/community/player-fists.jpeg';
 import playerPointingCrest from '../assets/community/player-pointing-crest.jpeg';
 
-/* Camera originals. See the note on `photos` below. */
-import playerCrouchTurfNight from '../assets/training/player-crouch-turf-night.jpeg';
-import playerWalkTurfNight from '../assets/training/player-walk-turf-night.jpeg';
+/* Camera originals from the October 2026 AL-kit session. */
+import trioHug from '../assets/community/trio-hug.jpeg';
+import player01873 from '../assets/community/player-01873.jpeg';
+
+/* The wall: eighteen more portraits from that session, for Rostros.astro. */
+import wall01834 from '../assets/community/muro/wall-01834.jpeg';
+import wall01840 from '../assets/community/muro/wall-01840.jpeg';
+import wall01850 from '../assets/community/muro/wall-01850.jpeg';
+import wall01874 from '../assets/community/muro/wall-01874.jpeg';
+import wall01877 from '../assets/community/muro/wall-01877.jpeg';
+import wall01880 from '../assets/community/muro/wall-01880.jpeg';
+import wall01884 from '../assets/community/muro/wall-01884.jpeg';
+import wall01887 from '../assets/community/muro/wall-01887.jpeg';
+import wall01890 from '../assets/community/muro/wall-01890.jpeg';
+import wall01893 from '../assets/community/muro/wall-01893.jpeg';
+import wall01896 from '../assets/community/muro/wall-01896.jpeg';
+import wall01904 from '../assets/community/muro/wall-01904.jpeg';
+import wall01908 from '../assets/community/muro/wall-01908.jpeg';
+import wall01910 from '../assets/community/muro/wall-01910.jpeg';
+import wall01913 from '../assets/community/muro/wall-01913.jpeg';
+import wall01914 from '../assets/community/muro/wall-01914.jpeg';
+import wall01915 from '../assets/community/muro/wall-01915.jpeg';
+import wall01918 from '../assets/community/muro/wall-01918.jpeg';
+
 import coachGuidingSprint from '../assets/training/coach-guiding-sprint.jpeg';
 import stadiumWarmupPf from '../assets/training/stadium-warmup-pf.jpeg';
-import physioServiceCard from '../assets/training/physio-service-card.jpeg';
-import futsalDuelCourt from '../assets/training/futsal-duel-court.jpeg';
-import teamCircleOverhead from '../assets/training/team-circle-overhead.jpeg';
-import coachSidelineStadium from '../assets/training/coach-sideline-stadium.jpeg';
-import coachPortraitBoard from '../assets/training/coach-portrait-board.jpeg';
-import lockerHuddleBall from '../assets/training/locker-huddle-ball.jpeg';
-
-/* Gallery: the kit shoot and the squads it was shot for. */
-import studioPointingNavy from '../assets/training/studio-pointing-navy.jpeg';
-import studio7White from '../assets/training/studio-7-white.jpeg';
-import studio29Navy from '../assets/training/studio-29-navy.jpeg';
-import studio26White from '../assets/training/studio-26-white.jpeg';
-import studio13Celebrate from '../assets/training/studio-13-celebrate.jpeg';
-import squadOrangeStadium from '../assets/training/squad-orange-stadium.jpeg';
-import duoMedalFutsal from '../assets/training/duo-medal-futsal.jpeg';
-import squadWomenOutdoor from '../assets/training/squad-women-outdoor.jpeg';
-import squadYouthCourt from '../assets/training/squad-youth-court.jpeg';
-import squadTrainingNight from '../assets/training/squad-training-night.jpeg';
+import assessment from '../assets/training/assessment.jpeg';
+import plansBackground from '../assets/training/plans-background.jpeg';
+import ctaBackground from '../assets/training/cta-background.jpeg';
 
 export type Photo = { src: ImageMetadata; alt: string };
 
@@ -84,22 +84,28 @@ export const brand = {
     alt: 'Primer plano del escudo de Andrés Lara Entrenamientos sobre la camiseta blanca 2026, con un dedo señalándolo',
   } satisfies Photo,
   back: {
-    src: kitBackSponsors,
-    alt: 'Un jugador sostiene a la espalda la camiseta azul 2026 con el número 00 y las marcas Clutch y Turbinas del Sur, AARCI y Clínica Cure',
+    src: kitBack21,
+    alt: 'Un jugador sostiene a la espalda la camiseta azul 2026 con el número 21 y las marcas Clutch y Turbinas del Sur, AARCI y Clínica Cure',
   } satisfies Photo,
 };
 
 /**
- * "Visten el proceso": players at the kit launch, cut from camera originals.
- * The portraits are 3:4 because that is the card in the fan; the trio is the
- * full 16:9 frame, cropped to 16:10 by its figure. None of them is named on the page —
- * the client supplied the photos, not the names — so the alt text describes
- * and never identifies.
+ * "Visten el proceso": players at the kit launch and the October AL session.
+ * The portraits are 3:4 because that is the card in the fan; the lead trio is
+ * cropped to 16:10 in the file. None of them is named on the page — the client
+ * supplied the photos, not the names — so the alt text describes and never
+ * identifies.
  */
+/* Anonymous athletes, so one shared alt describes the lot without naming
+   anyone. The wall is decorative — a long strip of faces — so the alt text
+   stays short and generic rather than trying to distinguish one crop from
+   another that only differ by the person in them. */
+const wallAlt = 'Deportista del proyecto Andrés Lara Entrenamientos';
+
 export const community = {
   lead: {
-    src: trioWomen,
-    alt: 'Tres jugadoras con la camiseta azul 2026 posando juntas en la cancha, sonriendo',
+    src: trioHug,
+    alt: 'Tres jugadores abrazados con la camiseta azul 2026 en la cancha',
   } satisfies Photo,
   players: [
     { src: playerThumbsCrest, alt: 'Una jugadora sonriente señala con los pulgares el escudo de su camiseta azul 2026' },
@@ -107,7 +113,27 @@ export const community = {
     { src: playerFists, alt: 'Un jugador con la camiseta azul 2026 aprieta los puños y sonríe' },
     { src: player00Ball, alt: 'Un jugador con el número 00 a la espalda conduce el balón en la cancha' },
     { src: playerGlasses, alt: 'Una jugadora con gafas y la camiseta azul 2026 ríe acomodándose los lentes' },
-    { src: playerPointingCrest, alt: 'Un jugador sonriente señala el escudo de su camiseta azul 2026' },
+    { src: player01873, alt: 'Un jugador con la camiseta azul 2026 posa en la cancha' },
+  ] satisfies Photo[],
+  wall: [
+    { src: wall01834, alt: wallAlt },
+    { src: wall01840, alt: wallAlt },
+    { src: wall01850, alt: wallAlt },
+    { src: wall01874, alt: wallAlt },
+    { src: wall01877, alt: wallAlt },
+    { src: wall01880, alt: wallAlt },
+    { src: wall01884, alt: wallAlt },
+    { src: wall01887, alt: wallAlt },
+    { src: wall01890, alt: wallAlt },
+    { src: wall01893, alt: wallAlt },
+    { src: wall01896, alt: wallAlt },
+    { src: wall01904, alt: wallAlt },
+    { src: wall01908, alt: wallAlt },
+    { src: wall01910, alt: wallAlt },
+    { src: wall01913, alt: wallAlt },
+    { src: wall01914, alt: wallAlt },
+    { src: wall01915, alt: wallAlt },
+    { src: wall01918, alt: wallAlt },
   ] satisfies Photo[],
 };
 
@@ -120,16 +146,12 @@ export const community = {
  * a phone renders and downloads exactly one, and playback is staggered by
  * `delay` so the three never cut in unison.
  *
- * Panels one and three are two separate windows of the same 23s master, cut
- * from scenes far enough apart that they read as different clips — arrival and
- * ball work — and placed either side of panel two so they are never adjacent.
- * The master's last second is a logo card and is deliberately outside both cuts.
- *
- * All three are encoded to 900x1600. Night footage is noisy and noise is
- * expensive to encode, so they go through `hqdn3d` first; without it the same
- * quality costs about half again as many bytes. One of the masters arrives with
- * a rotation matrix, so ffprobe reports 3840x2160 until something decodes a
- * frame — do not trust the header when recutting.
+ * The three are windows of the same 61s "Día de entrega" master — Andrés Lara's
+ * welcome, Andrés Rubiano's guest spot, and Lara's closing invitation — so the
+ * backdrop is the client's own launch-day footage. Each window sits inside a
+ * single speaker's segment to avoid a mid-word cut. All three are encoded to
+ * 900x1600 from the 1080x1920 master (no crop — the source is already 9:16),
+ * halved to 30fps.
  */
 export type HeroPanel = {
   src: string;
@@ -143,25 +165,25 @@ export type HeroPanel = {
 
 export const heroPanels: HeroPanel[] = [
   {
-    src: '/videos/hero-night-arrival.mp4',
-    poster: '/posters/hero-night-arrival.jpg',
+    src: '/videos/hero-entrega-lara.mp4',
+    poster: '/posters/hero-entrega-lara.jpg',
     minWidth: 0,
     delay: 0,
-    label: 'El entrenador y el preparador físico conversando al borde de la cancha.',
+    label: 'Andrés Lara da la bienvenida en el día de entrega de la indumentaria.',
   },
   {
-    src: '/videos/hero-night-warmup.mp4',
-    poster: '/posters/hero-night-warmup.jpg',
+    src: '/videos/hero-entrega-rubiano.mp4',
+    poster: '/posters/hero-entrega-rubiano.jpg',
     minWidth: 768,
     delay: 1.2,
-    label: 'El grupo estirando al inicio de la sesión nocturna.',
+    label: 'Andrés Rubiano, preparador físico, habla del proyecto.',
   },
   {
-    src: '/videos/hero-night-drill.mp4',
-    poster: '/posters/hero-night-drill.jpg',
+    src: '/videos/hero-entrega-cierre.mp4',
+    poster: '/posters/hero-entrega-cierre.jpg',
     minWidth: 1024,
     delay: 3.5,
-    label: 'Una jugadora conduciendo el balón en un ejercicio con conos.',
+    label: 'Andrés Lara cierra invitando a entrenar con los mejores.',
   },
 ];
 
@@ -169,31 +191,35 @@ export const heroPanels: HeroPanel[] = [
  * Every photo used on the site, with the alt text written once so it stays
  * consistent wherever the image is reused.
  *
- * Everything here is a camera original re-encoded to a 2000px long edge, with
- * three exceptions kept from the first WhatsApp-export batch: `coachBoard`,
- * `coachSprint` and `huddle`. Those three cap out at 1280px, which never shows
- * because all three are used blurred or heavily dimmed behind other content.
- * Anything new should come from the camera.
+ * Everything here is a camera original re-encoded to a 2000px long edge, except
+ * `assessment`, which is pre-cropped: its source is a portrait WhatsApp export
+ * and the card that uses it is 16:10, so cropping in the file rather than in
+ * CSS keeps the delivered pixels on the subject.
  *
- * A few entries are pre-cropped rather than full frames — `physioPortrait`,
- * `futsalDuel` and `lockerHuddle`. Their sources are landscape and the cards
- * that use them are portrait, so cropping in the file rather than in CSS is
- * what keeps the delivered pixels on the subject instead of throwing half of
- * them away off-frame.
+ * `plansBackground` and `ctaBackground` are decorative backdrops — they render
+ * with `alt=""` behind cards and gradients — so their alts here are placeholders
+ * for the registry, never read on the page.
  */
 export const photos = {
-  coachBoard: { src: coachTacticalBoard, alt: 'El entrenador arrodillado explicando una jugada en la pizarra táctica' },
-  coachSprint: { src: coachSprintDrill, alt: 'El entrenador acompañando a una jugadora en un ejercicio de velocidad' },
-  huddle: { src: huddleTunnel, alt: 'Jugador con el balón en el túnel antes de salir a la cancha' },
+  plansBackground: { src: plansBackground, alt: 'El grupo entrenando en cancha con la indumentaria azul 2026' },
+  ctaBackground: { src: ctaBackground, alt: 'Sesión de entrenamiento del proyecto Andrés Lara Entrenamientos' },
 
-  playerCrouch: {
-    src: playerCrouchTurfNight,
-    alt: 'Jugadora en cuclillas sobre la grama sintética, sonriendo tras el entrenamiento nocturno',
+  /* The three photos the client supplied for "01 — El proyecto". The same
+     frames were the kit-launch lead and fan before the October shoot, so they
+     now live here to avoid repeating them in Kit.astro and Comunidad.astro. */
+  trioWomen: {
+    src: trioWomen,
+    alt: 'Tres jugadoras con la camiseta azul 2026 posando juntas en la cancha, sonriendo',
   },
-  playerWalk: {
-    src: playerWalkTurfNight,
-    alt: 'Jugadora caminando sobre la grama sintética durante un partido nocturno, con la tribuna al fondo',
+  playerPointingCrest: {
+    src: playerPointingCrest,
+    alt: 'Un jugador sonriente señala el escudo de su camiseta azul 2026',
   },
+  kitBack00: {
+    src: kitBackSponsors,
+    alt: 'Un jugador sostiene a la espalda la camiseta azul 2026 con el número 00 y las marcas Clutch y Turbinas del Sur, AARCI y Clínica Cure',
+  },
+
   coachGuiding: {
     src: coachGuidingSprint,
     alt: 'El entrenador acompañando a una jugadora con la mano en la espalda durante un ejercicio de carrera',
@@ -202,83 +228,20 @@ export const photos = {
     src: stadiumWarmupPf,
     alt: 'Calentamiento con balón en el estadio, supervisado por el preparador físico',
   },
-  /* Cropped tight from the studio portrait: at full length the face landed too
-     small in the 16:10 service card to read at all. */
-  physioPortrait: {
-    src: physioServiceCard,
-    alt: 'Retrato de estudio del fisioterapeuta del equipo, con uniforme negro',
-  },
-  futsalDuel: {
-    src: futsalDuelCourt,
-    alt: 'Dos jugadores disputando el balón durante un partido de fútbol sala',
-  },
-  teamCircleOverhead: {
-    src: teamCircleOverhead,
-    alt: 'Vista cenital del entrenador hablando con las jugadoras sentadas en círculo sobre la grama',
-  },
-  coachSideline: {
-    src: coachSidelineStadium,
-    alt: 'El entrenador dando indicaciones desde la banda durante un partido en el estadio',
-  },
-  coachBoardPortrait: {
-    src: coachPortraitBoard,
-    alt: 'Retrato del entrenador con la pizarra táctica en la mano, observando el entrenamiento',
-  },
-  lockerHuddle: {
-    src: lockerHuddleBall,
-    alt: 'El entrenador con el balón en la mano hablando al equipo reunido en el camerino',
-  },
-
-  /* --- Gallery: the kit shoot and the squads it was shot for ----------- */
-  studioPointing: {
-    src: studioPointingNavy,
-    alt: 'Jugadora en estudio señalando a cámara con la camiseta azul del club',
-  },
-  studio7: {
-    src: studio7White,
-    alt: 'Jugadora número 7 de perfil en estudio, con la indumentaria blanca y dorada',
-  },
-  studio29: {
-    src: studio29Navy,
-    alt: 'Jugadora número 29 de cuerpo entero en estudio, con la camiseta azul',
-  },
-  studio26: {
-    src: studio26White,
-    alt: 'Jugadora número 26 sonriendo en estudio, con la indumentaria blanca y dorada',
-  },
-  studio13: {
-    src: studio13Celebrate,
-    alt: 'Jugadora número 13 celebrando con los puños cerrados en estudio',
-  },
-  squadOrange: {
-    src: squadOrangeStadium,
-    alt: 'Plantel masculino posando sobre el césped del estadio antes de un partido',
-  },
-  duoMedal: {
-    src: duoMedalFutsal,
-    alt: 'Dos jugadores de fútbol sala mostrando la medalla de oro frente al arco',
-  },
-  squadWomen: {
-    src: squadWomenOutdoor,
-    alt: 'Plantel femenino junto al cuerpo técnico y la mascota del club al borde de la cancha',
-  },
-  squadYouth: {
-    src: squadYouthCourt,
-    alt: 'Plantel juvenil de fútbol sala celebrando en la cancha techada',
-  },
-  squadNight: {
-    src: squadTrainingNight,
-    alt: 'Grupo de entrenamiento posando en la cancha al terminar la sesión nocturna',
+  assessment: {
+    src: assessment,
+    alt: 'Valoración física: un deportista con sensores en los muslos sostiene un balón entre las rodillas mientras se registra la prueba',
   },
 } satisfies Record<string, Photo>;
 
 /**
- * Short vertical clips shot on phone (464x832). They are deliberately shown
- * small, in a stories-style rail — blowing them up would look broken.
+ * Short vertical clips (464x832) shown in a stories-style rail — blowing them
+ * up would look broken. Reels one and three are the client's launch-day
+ * footage, cut from the "Día de entrega" master; reel two stays as the field
+ * session in the middle.
  *
- * The kit clip leads the rail as `featured`: it is the only studio-clean
- * footage in the set, so it gets the wider card and carries the standard the
- * other two then show in the field. `note` is the line inside its card.
+ * The welcome leads as `featured`: it carries the launch, so it gets the wider
+ * card and the `note` line the other two then show in the field.
  */
 export type Reel = {
   src: string;
@@ -292,10 +255,10 @@ export type Reel = {
 
 export const reels: Reel[] = [
   {
-    src: '/videos/training-01.mp4',
-    poster: '/posters/training-01.jpg',
+    src: '/videos/reel-entrega-lara.mp4',
+    poster: '/posters/reel-entrega-lara.jpg',
     label: 'Conoce mucho más sobre nosotros',
-    caption: 'La identidad con la que se entrena',
+    caption: 'El día en que estrenamos la indumentaria 2026',
     note: 'Entrenamiento de calidad, con método, seguimiento y respaldo profesional.',
     featured: true,
   },
@@ -306,9 +269,9 @@ export const reels: Reel[] = [
     caption: 'Trabajo aeróbico al mediodía',
   },
   {
-    src: '/videos/training-03.mp4',
-    poster: '/posters/training-03.jpg',
-    label: 'Jornadas diurnas y nocturnas',
-    caption: 'En distintos espacios deportivos de la ciudad',
+    src: '/videos/reel-entrega-rubiano.mp4',
+    poster: '/posters/reel-entrega-rubiano.jpg',
+    label: 'Respaldo profesional',
+    caption: 'Andrés Rubiano, preparador físico, con el proyecto',
   },
 ];

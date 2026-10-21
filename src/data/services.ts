@@ -62,32 +62,3 @@ export const capacities = [
   'Rendimiento deportivo',
   'Aspectos mentales y de confianza',
 ] as const;
-
-/** The five-step methodology. */
-export const method = [
-  {
-    n: '01',
-    title: 'Valoración',
-    body: 'Conocemos al deportista y analizamos sus características.',
-  },
-  {
-    n: '02',
-    title: 'Planificación',
-    body: 'Diseñamos el entrenamiento de acuerdo con sus objetivos.',
-  },
-  {
-    n: '03',
-    title: 'Ejecución',
-    body: 'Desarrollamos sesiones dinámicas y específicas.',
-  },
-  {
-    n: '04',
-    title: 'Seguimiento',
-    body: 'Analizamos la evolución y realizamos los ajustes necesarios.',
-  },
-  {
-    n: '05',
-    title: 'Reevaluación',
-    body: 'Medimos los avances y establecemos nuevos objetivos.',
-  },
-] as const;

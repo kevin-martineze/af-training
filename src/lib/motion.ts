@@ -207,34 +207,6 @@ function initMarquees() {
   });
 }
 
-/** Horizontal pinned rail used by the method section. */
-function initHorizontalRails() {
-  document.querySelectorAll<HTMLElement>('[data-rail]').forEach((section) => {
-    const track = section.querySelector<HTMLElement>('[data-rail-track]');
-    if (!track) return;
-
-    // Below the pin breakpoint the rail stays a plain swipeable overflow list.
-    // matchMedia reverts the tween and kills the trigger on the way out.
-    gsap.matchMedia().add('(min-width: 1024px)', () => {
-      const distance = () => track.scrollWidth - window.innerWidth + 96;
-
-      gsap.to(track, {
-        x: () => -distance(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: () => `+=${distance()}`,
-          pin: true,
-          scrub: 0.6,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-        },
-      });
-    });
-  });
-}
-
 /** Hero: the loop drifts and the overlay darkens as you scroll past it. */
 function initHero() {
   const hero = document.querySelector<HTMLElement>('[data-hero]');
@@ -1013,7 +985,6 @@ const features: [string, () => void][] = [
   ['reveals', initReveals],
   ['parallax', initParallax],
   ['marquees', initMarquees],
-  ['rails', initHorizontalRails],
   ['hero', initHero],
   ['counters', initCounters],
   ['reels', initReels],
@@ -1038,10 +1009,10 @@ function boot() {
   // fallback rather than leave the page at opacity 0.
   if (failures === features.length) throw new Error('every feature failed');
 
-  // Two sections pin now (the method rail and the kit), and a trigger measures
-  // its start without the pin spacing of any pin refreshed after it. Triggers
-  // refresh in creation order, which is feature order, not page order — so put
-  // them in page order before the first refresh below.
+  // The kit section pins, and a trigger measures its start without the pin
+  // spacing of any pin refreshed after it. Triggers refresh in creation order,
+  // which is feature order, not page order — so put them in page order before
+  // the first refresh below.
   ScrollTrigger.sort();
 
   // Fonts change line boxes, which changes every trigger position.

@@ -1,0 +1,50 @@
+---
+import { Image } from 'astro:assets';
+import { community } from '../data/media';
+
+/* "Muro de rostros": a band of the athletes who train here. Two marquee rows
+   drift in opposite directions, reusing the same seamless-ticker system as the
+   text Marquee (initMarquees in motion.ts) — the group is cloned until it covers
+   the viewport, then loops one group width. The band is unlabelled on the page,
+   so it carries an aria-label for assistive tech; the individual alt text still
+   lives in media.ts. */
+const mid = Math.ceil(community.wall.length / 2);
+const rows = [
+  { photos: community.wall.slice(0, mid), direction: 'left' as const, speed: 55 },
+  { photos: community.wall.slice(mid), direction: 'right' as const, speed: 62 },
+];
+---
+
+<section class="overflow-hidden border-y hairline bg-ink-900 py-8 lg:py-10" aria-label="Deportistas del proyecto con la indumentaria 2026">
+  <div class="space-y-5">
+    {
+      rows.map((row) => (
+        <div
+          data-marquee={row.speed}
+          data-marquee-direction={row.direction}
+          class="mask-fade-x relative flex overflow-hidden"
+        >
+          <div data-marquee-track class="flex w-max shrink-0 items-center">
+            <div data-marquee-group class="flex shrink-0 items-center gap-5 pr-5">
+              {
+                row.photos.map((photo) => (
+                  <figure class="grain relative w-40 shrink-0 overflow-hidden rounded-2xl border hairline sm:w-48 lg:w-56">
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      widths={[280, 420, 560]}
+                      sizes="14rem"
+                      loading="lazy"
+                      layout="none"
+                      class="photo aspect-[3/4] w-full object-cover"
+                    />
+                  </figure>
+                ))
+              }
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

@@ -26,6 +26,27 @@ import playerPointingCrest from '../assets/community/player-pointing-crest.jpeg'
 /* Camera originals from the October 2026 AL-kit session. */
 import trioHug from '../assets/community/trio-hug.jpeg';
 import player01873 from '../assets/community/player-01873.jpeg';
+
+/* The wall: eighteen more portraits from that session, for Rostros.astro. */
+import wall01834 from '../assets/community/muro/wall-01834.jpeg';
+import wall01840 from '../assets/community/muro/wall-01840.jpeg';
+import wall01850 from '../assets/community/muro/wall-01850.jpeg';
+import wall01874 from '../assets/community/muro/wall-01874.jpeg';
+import wall01877 from '../assets/community/muro/wall-01877.jpeg';
+import wall01880 from '../assets/community/muro/wall-01880.jpeg';
+import wall01884 from '../assets/community/muro/wall-01884.jpeg';
+import wall01887 from '../assets/community/muro/wall-01887.jpeg';
+import wall01890 from '../assets/community/muro/wall-01890.jpeg';
+import wall01893 from '../assets/community/muro/wall-01893.jpeg';
+import wall01896 from '../assets/community/muro/wall-01896.jpeg';
+import wall01904 from '../assets/community/muro/wall-01904.jpeg';
+import wall01908 from '../assets/community/muro/wall-01908.jpeg';
+import wall01910 from '../assets/community/muro/wall-01910.jpeg';
+import wall01913 from '../assets/community/muro/wall-01913.jpeg';
+import wall01914 from '../assets/community/muro/wall-01914.jpeg';
+import wall01915 from '../assets/community/muro/wall-01915.jpeg';
+import wall01918 from '../assets/community/muro/wall-01918.jpeg';
+
 import coachGuidingSprint from '../assets/training/coach-guiding-sprint.jpeg';
 import stadiumWarmupPf from '../assets/training/stadium-warmup-pf.jpeg';
 import assessment from '../assets/training/assessment.jpeg';
@@ -79,6 +100,12 @@ export const brand = {
  * supplied the photos, not the names — so the alt text describes and never
  * identifies.
  */
+/* Anonymous athletes, so one shared alt describes the lot without naming
+   anyone. The wall is decorative — a long strip of faces — so the alt text
+   stays short and generic rather than trying to distinguish one crop from
+   another that only differ by the person in them. */
+const wallAlt = 'Deportista del proyecto Andrés Lara Entrenamientos';
+
 export const community = {
   lead: {
     src: trioHug,
@@ -91,6 +118,26 @@ export const community = {
     { src: player00Ball, alt: 'Un jugador con el número 00 a la espalda conduce el balón en la cancha' },
     { src: playerGlasses, alt: 'Una jugadora con gafas y la camiseta azul 2026 ríe acomodándose los lentes' },
     { src: player01873, alt: 'Un jugador con la camiseta azul 2026 posa en la cancha' },
+  ] satisfies Photo[],
+  wall: [
+    { src: wall01834, alt: wallAlt },
+    { src: wall01840, alt: wallAlt },
+    { src: wall01850, alt: wallAlt },
+    { src: wall01874, alt: wallAlt },
+    { src: wall01877, alt: wallAlt },
+    { src: wall01880, alt: wallAlt },
+    { src: wall01884, alt: wallAlt },
+    { src: wall01887, alt: wallAlt },
+    { src: wall01890, alt: wallAlt },
+    { src: wall01893, alt: wallAlt },
+    { src: wall01896, alt: wallAlt },
+    { src: wall01904, alt: wallAlt },
+    { src: wall01908, alt: wallAlt },
+    { src: wall01910, alt: wallAlt },
+    { src: wall01913, alt: wallAlt },
+    { src: wall01914, alt: wallAlt },
+    { src: wall01915, alt: wallAlt },
+    { src: wall01918, alt: wallAlt },
   ] satisfies Photo[],
 };
 

@@ -1,11 +1,5 @@
 import type { ImageMetadata } from 'astro';
 
-/* Two survivors of the original WhatsApp-export batch, both used as backgrounds
-   where the 1280px ceiling never shows. The rest of that batch has been
-   replaced by camera originals and is no longer registered here. */
-import coachSprintDrill from '../assets/training/coach-sprint-drill.jpeg';
-import huddleTunnel from '../assets/training/huddle-tunnel.jpeg';
-
 import crest from '../assets/brand/crest-andres-lara.png';
 import kitHome from '../assets/brand/kit-2026-home.png';
 import kitAway from '../assets/brand/kit-2026-away.jpeg';
@@ -50,6 +44,8 @@ import wall01918 from '../assets/community/muro/wall-01918.jpeg';
 import coachGuidingSprint from '../assets/training/coach-guiding-sprint.jpeg';
 import stadiumWarmupPf from '../assets/training/stadium-warmup-pf.jpeg';
 import assessment from '../assets/training/assessment.jpeg';
+import plansBackground from '../assets/training/plans-background.jpeg';
+import ctaBackground from '../assets/training/cta-background.jpeg';
 
 export type Photo = { src: ImageMetadata; alt: string };
 
@@ -199,19 +195,18 @@ export const heroPanels: HeroPanel[] = [
  * Every photo used on the site, with the alt text written once so it stays
  * consistent wherever the image is reused.
  *
- * Everything here is a camera original re-encoded to a 2000px long edge, with
- * two exceptions kept from the first WhatsApp-export batch: `coachSprint` and
- * `huddle`. Those two cap out at 1280px, which never shows because both are
- * used blurred or heavily dimmed behind other content. Anything new should come
- * from the camera.
+ * Everything here is a camera original re-encoded to a 2000px long edge, except
+ * `assessment`, which is pre-cropped: its source is a portrait WhatsApp export
+ * and the card that uses it is 16:10, so cropping in the file rather than in
+ * CSS keeps the delivered pixels on the subject.
  *
- * `assessment` is pre-cropped rather than a full frame: its source is a
- * portrait WhatsApp export and the card that uses it is 16:10, so cropping in
- * the file rather than in CSS keeps the delivered pixels on the subject.
+ * `plansBackground` and `ctaBackground` are decorative backdrops — they render
+ * with `alt=""` behind cards and gradients — so their alts here are placeholders
+ * for the registry, never read on the page.
  */
 export const photos = {
-  coachSprint: { src: coachSprintDrill, alt: 'El entrenador acompañando a una jugadora en un ejercicio de velocidad' },
-  huddle: { src: huddleTunnel, alt: 'Jugador con el balón en el túnel antes de salir a la cancha' },
+  plansBackground: { src: plansBackground, alt: 'El grupo entrenando en cancha con la indumentaria azul 2026' },
+  ctaBackground: { src: ctaBackground, alt: 'Sesión de entrenamiento del proyecto Andrés Lara Entrenamientos' },
 
   /* The three photos the client supplied for "01 — El proyecto". The same
      frames were the kit-launch lead and fan before the October shoot, so they

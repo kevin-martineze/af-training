@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { brand } from '../data/media';
 import { currencyFormat, kit } from '../data/plans';
 import { whatsappLink } from '../data/site';
@@ -68,7 +68,7 @@ const origin = brand.worn.origin;
           data-kit-stage
           data-kit-origin={origin}
         >
-          <Image
+          <Picture formats={["avif"]} fallbackFormat="webp"
             src={brand.worn.src}
             alt={brand.worn.alt}
             widths={[420, 640, 900, 1200]}
@@ -80,7 +80,7 @@ const origin = brand.worn.origin;
             data-kit-layer
           />
 
-          <Image
+          <Picture formats={["avif"]} fallbackFormat="webp"
             src={brand.crestDetail.src}
             alt={brand.crestDetail.alt}
             widths={[420, 640, 900, 1200]}
@@ -92,7 +92,7 @@ const origin = brand.worn.origin;
             data-kit-layer
           />
 
-          <Image
+          <Picture formats={["avif"]} fallbackFormat="webp"
             src={brand.back.src}
             alt={brand.back.alt}
             widths={[420, 640, 900, 1200]}
@@ -115,7 +115,7 @@ const origin = brand.worn.origin;
             {
               brand.kits.map((colourway) => (
                 <figure class="relative overflow-hidden rounded-2xl">
-                  <Image
+                  <Picture formats={["avif"]} fallbackFormat="webp"
                     src={colourway.src}
                     alt={colourway.alt}
                     widths={[360, 560, 820]}
@@ -152,7 +152,7 @@ const origin = brand.worn.origin;
     </div>
 
     <div class="lg:col-span-5 lg:col-start-8">
-      <p class="eyebrow mb-5" data-reveal="fade">{kit.name}</p>
+      <p class="eyebrow mb-5" data-reveal="fade">06 — {kit.name}</p>
 
       <!-- "VÍSTETE DEL" is 7.18em wide, so the 2.2rem floor still clears a
            320px shell and the ramp clears the 5-of-12 column from lg up.

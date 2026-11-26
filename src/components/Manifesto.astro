@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { photos } from '../data/media';
 import { capacities } from '../data/services';
 
@@ -66,7 +66,7 @@ const values = [
     <div class="lg:col-span-6 lg:col-start-7">
       <div class="grid grid-cols-2 gap-4 lg:gap-6">
         <figure class="grain relative col-span-2 overflow-hidden rounded-2xl border hairline">
-          <Image
+          <Picture formats={["avif"]} fallbackFormat="webp"
             src={photos.trioWomen.src}
             alt={photos.trioWomen.alt}
             widths={[640, 960, 1280, 1800]}
@@ -79,7 +79,7 @@ const values = [
 
         <figure class="grain relative overflow-hidden rounded-2xl border hairline">
           <div class="overflow-hidden">
-            <Image
+            <Picture formats={["avif"]} fallbackFormat="webp"
               src={photos.playerPointingCrest.src}
               alt={photos.playerPointingCrest.alt}
               widths={[420, 640, 900, 1200]}
@@ -94,7 +94,7 @@ const values = [
 
         <figure class="grain relative overflow-hidden rounded-2xl border hairline">
           <div class="overflow-hidden">
-            <Image
+            <Picture formats={["avif"]} fallbackFormat="webp"
               src={photos.kitBack00.src}
               alt={photos.kitBack00.alt}
               widths={[420, 640, 900, 1334]}

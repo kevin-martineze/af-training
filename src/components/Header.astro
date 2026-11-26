@@ -1,16 +1,16 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { nav, site, whatsappLink } from '../data/site';
 import { brand } from '../data/media';
 ---
 
 <header
   data-header
-  class="fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,border-color] duration-500"
+  class="fixed inset-x-0 top-0 z-50 bg-gradient-to-b from-ink-950/70 to-transparent transition-[background-color,backdrop-filter,border-color] duration-500"
 >
   <div class="shell flex items-center justify-between gap-6 py-5">
     <a href="#" class="group flex items-center gap-3" aria-label={`${site.name} — inicio`}>
-      <Image
+      <Picture formats={["avif"]} fallbackFormat="webp"
         src={brand.crest.src}
         alt={brand.crest.alt}
         widths={[48, 96]}
@@ -23,12 +23,14 @@ import { brand } from '../data/media';
       </span>
     </a>
 
-    <nav aria-label="Principal" class="hidden items-center gap-8 lg:flex">
+    <!-- Seven links only fit beside the lockup and the CTA from xl. At lg the
+         row squeezed the CTA onto two lines, so lg keeps the drawer. -->
+    <nav aria-label="Principal" class="hidden items-center gap-7 xl:flex">
       {
         nav.map((item) => (
           <a
             href={item.href}
-            class="relative text-sm text-muted transition-colors duration-300 hover:text-bone after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-brand-red after:transition-[width] after:duration-500 hover:after:w-full"
+            class="relative text-sm whitespace-nowrap text-bone/75 transition-colors duration-300 hover:text-bone after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-brand-red after:transition-[width] after:duration-500 hover:after:w-full"
           >
             {item.label}
           </a>
@@ -41,7 +43,7 @@ import { brand } from '../data/media';
         href={whatsappLink('Hola, quiero agendar mi valoración inicial gratuita.')}
         target="_blank"
         rel="noopener"
-        class="group relative hidden overflow-hidden rounded-full bg-bone px-5 py-2.5 text-sm font-medium text-ink-950 sm:block"
+        class="group relative hidden overflow-hidden rounded-full bg-bone px-5 py-2.5 text-sm font-medium whitespace-nowrap text-ink-950 sm:block"
       >
         <span
           class="absolute inset-0 -translate-y-full bg-brand-red transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-y-0"
@@ -56,7 +58,7 @@ import { brand } from '../data/media';
         data-menu-toggle
         aria-expanded="false"
         aria-controls="menu-movil"
-        class="flex size-11 items-center justify-center rounded-full border hairline lg:hidden"
+        class="flex size-11 items-center justify-center rounded-full border hairline xl:hidden"
       >
         <span class="sr-only">Abrir menú</span>
         <span class="relative block h-[11px] w-[18px]" aria-hidden="true">
@@ -78,14 +80,14 @@ import { brand } from '../data/media';
 
      `inert` while closed keeps the links out of the tab order without needing
      `hidden`, which would remove the box and leave nothing to slide. -->
-<div data-menu-backdrop class="fixed inset-0 z-[55] bg-ink-950/80 backdrop-blur-sm lg:hidden"></div>
+<div data-menu-backdrop class="fixed inset-0 z-[55] bg-ink-950/80 backdrop-blur-sm xl:hidden"></div>
 
 <aside
   id="menu-movil"
   data-menu-panel
   inert
   aria-label="Menú"
-  class="fixed inset-y-0 right-0 z-[60] flex w-[min(86vw,21rem)] flex-col border-l hairline bg-ink-900 lg:hidden"
+  class="fixed inset-y-0 right-0 z-[60] flex w-[min(86vw,21rem)] flex-col border-l hairline bg-ink-900 xl:hidden"
 >
   <div class="flex items-center justify-between border-b hairline px-6 py-5">
     <span class="eyebrow">Menú</span>
@@ -251,7 +253,7 @@ import { brand } from '../data/media';
     });
 
     // Leaving the breakpoint with the drawer open would strand the scroll lock.
-    window.matchMedia('(min-width: 1024px)').addEventListener('change', (event) => {
+    window.matchMedia('(min-width: 1280px)').addEventListener('change', (event) => {
       if (event.matches) setOpen(false);
     });
   }

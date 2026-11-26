@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { chapters, entrega } from '../data/entrega';
 import { brand } from '../data/media';
 
@@ -24,7 +24,7 @@ import { brand } from '../data/media';
 >
   <div class="shell grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
     <div class="lg:col-span-5">
-      <p class="eyebrow mb-5" data-reveal="fade">{entrega.place} · Estreno 2026</p>
+      <p class="eyebrow mb-5" data-reveal="fade">07 — {entrega.place}</p>
       <h2 id="entrega-title" class="display text-[clamp(2.4rem,6vw,5rem)] text-bone" data-split>
         Día de<br />entrega
       </h2>
@@ -98,7 +98,7 @@ import { brand } from '../data/media';
           chapters.map((chapter, index) => (
             <video
               src={chapter.src}
-              poster={chapter.poster}
+              data-poster={chapter.poster}
               muted
               playsinline
               preload="none"
@@ -135,7 +135,7 @@ import { brand } from '../data/media';
         </div>
 
         <div class="absolute inset-x-4 top-7 flex items-center gap-3">
-          <Image
+          <Picture formats={["avif"]} fallbackFormat="webp"
             src={brand.crest.src}
             alt=""
             widths={[32, 64]}

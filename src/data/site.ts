@@ -43,8 +43,9 @@ export const whatsappLink = (message: string) =>
 export const nav = [
   { label: 'Proyecto', href: '#proyecto' },
   { label: 'Servicios', href: '#servicios' },
-  { label: 'Comunidad', href: '#comunidad' },
   { label: 'Planes', href: '#planes' },
   { label: 'Equipo', href: '#equipo' },
+  { label: 'Indumentaria', href: '#indumentaria' },
+  { label: 'Comunidad', href: '#comunidad' },
   { label: 'Preguntas', href: '#faq' },
 ] as const;

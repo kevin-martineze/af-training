@@ -52,7 +52,7 @@ echo "--- coach-detalles.mp4"
 # video itself is fetched (preload="none" until the band is on screen).
 echo "--- posters"
 "$FF" -hide_banner -loglevel error -y -i "$OUT" \
-  -frames:v 1 -q:v 4 public/posters/coach-detalles.jpg
+  -frames:v 1 -c:v libwebp -quality 82 public/posters/coach-detalles.webp
 
 echo "--- result"
-ls -lh "$OUT" public/posters/coach-detalles.jpg
+ls -lh "$OUT" public/posters/coach-detalles.webp

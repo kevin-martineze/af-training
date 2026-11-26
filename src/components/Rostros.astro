@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { community } from '../data/media';
 
 /* "Muro de rostros": a band of the athletes who train here. Two marquee rows
@@ -29,7 +29,7 @@ const rows = [
               {
                 row.photos.map((photo) => (
                   <figure class="grain relative w-40 shrink-0 overflow-hidden rounded-2xl border hairline sm:w-48 lg:w-56">
-                    <Image
+                    <Picture formats={["avif"]} fallbackFormat="webp"
                       src={photo.src}
                       alt={photo.alt}
                       widths={[280, 420, 560]}

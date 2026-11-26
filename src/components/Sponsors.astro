@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { sponsors } from '../data/sponsors';
 
 /* The client asked for this wording over "Patrocinadores": these are brands
@@ -20,7 +20,7 @@ const blanksSm = (3 - (sponsors.length % 3)) % 3;
   <div class="shell">
     <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-5">
-        <p class="eyebrow mb-5" data-reveal="fade">06 — Respaldo</p>
+        <p class="eyebrow mb-5" data-reveal="fade">09 — Respaldo</p>
         <h2 class="display text-[clamp(2rem,4.5vw,3.6rem)] text-bone" data-split>
           Marcas que<br />confían en<br />nosotros
         </h2>
@@ -64,7 +64,7 @@ const blanksSm = (3 - (sponsors.length % 3)) % 3;
                    section used to plate the white ones and screen the black
                    ones out; both treatments read as something the site had
                    added, so neither survives. */
-                <Image
+                <Picture formats={["avif"]} fallbackFormat="webp"
                   src={sponsor.logo}
                   alt={sponsor.name}
                   widths={[120, 240, 360]}

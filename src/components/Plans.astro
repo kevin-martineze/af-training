@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { plans, plansPdf, currencyFormat } from '../data/plans';
 import { photos } from '../data/media';
 import { whatsappLink } from '../data/site';
@@ -8,7 +8,7 @@ import { whatsappLink } from '../data/site';
 <section id="planes" class="relative py-16 lg:py-20">
   <!-- Photo runs behind the cards, dimmed hard so it reads as texture. -->
   <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-    <Image
+    <Picture formats={["avif"]} fallbackFormat="webp"
       src={photos.plansBackground.src}
       alt=""
       aria-hidden="true"
@@ -24,7 +24,7 @@ import { whatsappLink } from '../data/site';
   <div class="shell">
     <div class="mb-14 flex flex-wrap items-end justify-between gap-8">
       <div>
-        <p class="eyebrow mb-5" data-reveal="fade">04 — Planes</p>
+        <p class="eyebrow mb-5" data-reveal="fade">03 — Planes</p>
         <h2 class="display text-[clamp(2.4rem,6vw,5.5rem)] text-bone" data-split>
           Todos mensuales,<br />8 sesiones
         </h2>

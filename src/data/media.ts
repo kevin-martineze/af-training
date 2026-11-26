@@ -166,21 +166,21 @@ export type HeroPanel = {
 export const heroPanels: HeroPanel[] = [
   {
     src: '/videos/hero-entrega-lara.mp4',
-    poster: '/posters/hero-entrega-lara.jpg',
+    poster: '/posters/hero-entrega-lara.webp',
     minWidth: 0,
     delay: 0,
     label: 'Andrés Lara da la bienvenida en el día de entrega de la indumentaria.',
   },
   {
     src: '/videos/hero-entrega-rubiano.mp4',
-    poster: '/posters/hero-entrega-rubiano.jpg',
+    poster: '/posters/hero-entrega-rubiano.webp',
     minWidth: 768,
     delay: 1.2,
     label: 'Andrés Rubiano, preparador físico, habla del proyecto.',
   },
   {
     src: '/videos/hero-entrega-cierre.mp4',
-    poster: '/posters/hero-entrega-cierre.jpg',
+    poster: '/posters/hero-entrega-cierre.webp',
     minWidth: 1024,
     delay: 3.5,
     label: 'Andrés Lara cierra invitando a entrenar con los mejores.',
@@ -256,7 +256,7 @@ export type Reel = {
 export const reels: Reel[] = [
   {
     src: '/videos/reel-entrega-lara.mp4',
-    poster: '/posters/reel-entrega-lara.jpg',
+    poster: '/posters/reel-entrega-lara.webp',
     label: 'Conoce mucho más sobre nosotros',
     caption: 'El día en que estrenamos la indumentaria 2026',
     note: 'Entrenamiento de calidad, con método, seguimiento y respaldo profesional.',
@@ -264,13 +264,13 @@ export const reels: Reel[] = [
   },
   {
     src: '/videos/training-02.mp4',
-    poster: '/posters/training-02.jpg',
+    poster: '/posters/training-02.webp',
     label: 'Desarrolla tus habilidades',
     caption: 'Trabajo aeróbico al mediodía',
   },
   {
     src: '/videos/reel-entrega-rubiano.mp4',
-    poster: '/posters/reel-entrega-rubiano.jpg',
+    poster: '/posters/reel-entrega-rubiano.webp',
     label: 'Respaldo profesional',
     caption: 'Andrés Rubiano, preparador físico, con el proyecto',
   },

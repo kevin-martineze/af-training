@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { brand, heroPanels } from '../data/media';
 import { site, whatsappLink } from '../data/site';
 
@@ -35,7 +35,8 @@ const stats = [
             panel.minWidth === 768 && 'hidden md:block',
             panel.minWidth === 1024 && 'hidden lg:block',
           ]}
-          poster={panel.poster}
+          poster={panel.minWidth ? undefined : panel.poster}
+          data-poster={panel.minWidth ? panel.poster : undefined}
           muted
           loop
           playsinline
@@ -48,16 +49,21 @@ const stats = [
 
   <!-- A panel only gets a source once its breakpoint is actually met, so a
        phone downloads one clip instead of three. Reduced-motion visitors keep
-       the posters and download nothing at all. -->
+       the posters and download no video at all.
+       The same goes for posters: a <video> under display:none still fetches
+       its poster, so the panels behind a breakpoint carry theirs as
+       data-poster and only get it here, once they are actually shown. -->
   <script is:inline>
     (function () {
       var panels = document.querySelectorAll('[data-hero-video]');
       if (!panels.length) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       Array.prototype.forEach.call(panels, function (v) {
         var min = Number(v.dataset.minWidth || 0);
         if (min && !window.matchMedia('(min-width: ' + min + 'px)').matches) return;
+        if (v.dataset.poster) v.poster = v.dataset.poster;
+        if (reduce) return;
 
         var s = document.createElement('source');
         s.src = v.dataset.src;
@@ -98,7 +104,13 @@ const stats = [
 
   <div class="shell flex flex-1 flex-col justify-end pt-32 pb-14 lg:pb-20">
     <div>
-      <p class="eyebrow mb-6 flex items-center gap-3 text-bone/70" data-reveal="fade">
+      <!-- The hero enters on CSS, not motion.ts. Everything here is the first
+           screen, and the paragraph is usually the page's largest paint: held
+           at opacity 0 until the 56 KB bundle had downloaded and run, a phone
+           on 4G saw an empty hero for seconds. These keyframes start on first
+           paint. Same moves as the rest of the page (lines rising out of a
+           mask, blocks lifting 44px), with the delays the JS used to apply. -->
+      <p class="hero-fade eyebrow mb-6 flex items-center gap-3 text-bone/70">
         <span class="inline-block h-px w-10 bg-brand-red"></span>
         {site.city}
       </p>
@@ -118,23 +130,22 @@ const stats = [
            that the design ramp is the smaller of the two and takes over.
            Without it the 2.9rem floor rendered 46.4px on a 402px iPhone, 13px
            more than fits, and the line mask ate the final R. -->
-      <h1 class="display text-[min(10.4vw,clamp(2.9rem,9.4vw,8.5rem))] text-bone" data-split>
-        Más que<br />
-        entrenar,<br />
-        <span class="text-brand-red">evolucionar</span>
+      <h1 class="display text-[min(10.4vw,clamp(2.9rem,9.4vw,8.5rem))] text-bone">
+        <span class="hero-line"><span style="--d: 0s">Más que</span></span>
+        <span class="hero-line"><span style="--d: 0.08s">entrenar,</span></span>
+        <span class="hero-line"><span class="text-brand-red" style="--d: 0.16s">evolucionar</span></span>
       </h1>
 
       <p
-        class="mt-8 max-w-xl text-lg leading-relaxed text-bone/75"
-        data-reveal
-        data-reveal-delay="0.15"
+        class="hero-up mt-8 max-w-xl text-lg leading-relaxed text-bone/75"
+        style="--d: 0.15s"
       >
         Entrenamos deportistas de forma integral: capacidades físicas, técnica, preparación
         mental y prevención. Cada proceso se diseña sobre una valoración, no sobre una
         rutina genérica.
       </p>
 
-      <div class="mt-10 flex flex-wrap items-center gap-4" data-reveal data-reveal-delay="0.25">
+      <div class="hero-up mt-10 flex flex-wrap items-center gap-4" style="--d: 0.25s">
         <a
           href={whatsappLink(
             'Hola, quiero agendar mi valoración inicial gratuita con Andrés Lara Entrenamientos.',
@@ -190,7 +201,7 @@ const stats = [
       <dl class="grid w-full max-w-lg grid-cols-3 gap-4 sm:gap-6 lg:flex-1">
         {
           stats.map((stat, index) => (
-            <div data-reveal data-reveal-delay={0.3 + index * 0.08}>
+            <div class="hero-up" style={`--d: ${0.3 + index * 0.08}s`}>
               <dt class="sr-only">{stat.label}</dt>
               <dd>
                 <span class="display-tight block text-4xl text-bone lg:text-5xl">
@@ -213,8 +224,8 @@ const stats = [
         }
       </dl>
 
-      <div class="flex items-center gap-4" data-reveal data-reveal-delay="0.4">
-        <Image
+      <div class="hero-up flex items-center gap-4" style="--d: 0.4s">
+        <Picture formats={["avif"]} fallbackFormat="webp"
           src={brand.crest.src}
           alt={brand.crest.alt}
           widths={[72, 144]}
@@ -240,6 +251,51 @@ const stats = [
 </section>
 
 <style>
+  /* Each line clips its own rise, like SplitText's mask elsewhere — with the
+     same allowance as .split-line-mask in global.css, so the acute on "MÁS"
+     and the comma after "entrenar," keep their ink. */
+  .hero-line {
+    display: block;
+    overflow: hidden;
+    padding-block: 0.18em 0.08em;
+    margin-block-start: -0.26em;
+  }
+  .hero-line > span {
+    display: block;
+    animation: hero-rise 1.1s var(--ease-out-expo) var(--d, 0s) both;
+  }
+  .hero-up {
+    animation: hero-up 1.1s var(--ease-out-expo) var(--d, 0s) both;
+  }
+  .hero-fade {
+    animation: hero-fade 1.1s var(--ease-out-expo) var(--d, 0s) both;
+  }
+  @keyframes hero-rise {
+    from {
+      transform: translateY(130%);
+    }
+  }
+  @keyframes hero-up {
+    from {
+      opacity: 0;
+      transform: translateY(44px);
+    }
+  }
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  /* global.css already shortens every animation to ~0 under reduced motion,
+     which lands these on their end state; this just skips the work. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-line > span,
+    .hero-up,
+    .hero-fade {
+      animation: none;
+    }
+  }
+
   .scroll-line {
     position: relative;
     overflow: hidden;

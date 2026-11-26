@@ -146,6 +146,12 @@
 html.no-motion [data-reveal],
 html.no-motion [data-split] { opacity: 1; }
 
+/* Every photo ships as <picture> (AVIF with a WebP fallback). The wrapper
+   should not exist as far as layout goes: with display: contents the <img>
+   stays the flex/grid item and the absolutely positioned layer it was when
+   it was a bare <img>, so no component had to change its classes. */
+picture { display: contents; }
+
 /* SplitText's mask wrapper needs a block box to clip the rising line. */
 .split-line { will-change: transform; }
 

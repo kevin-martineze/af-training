@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { team } from '../data/team';
 ---
 
@@ -8,8 +8,12 @@ import { team } from '../data/team';
     <div class="mb-14 grid gap-8 lg:grid-cols-12">
       <div class="lg:col-span-7">
         <p class="eyebrow mb-5" data-reveal="fade">05 — Equipo</p>
-        <h2 class="display text-[clamp(2.4rem,6vw,5.5rem)] text-bone" data-split>
-          Cuatro áreas,<br />un solo proceso
+        <!-- Fit-capped: "profesionales," is one unbreakable word ~9.9em wide.
+             From lg the heading has 7 of 12 tracks (~0.52 of the viewport), so
+             5.2vw is the most it holds; below lg it has the full shell, and 9vw
+             keeps it inside a 320px phone. -->
+        <h2 class="display text-[min(9vw,clamp(2.2rem,6vw,5.2rem))] text-bone lg:text-[min(5.2vw,5.2rem)]" data-split>
+          Cinco profesionales,<br />un solo proceso
         </h2>
       </div>
       <p
@@ -48,7 +52,7 @@ import { team } from '../data/team';
             ]}
           >
             <div class="grain relative overflow-hidden">
-              <Image
+              <Picture formats={["avif"]} fallbackFormat="webp"
                 src={member.portrait}
                 alt={member.alt}
                 widths={[280, 460, 640]}

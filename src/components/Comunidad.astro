@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { community } from '../data/media';
 
 /* The players from the kit launch, under "¿Qué estás esperando?".
@@ -23,7 +23,7 @@ const mid = (count - 1) / 2;
   <div class="shell">
     <div class="grid items-end gap-10 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-5">
-        <p class="eyebrow mb-5" data-reveal="fade">Comunidad</p>
+        <p class="eyebrow mb-5" data-reveal="fade">08 — Comunidad</p>
         <!-- Heading at the client's request. "ESPERANDO?" is the widest line,
              wider than its 6.3em estimate once the question mark lands: at
              4.3rem it lost the mark to the 5-of-12 column. The ramp now tops
@@ -46,7 +46,7 @@ const mid = (count - 1) / 2;
         data-fan-lead
       >
         <div class="absolute inset-x-0 -top-[8%] h-[116%]" data-parallax="14">
-          <Image
+          <Picture formats={["avif"]} fallbackFormat="webp"
             src={community.lead.src}
             alt={community.lead.alt}
             widths={[640, 960, 1280, 1800]}
@@ -84,7 +84,7 @@ const mid = (count - 1) / 2;
                   can straighten a card without undoing where the fan put it. */}
               <div class="will-change-transform" data-fan-float>
                 <div class="grain relative aspect-[3/4] overflow-hidden rounded-2xl border-2 border-bone/90 bg-ink-950 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.85)] transition-shadow duration-700 group-hover/card:shadow-[0_50px_90px_-30px_rgba(0,0,0,0.95)]">
-                  <Image
+                  <Picture formats={["avif"]} fallbackFormat="webp"
                     src={player.src}
                     alt={player.alt}
                     widths={[280, 420, 600]}

@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { nav, site } from '../data/site';
 import { brand } from '../data/media';
 
@@ -11,7 +11,7 @@ const year = new Date().getFullYear();
     <div class="grid gap-12 lg:grid-cols-12">
       <div class="lg:col-span-5">
         <div class="flex items-center gap-3">
-          <Image
+          <Picture formats={["avif"]} fallbackFormat="webp"
             src={brand.crest.src}
             alt={brand.crest.alt}
             widths={[56, 112]}

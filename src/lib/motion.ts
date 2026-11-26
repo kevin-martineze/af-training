@@ -254,6 +254,37 @@ function initHeader() {
   });
 }
 
+/**
+ * Posters below the fold. A <video> fetches its poster as soon as it is
+ * parsed, preload="none" or not, so the coach film, the reels and the story
+ * player used to pull ~650 KB of stills on the first screen. They carry the
+ * URL as data-poster instead and get it a screen or so before they arrive.
+ */
+function initPosters() {
+  const videos = document.querySelectorAll<HTMLVideoElement>('video[data-poster]');
+  const load = (video: HTMLVideoElement) => {
+    if (video.dataset.poster) video.poster = video.dataset.poster;
+    video.removeAttribute('data-poster');
+  };
+
+  if (!('IntersectionObserver' in window)) {
+    videos.forEach(load);
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        load(entry.target as HTMLVideoElement);
+        observer.unobserve(entry.target);
+      }
+    },
+    { rootMargin: '900px 0px' },
+  );
+  videos.forEach((video) => observer.observe(video));
+}
+
 /** Counters in the stat band. */
 function initCounters() {
   document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => {
@@ -268,7 +299,9 @@ function initCounters() {
       value: target,
       duration: 1.8,
       ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      // 'top bottom': the hero's stats sit right at the fold on a phone, and
+      // 'top 90%' left them reading 0 0 0 on the first screen.
+      scrollTrigger: { trigger: el, start: 'top bottom', once: true },
       onUpdate: () => {
         el.textContent = Math.round(state.value).toString();
       },
@@ -774,10 +807,30 @@ function initStories() {
   });
 
   // Seed the glow from the first poster so it is there before anything plays.
-  if (ambientCtx && videos[0].poster) {
-    const poster = new Image();
-    poster.onload = () => ambientCtx.drawImage(poster, 0, 0, 24, 42);
-    poster.src = videos[0].poster;
+  // The poster may still be waiting in data-poster (initPosters), so read
+  // either, and only fetch it once the section is near — at boot this pulled
+  // an 87 KB still onto the first screen. The browser caches it for when the
+  // <video> asks.
+  const firstPoster = videos[0].poster || videos[0].dataset.poster;
+  if (ambientCtx && firstPoster) {
+    const seed = () => {
+      const poster = new Image();
+      poster.onload = () => ambientCtx.drawImage(poster, 0, 0, 24, 42);
+      poster.src = firstPoster;
+    };
+    if ('IntersectionObserver' in window) {
+      const near = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          near.disconnect();
+          seed();
+        },
+        { rootMargin: '900px 0px' },
+      );
+      near.observe(root);
+    } else {
+      seed();
+    }
   }
 
   gsap.ticker.add(() => {
@@ -980,6 +1033,7 @@ const features: [string, () => void][] = [
       lenis = initSmoothScroll();
     },
   ],
+  ['posters', initPosters],
   ['header', initHeader],
   ['splitHeadings', initSplitHeadings],
   ['reveals', initReveals],
